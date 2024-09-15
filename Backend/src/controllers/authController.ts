@@ -43,6 +43,9 @@ export const loginUser = [
             if ((error as Error).message === 'Invalid credentials') {
                 return res.status(400).json({ message: (error as Error).message });
             }
+            if ((error as Error).message === 'Invalid user') {
+                return res.status(400).json({ message: (error as Error).message });
+            }
             res.status(500).json({ message: 'Error logging in', error });
         }
     }

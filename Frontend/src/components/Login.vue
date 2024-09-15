@@ -86,7 +86,7 @@ export default {
     },
   },
   methods: {
-    handleLogin() {
+    async handleLogin() {
       this.emailError = '';
       this.passwordError = '';
 
@@ -104,14 +104,38 @@ export default {
         return;
       }
 
-      // Simular inicio de sesión
-      console.log('Iniciando sesión con:', this.email);
-      alert(`Sesión iniciada con éxito para ${this.email}`);
-      this.$emit('login', { email: this.email });
+      // Crear el cuerpo de la solicitud
+      const userData = {
+        email: this.email,
+        password: this.password,
+      };
 
-      // Limpiar campos después del inicio de sesión
-      this.email = '';
-      this.password = '';
+      try {
+        // Enviar los datos al servidor
+        const response = await fetch('http://localhost:5000/api/users/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(userData),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          alert(`Sesión iniciada con éxito para ${this.email}`);
+          this.$emit('login', { email: this.email });
+          // Limpiar campos después del inicio de sesión
+          this.email = '';
+          this.password = '';
+        } else {
+          alert(`Error: ${data.message}`);
+        }
+
+      } catch (error) {
+        console.error('Error al conectarse al servidor:', error);
+        alert('Hubo un problema al conectarse con el servidor.');
+      }
     },
     validateEmail() {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -123,6 +147,8 @@ export default {
         return true;
       }
     },
+
+
     prevSocialIcons() {
       if (this.currentIconIndex > 0) {
         this.currentIconIndex--;

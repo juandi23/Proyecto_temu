@@ -26,7 +26,7 @@ class AuthService {
     async loginUser(email: string, password: string): Promise<{ user: Partial<User>, token: string }> {
         const user = await userRepository.findOneBy({ email });
         if (!user) {
-            throw new Error('Invalid credentials');
+            throw new Error('Invalid user');
         }
 
         const isMatch = await bcrypt.compare(password, user.password);
