@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isModalOpen" class="login-page" @click.self="$emit('close')">
+  <div v-if="!session" class="login-page" @click.self="$emit('close')">
     <div class="modal-content">
       <button class="close-button" @click="$emit('close')">×</button>
       <h2 v-if="login">Iniciar sesión</h2>
@@ -56,6 +56,24 @@
       </p>
     </div>
   </div>
+
+  <!-- Mostrar la sesión del usuario si está logueado -->
+  <div v-else class="user-session">
+    <nav>
+      <ul class="nav-menu">
+        <li>
+          <a href="#">Pedido</a>
+        </li>
+        <li class="dropdown" @mouseover="showDropdown = true" @mouseleave="showDropdown = false">
+          <a href="#">Cuenta</a>
+          <div v-if="showDropdown" class="dropdown-menu">
+            <p>{{ session.user.email }}</p>
+            <button @click="logout">Cerrar sesión</button>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </div>
 </template>
 
 <script>
@@ -78,6 +96,8 @@ export default {
       ],
       currentIconIndex: 0,
       visibleIconCount: 3,
+      showDropdown: false, // Controla la visibilidad del dropdown
+      session: null // Nueva propiedad para la sesión actual
     };
   },
   computed: {
@@ -91,7 +111,20 @@ export default {
       return this.currentIconIndex < this.socialIcons.length - this.visibleIconCount;
     },
   },
+
+  created() {
+  this.loadSession();
+},
+
   methods: {
+
+    loadSession() {
+    const sessionData = localStorage.getItem('session');
+    if (sessionData) {
+      this.session = JSON.parse(sessionData);
+    }
+  },
+
     async handleLogin() {
       this.emailError = '';
       this.passwordError = '';
@@ -193,13 +226,13 @@ export default {
     logout() {
       // Eliminar la variable 'session' del localStorage
       localStorage.removeItem('session');
+      this.session = null; // Limpia la sesión en el componente
       // Opción: si deseas eliminar todo el localStorage (esto borrará todas las claves)
       // localStorage.clear();
       // Emitir un evento o redirigir al usuario a la página de inicio de sesión
-      this.$emit('logout');
       alert('Sesión cerrada exitosamente');
       // Si deseas redirigir al usuario a la página de inicio de sesión o inicio
-      this.$router.push('/login'); // Suponiendo que usas Vue Router
+      this.$router.push(''); // Suponiendo que usas Vue Router
     }
   }
 };
@@ -374,5 +407,49 @@ input {
   width: 20px;
   height: 20px;
   margin-right: 10px;
+}
+
+.nav-menu {
+  list-style: none;
+  display: flex;
+  justify-content: flex-end;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-menu li {
+  margin: 0 20px;
+  position: relative;
+}
+
+.nav-menu a {
+  text-decoration: none;
+  font-size: 16px;
+  color: black;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: white;
+  border: 1px solid #ddd;
+  padding: 10px;
+  width: 150px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.dropdown-menu button {
+  background-color: #ff8c00;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+  margin-top: 10px;
 }
 </style>
