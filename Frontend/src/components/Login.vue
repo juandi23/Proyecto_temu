@@ -2,7 +2,8 @@
   <div class="login-page" @click.self="$emit('close')">
     <div class="modal-content">
       <button class="close-button" @click="$emit('close')">×</button>
-      <h2>Iniciar sesión/Registrarse</h2>
+      <h2 v-if="login">Iniciar sesión</h2>
+      <h2 v-if="!login">Registrarse</h2>
       <p class="security-note">
         <img class="icon-lock" src="@/assets/lock-icon.png" alt="Seguridad" />
         Todos los datos se cifrarán
@@ -26,8 +27,9 @@
       </div>
 
       <form @submit.prevent="handleLogin">
-        <input type="email" v-model="email" placeholder="Email" required @blur="validateEmail" />
-        <input type="password" v-model="password" placeholder="Contraseña" required />
+        <input id="email" type="email" v-model="email" placeholder="Email" required @blur="validateEmail" />
+        <input :class="{ 'is-invalid': !password_auth }" class="form-control" id="password" type="password"
+          v-model="password" placeholder="Contraseña" required />
         <p v-if="emailError" class="error-message">{{ emailError }}</p>
         <p v-if="passwordError" class="error-message">{{ passwordError }}</p>
         <button type="submit" class="login-button">Continuar</button>
@@ -40,7 +42,8 @@
         <div class="social-icons">
           <button v-if="showPrevButton" @click="prevSocialIcons" class="nav-button">&lt;</button>
           <div class="social-icons-container" ref="socialIconsContainer">
-            <button v-for="icon in visibleIcons" :key="icon.name" @click="redirectToLink(icon.link)" class="social-button">
+            <button v-for="icon in visibleIcons" :key="icon.name" @click="redirectToLink(icon.link)"
+              class="social-button">
               <img :src="icon.src" :alt="icon.name" class="social-icon" />
             </button>
           </div>
@@ -64,6 +67,8 @@ export default {
       password: '',
       emailError: '',
       passwordError: '',
+      password_auth: true,
+      login: true,
       socialIcons: [
         { name: 'Google', src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQExly8Xk3GWUOkmUGETvVobduKHck3ivnVA&s', link: 'https://accounts.google.com/signin' },
         { name: 'Facebook', src: 'https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg', link: 'https://www.facebook.com/login/' },
@@ -90,6 +95,7 @@ export default {
       this.emailError = '';
       this.passwordError = '';
 
+
       if (!this.email.trim() || !this.password.trim()) {
         alert('Por favor, ingrese su correo y contraseña.');
         return;
@@ -108,11 +114,13 @@ export default {
       const userData = {
         email: this.email,
         password: this.password,
+        ...(this.login === false && { name: this.email })
       };
 
       try {
         // Enviar los datos al servidor
-        const response = await fetch('http://localhost:5000/api/users/login', {
+        let endpoint = this.login ? 'http://localhost:5000/api/users/login' : 'http://localhost:5000/api/users/register';
+        const response = await fetch(endpoint, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -123,15 +131,32 @@ export default {
         const data = await response.json();
 
         if (response.ok) {
-          alert(`Sesión iniciada con éxito para ${this.email}`);
-          this.$emit('login', { email: this.email });
-          // Limpiar campos después del inicio de sesión
+          const token = data.token; // Extraer el token de la respuesta
+          const email = data.user.email; // Extraer el email de la respuesta
+
+          const userData = {
+            user: {
+              email: email,
+              name: email // Puedes cambiar esto si 'name' es diferente en la respuesta
+            },
+            token: token
+          };
+          // Guardar en el localStorage
+          localStorage.setItem('session', JSON.stringify(userData));
+          // Mostrar alerta de inicio de sesión exitoso
+          alert(`Sesión iniciada con éxito para ${email}`);
+          // Emitir el evento de inicio de sesión con los datos del usuario
+          this.$emit('login', { email: email });
+          // Limpiar los campos después del inicio de sesión
           this.email = '';
           this.password = '';
         } else {
-          alert(`Error: ${data.message}`);
+          if (data.message == 'Invalid credentials') {
+            this.password_auth = false;
+          } else if (data.message == 'Invalid user') {
+            this.login = false;
+          }
         }
-
       } catch (error) {
         console.error('Error al conectarse al servidor:', error);
         alert('Hubo un problema al conectarse con el servidor.');
@@ -162,6 +187,17 @@ export default {
     redirectToLink(link) {
       window.open(link, '_blank', 'noopener,noreferrer');
     }
+  },
+  logout() {
+    // Eliminar la variable 'session' del localStorage
+    localStorage.removeItem('session');
+    // Opción: si deseas eliminar todo el localStorage (esto borrará todas las claves)
+    // localStorage.clear();
+    // Emitir un evento o redirigir al usuario a la página de inicio de sesión
+    this.$emit('logout');
+    alert('Sesión cerrada exitosamente');
+    // Si deseas redirigir al usuario a la página de inicio de sesión o inicio
+    this.$router.push('/login'); // Suponiendo que usas Vue Router
   }
 };
 </script>
@@ -294,7 +330,8 @@ input {
   display: flex;
   transition: transform 0.3s ease;
   overflow: hidden;
-  width: 120px; /* Ajusta según el número de iconos visibles */
+  width: 120px;
+  /* Ajusta según el número de iconos visibles */
 }
 
 .social-button {
