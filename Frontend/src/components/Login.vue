@@ -1,5 +1,5 @@
 <template>
-  <div class="login-page" @click.self="$emit('close')">
+  <div v-if="isModalOpen" class="login-page" @click.self="$emit('close')">
     <div class="modal-content">
       <button class="close-button" @click="$emit('close')">×</button>
       <h2 v-if="login">Iniciar sesión</h2>
@@ -69,6 +69,7 @@ export default {
       passwordError: '',
       password_auth: true,
       login: true,
+      isModalOpen: true,
       socialIcons: [
         { name: 'Google', src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQExly8Xk3GWUOkmUGETvVobduKHck3ivnVA&s', link: 'https://accounts.google.com/signin' },
         { name: 'Facebook', src: 'https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg', link: 'https://www.facebook.com/login/' },
@@ -129,7 +130,6 @@ export default {
         });
 
         const data = await response.json();
-
         if (response.ok) {
           const token = data.token; // Extraer el token de la respuesta
           const email = data.user.email; // Extraer el email de la respuesta
@@ -141,15 +141,19 @@ export default {
             },
             token: token
           };
+
           // Guardar en el localStorage
           localStorage.setItem('session', JSON.stringify(userData));
-          // Mostrar alerta de inicio de sesión exitoso
-          alert(`Sesión iniciada con éxito para ${email}`);
+
           // Emitir el evento de inicio de sesión con los datos del usuario
           this.$emit('login', { email: email });
+
           // Limpiar los campos después del inicio de sesión
           this.email = '';
           this.password = '';
+
+          // Cerrar el modal usando la referencia
+          this.$emit('close'); // Suponiendo que 'modal' es el ref del modal
         } else {
           if (data.message == 'Invalid credentials') {
             this.password_auth = false;
@@ -186,18 +190,24 @@ export default {
     },
     redirectToLink(link) {
       window.open(link, '_blank', 'noopener,noreferrer');
+    },
+    openModal() {
+      this.isModalOpen = true;
+    },
+    closeModal() {
+      this.isModalOpen = false;
+    },
+    logout() {
+      // Eliminar la variable 'session' del localStorage
+      localStorage.removeItem('session');
+      // Opción: si deseas eliminar todo el localStorage (esto borrará todas las claves)
+      // localStorage.clear();
+      // Emitir un evento o redirigir al usuario a la página de inicio de sesión
+      this.$emit('logout');
+      alert('Sesión cerrada exitosamente');
+      // Si deseas redirigir al usuario a la página de inicio de sesión o inicio
+      this.$router.push('/login'); // Suponiendo que usas Vue Router
     }
-  },
-  logout() {
-    // Eliminar la variable 'session' del localStorage
-    localStorage.removeItem('session');
-    // Opción: si deseas eliminar todo el localStorage (esto borrará todas las claves)
-    // localStorage.clear();
-    // Emitir un evento o redirigir al usuario a la página de inicio de sesión
-    this.$emit('logout');
-    alert('Sesión cerrada exitosamente');
-    // Si deseas redirigir al usuario a la página de inicio de sesión o inicio
-    this.$router.push('/login'); // Suponiendo que usas Vue Router
   }
 };
 </script>
