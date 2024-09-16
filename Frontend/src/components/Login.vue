@@ -144,7 +144,6 @@ export default {
 
           // Guardar en el localStorage
           localStorage.setItem('session', JSON.stringify(userData));
-
           // Emitir el evento de inicio de sesión con los datos del usuario
           this.$emit('login', { email: email });
 
@@ -190,12 +189,6 @@ export default {
     },
     redirectToLink(link) {
       window.open(link, '_blank', 'noopener,noreferrer');
-    },
-    openModal() {
-      this.isModalOpen = true;
-    },
-    closeModal() {
-      this.isModalOpen = false;
     },
     logout() {
       // Eliminar la variable 'session' del localStorage
