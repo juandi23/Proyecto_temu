@@ -10,7 +10,7 @@
       </div>
     </div>
     <div v-if="isExpanded" class="products-container">
-      <div class="white-container"> 
+      <div class="white-container">
         <h2>Ofertas del día</h2>
         <div class="products-grid">
           <div v-for="product in products" :key="product.id" class="product-card">
@@ -58,7 +58,6 @@ export default {
 }
 </script>
 
-
 <style scoped>
 .main-banner-container {
   width: 100%;
@@ -100,7 +99,7 @@ export default {
 
 .featured-product:last-child {
   transform: rotate(5deg);
-  margin-top: -20px;  /* Overlap with the first product */
+  margin-top: -20px;
 }
 
 .featured-product img {
@@ -117,28 +116,31 @@ export default {
 .products-container {
   background-color: #f6cecc;
   padding: 20px;
+  width: 100%;
+  box-sizing: border-box;
 }
-
 
 .white-container {
   background-color: white;
   border-radius: 10px;
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .white-container h2 {
   font-size: 2em;
-  font-weight: bold; 
-  margin-bottom: 20px; 
+  font-weight: bold;
+  margin-bottom: 20px;
   text-align: center;
 }
 
-
 .products-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 20px;
+  width: 100%;
 }
 
 .product-card {
@@ -147,6 +149,8 @@ export default {
   overflow: hidden;
   position: relative;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
 }
 
 .discount-badge {
@@ -158,57 +162,82 @@ export default {
   padding: 5px 10px;
   border-radius: 20px;
   font-weight: bold;
+  font-size: 0.8em;
 }
 
 .product-image {
   width: 100%;
-  height: 200px;
+  aspect-ratio: 1 / 1;
   object-fit: cover;
 }
 
 .product-info {
   padding: 10px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 }
 
 .product-sales {
   color: #666;
-  font-size: 0.9em;
+  font-size: 0.8em;
+  margin-bottom: 5px;
 }
 
 .original-price {
   text-decoration: line-through;
   color: #999;
+  font-size: 0.9em;
+  margin-bottom: 2px;
 }
 
 .discounted-price {
   font-weight: bold;
   color: #ff4d4f;
-  font-size: 1.2em;
+  font-size: 1.1em;
+  margin-bottom: 10px;
 }
 
 .add-to-cart {
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   background-color: #ff4d4f;
   color: white;
   border: none;
   border-radius: 50%;
   cursor: pointer;
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
+  align-self: flex-end;
+  margin-top: auto;
 }
 
 .cart-icon {
-  font-size: 1.2em;
+  font-size: 1em;
 }
 
 @media (max-width: 768px) {
   .featured-products {
     display: none;
+  }
+ 
+  .products-grid {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 10px;
+  }
+ 
+  .product-card {
+    font-size: 0.9em;
+  }
+ 
+  .discount-badge {
+    font-size: 0.7em;
+    padding: 3px 6px;
+  }
+ 
+  .white-container h2 {
+    font-size: 1.5em;
   }
 }
 </style>
