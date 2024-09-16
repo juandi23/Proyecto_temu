@@ -78,6 +78,7 @@ export default {
       ],
       currentIconIndex: 0,
       visibleIconCount: 3,
+      
     };
   },
   computed: {
