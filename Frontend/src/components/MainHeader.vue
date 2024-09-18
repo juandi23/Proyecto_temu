@@ -35,7 +35,7 @@
         <!-- Navegación -->
         <nav class="nav-links">
           <div class="masvendidos">
-            <a href="#"> 
+            <a href="#">
               <img src="../assets/icono-mas-vendidos.png" alt="Más vendidos" class="icon-small">
               <div class="text-wrapper">
                 <span class="hot">HOT</span>
@@ -63,24 +63,27 @@
         </div>
 
         <!-- Iconos de usuario, ayuda, idioma y carrito -->
-        <a href="#" id="Iniciar_sesion" class="user-icon" @click="showModal = true">
-          <img src="../assets/icono-usuario.png" alt="Icono usuario" class="icon">
-          <span>Pedidos y<br>cuenta</span>
-        </a>
+        <div class="login_1">
+          <a href="#" id="Iniciar_sesion" class="user-icon" @click="showModal = true">
+            <img src="../assets/icono-usuario.png" alt="Icono usuario" class="icon">
+            <span>Pedidos y<br>cuenta</span>
+          </a>
+        </div>
+
 
         <a href="#" class="help-icon">
           <img src="../assets/icono-ayuda.png" alt="Icono ayuda" class="icon">
           <span>Ayuda</span>
         </a>
-        
+
         <a href="#" class="language-icon">
           <img src="../assets/icono-colombia.png" alt="Bandera Colombia" class="icon">
-          <span>ES</span> 
+          <span>ES</span>
         </a>
 
         <a href="#" class="cart-icon">
           <img src="../assets/icono-carro-compras.png" alt="Icono carrito" class="icon">
-        </a> 
+        </a>
 
         <Login v-if="showModal" @close="showModal = false" />
       </div>
@@ -118,7 +121,8 @@ header {
   font-size: 0.8em;
 }
 
-.top-bar-content, .bottom-bar-content {
+.top-bar-content,
+.bottom-bar-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -144,16 +148,21 @@ header {
   margin-right: 5px;
 }
 
-.green-text { color: #A9F8A7; }
-.yellow-text { color: #E8E478; }
+.green-text {
+  color: #A9F8A7;
+}
 
-.subtext { 
-  color: #999; 
+.yellow-text {
+  color: #E8E478;
+}
+
+.subtext {
+  color: #999;
   font-size: 0.9em;
 }
 
 .bottom-bar {
-  background-color:#f9697f;
+  background-color: #f9697f;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -161,7 +170,7 @@ header {
   font-size: 0.9em;
 }
 
-.logo { 
+.logo {
   height: 40px;
   margin-right: 10px;
 }
@@ -235,7 +244,10 @@ header {
   cursor: pointer;
 }
 
-.user-icon, .help-icon, .language-icon, .cart-icon {
+.user-icon,
+.help-icon,
+.language-icon,
+.cart-icon {
   display: flex;
   align-items: center;
   text-decoration: none;
@@ -244,7 +256,9 @@ header {
   font-size: 0.9em;
 }
 
-.user-icon span, .help-icon span, .language-icon span {
+.user-icon span,
+.help-icon span,
+.language-icon span {
   margin-left: 5px;
   text-align: left;
 }
@@ -255,5 +269,18 @@ header {
 
 .icon {
   height: 24px;
+}
+
+.login_1 {
+  margin: auto;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  justify-content: center;
+}
+.login_1:hover {
+  background-color: #cf596b;
+  border-radius: 15px;
+  padding: 5px;
 }
 </style>

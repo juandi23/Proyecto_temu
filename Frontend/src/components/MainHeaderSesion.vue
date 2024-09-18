@@ -63,18 +63,21 @@
         </div>
 
         <!-- Iconos de usuario, ayuda, idioma y carrito -->
-
-        <li class="dropdown" @mouseover="showDropdown = true" @mouseleave="showDropdown = false">
-          <a href="#" id="Iniciar_sesion" class="user-icon">
-            <img src="../assets/icono-usuario.png" alt="Icono usuario" class="icon">
-            <span>Pedidos y<br>cuenta</span>
-          </a>
-          <div v-if="showDropdown" class="dropdown-menu">
-            <p>{{ session.user.email }}</p>
-            <button @click="logout">Cerrar sesión</button>
-          </div>
-        </li>
-
+        <div class="login_1">
+          <li class="dropdown" @mouseover="showDropdown = true" @mouseleave="showDropdown = false">
+            <a href="#" id="Iniciar_sesion" class="user-icon">
+              <img src="../assets/icono-usuario.png" alt="Icono usuario" class="icon">
+              <span>Pedidos y<br>cuenta</span>
+            </a>
+            <div v-if="showDropdown" class="dropdown-menu">
+              <p>{{ session.user.email }}</p>
+              <a href="">Hola</a>
+              <a href="">Como estas</a>
+              <a href="">bien y tu</a>
+              <button @click="logout">Cerrar sesión</button>
+            </div>
+          </li>
+        </div>
 
         <a href="#" class="help-icon">
           <img src="../assets/icono-ayuda.png" alt="Icono ayuda" class="icon">
@@ -347,7 +350,23 @@ header {
   text-align: center;
   margin-top: 10px;
 }
-.dropdown{
-  list-style-type: none; /* Elimina el punto del li */
+
+.dropdown {
+  display: flex;
+  list-style-type: none;
+  /* Elimina el punto del li */
+  align-items: center
+}
+.login_1 {
+  margin: auto;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  justify-content: center;
+}
+.login_1:hover {
+  background-color: #f57d05;
+  border-radius: 15px;
+  padding: 5px;
 }
 </style>
