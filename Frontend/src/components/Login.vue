@@ -56,24 +56,6 @@
       </p>
     </div>
   </div>
-
-  <!-- Mostrar la sesión del usuario si está logueado -->
-  <div v-else class="user-session">
-    <nav>
-      <ul class="nav-menu">
-        <li>
-          <a href="#">Pedido</a>
-        </li>
-        <li class="dropdown" @mouseover="showDropdown = true" @mouseleave="showDropdown = false">
-          <a href="#">Cuenta</a>
-          <div v-if="showDropdown" class="dropdown-menu">
-            <p>{{ session.user.email }}</p>
-            <button @click="logout">Cerrar sesión</button>
-          </div>
-        </li>
-      </ul>
-    </nav>
-  </div>
 </template>
 
 <script>
@@ -96,8 +78,6 @@ export default {
       ],
       currentIconIndex: 0,
       visibleIconCount: 3,
-      showDropdown: false, // Controla la visibilidad del dropdown
-      session: null // Nueva propiedad para la sesión actual
     };
   },
   computed: {
@@ -113,18 +93,10 @@ export default {
   },
 
   created() {
-  this.loadSession();
-},
-
-  methods: {
-
-    loadSession() {
-    const sessionData = localStorage.getItem('session');
-    if (sessionData) {
-      this.session = JSON.parse(sessionData);
-    }
+    this.isSessionActive();
   },
 
+  methods: {
     async handleLogin() {
       this.emailError = '';
       this.passwordError = '';
@@ -179,13 +151,13 @@ export default {
           localStorage.setItem('session', JSON.stringify(userData));
           // Emitir el evento de inicio de sesión con los datos del usuario
           this.$emit('login', { email: email });
-
           // Limpiar los campos después del inicio de sesión
           this.email = '';
           this.password = '';
 
           // Cerrar el modal usando la referencia
           this.$emit('close'); // Suponiendo que 'modal' es el ref del modal
+          this.isSessionActive();
         } else {
           if (data.message == 'Invalid credentials') {
             this.password_auth = false;
@@ -232,7 +204,39 @@ export default {
       // Emitir un evento o redirigir al usuario a la página de inicio de sesión
       alert('Sesión cerrada exitosamente');
       // Si deseas redirigir al usuario a la página de inicio de sesión o inicio
-      this.$router.push(''); // Suponiendo que usas Vue Router
+      this.$router.push('/'); // Suponiendo que usas Vue Router
+    },
+
+    isSessionActive() {
+      // Obtener el ítem 'session' del localStorage
+      const sessionData = localStorage.getItem('session');
+
+      // Si no hay datos en localStorage, no hay sesión activa
+      if (!sessionData) {
+        console.log('No session data found');
+        this.$router.push('/');  // Redirigir a la página de inicio de sesión si no hay sesión
+        return false;
+      }
+
+      try {
+        // Parsear los datos
+        const parsedData = JSON.parse(sessionData);
+
+        // Verificar si el token está presente y es válido
+        if (parsedData && parsedData.token) {
+          console.log('Session is active');
+          this.$router.push('/HomeSesion');  // Redirigir a la página del usuario si la sesión está activa
+          return true;
+        } else {
+          this.$router.push('/');  // Redirigir a la página de inicio de sesión si no hay token
+          return false;
+        }
+      } catch (e) {
+        // En caso de error al parsear, consideramos que no hay sesión activa
+        console.error('Error parsing session data:', e);
+        this.$router.push('/');  // Redirigir a la página de inicio de sesión si ocurre un error
+        return false;
+      }
     }
   }
 };
@@ -407,49 +411,5 @@ input {
   width: 20px;
   height: 20px;
   margin-right: 10px;
-}
-
-.nav-menu {
-  list-style: none;
-  display: flex;
-  justify-content: flex-end;
-  padding: 0;
-  margin: 0;
-}
-
-.nav-menu li {
-  margin: 0 20px;
-  position: relative;
-}
-
-.nav-menu a {
-  text-decoration: none;
-  font-size: 16px;
-  color: black;
-}
-
-.dropdown-menu {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background-color: white;
-  border: 1px solid #ddd;
-  padding: 10px;
-  width: 150px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-.dropdown-menu button {
-  background-color: #ff8c00;
-  color: white;
-  border: none;
-  padding: 10px;
-  cursor: pointer;
-  width: 100%;
-  text-align: center;
-  margin-top: 10px;
 }
 </style>
