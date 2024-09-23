@@ -216,7 +216,10 @@ header {
 
 .icon-small {
   height: 18px;
-  margin-right: 5px;
+  margin-right: 3px;
+  margin-left: 3px;
+  padding: auto;
+  
 }
 
 .search-bar {
@@ -240,8 +243,10 @@ header {
 .search-bar button {
   background-color: #000;
   border: none;
-  padding: 10px;
+  padding: 5px;
   cursor: pointer;
+  border-radius: 100px;
+  margin: 3px;
 }
 
 .user-icon,

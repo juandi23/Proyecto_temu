@@ -26,7 +26,7 @@
       </div>
     </div>
 
-    <!-- Barra inferior rosada -->
+    <!-- Barra inferior blanca -->
     <div class="bottom-bar">
       <div class="bottom-bar-content">
         <!-- Logo -->
@@ -36,7 +36,7 @@
         <nav class="nav-links">
           <div class="masvendidos">
             <a href="#">
-              <img src="../assets/icono-mas-vendidos.png" alt="Más vendidos" class="icon-small">
+              <img src="../assets/icono-mas-vendidos1.png" alt="Más vendidos" class="icon-small">
               <div class="text-wrapper">
                 <span class="hot">HOT</span>
                 Más vendidos
@@ -45,10 +45,10 @@
           </div>
 
           <a href="#">
-            <img src="../assets/icono-estrella.png" alt="Icono estrella" class="icon-small"> 5 estrellas
+            <img src="../assets/icono-estrella1.png" alt="Icono estrella" class="icon-small"> 5 estrellas
           </a>
           <a href="#">
-            <img src="../assets/icono-corazon.png" alt="Icono corazón" class="icon-small"> Amor y Amistad
+            <img src="../assets/icono-corazon1.png" alt="Icono corazón" class="icon-small"> Amor y Amistad
           </a>
           <a href="#">Recién llegados</a>
           <a href="#">Categorías <span>&#9660;</span></a>
@@ -66,21 +66,33 @@
         <div class="login_1">
           <li class="dropdown" @mouseover="showDropdown = true" @mouseleave="showDropdown = false">
             <a href="#" id="Iniciar_sesion" class="user-icon">
-              <img src="../assets/icono-usuario.png" alt="Icono usuario" class="icon">
-              <span>Pedidos y<br>cuenta</span>
+              <img src="../assets/icono-usuario1.png" alt="Icono usuario" class="icon">
+              <span>Hola, {{ formatEmail(session.user.email) }}</span>
             </a>
+
             <div v-if="showDropdown" class="dropdown-menu">
-              <p>{{ session.user.email }}</p>
-              <a href="">Hola</a>
-              <a href="">Como estas</a>
-              <a href="">bien y tu</a>
+              <p><span>Hola, {{ formatEmail(session.user.email) }}</span></p>
+              <a href="">Tus pedidos</a>
+              <a href="">Tus reseñas</a>
+              <a href="">Tu perfil</a>
+              <a href="">Cupones y ofertas</a>
+              <a href="">Saldo de crédito</a>
+              <a href="">Proveedores seguidos</a>
+              <a href="">Historial de navegación</a>
+              <a href="">Direcciones</a>
+              <a href="">Seguridad de la cuenta</a>
+              <a href="">Permisos</a>
+              <a href="">Notificaciones</a>
+              <a href="">Cambiar cuenta</a>
               <button @click="logout">Cerrar sesión</button>
             </div>
+
+
           </li>
         </div>
 
         <a href="#" class="help-icon">
-          <img src="../assets/icono-ayuda.png" alt="Icono ayuda" class="icon">
+          <img src="../assets/icono-ayuda1.png" alt="Icono ayuda" class="icon">
           <span>Ayuda</span>
         </a>
 
@@ -90,7 +102,7 @@
         </a>
 
         <a href="#" class="cart-icon">
-          <img src="../assets/icono-carro-compras.png" alt="Icono carrito" class="icon">
+          <img src="../assets/icono-carro-compras1.png" alt="Icono carrito" class="icon">
         </a>
 
         <Login v-if="showModal" @close="showModal = false" />
@@ -136,6 +148,37 @@ export default {
       // Si deseas redirigir al usuario a la página de inicio de sesión o inicio
       this.$router.push('/'); // Suponiendo que usas Vue Router
     },
+
+    formatEmail(email) {
+      if (!email) return '';
+
+      const parts = email.split('@');
+      if (parts.length !== 2) return email; // Retorna el email original si no tiene formato correcto
+
+      const name = parts[0];
+      const domain = parts[1];
+
+      // Obtén las dos primeras y las dos últimas letras/números
+      const formattedName = name.slice(0, 2) + '***' + name.slice(-2);
+      return formattedName + '@' + domain;
+    },
+
+    formatEmail(email) {
+      if (!email) return '';
+
+      const parts = email.split('@');
+      if (parts.length !== 2) return email; // Retorna el email original si no tiene formato correcto
+
+      const name = parts[0];   // Nombre del email antes del @
+      const domain = parts[1]; // Dominio después del @
+
+      // Obtener las dos primeras letras del nombre y las dos últimas letras del dominio
+      const formattedEmail = name.slice(0, 2) + '***' + domain.slice(-3, -1);
+      return formattedEmail;
+    }
+
+
+
   }
 }
 </script>
@@ -169,13 +212,15 @@ header {
   display: flex;
   align-items: center;
   text-decoration: none;
-  color: #fff;
+  color: #ffffff;
 }
 
 .text-group {
   display: flex;
   flex-direction: column;
 }
+
+
 
 .icon {
   height: 20px;
@@ -196,7 +241,7 @@ header {
 }
 
 .bottom-bar {
-  background-color: #15bee9;
+  background-color: #ffffff;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -218,7 +263,7 @@ header {
 .nav-links a {
   display: flex;
   align-items: center;
-  color: #fff;
+  color: #0c0c0c;
   text-decoration: none;
   font-size: 0.9em;
   white-space: nowrap;
@@ -240,7 +285,7 @@ header {
   left: 50%;
   transform: translateX(-50%);
   background-color: #f57d05;
-  color: #ffffff;
+  color: #020202;
   font-weight: bold;
   font-size: 0.8em;
   padding: 2px 4px;
@@ -256,12 +301,14 @@ header {
 .search-bar {
   display: flex;
   align-items: center;
-  background-color: #fff;
+  
   border-radius: 20px;
   overflow: hidden;
   flex-grow: 1;
   margin: 0 15px;
+  border: 2px solid #080808; /* Borde negro */
 }
+
 
 .search-bar input {
   border: none;
@@ -272,10 +319,13 @@ header {
 }
 
 .search-bar button {
-  background-color: #000;
+  background-color: #000000;
   border: none;
-  padding: 10px;
+  padding: 5px;
   cursor: pointer;
+  margin:3px;
+  border-radius: 100%;
+  
 }
 
 .user-icon,
@@ -285,7 +335,7 @@ header {
   display: flex;
   align-items: center;
   text-decoration: none;
-  color: #fff;
+  color: #000000;
   margin-left: 15px;
   font-size: 0.9em;
 }
@@ -329,7 +379,7 @@ header {
   top: 100%;
   left: 0;
   background-color: white;
-  border: 1px solid #ddd;
+  border: 1px solid #000000;
   padding: 10px;
   width: 150px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);

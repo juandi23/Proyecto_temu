@@ -9,7 +9,7 @@
 
 <script>
 import MainHeader from '../components/MainHeaderSesion.vue';
-import MainBanner from '../components/MainBanner.vue';
+import MainBanner from '../components/BannerSesionIniciada.vue';
 import ProductGrid from '../components/ProductGrid.vue';
 import TheFooter from '../components/TheFooter.vue';
 
