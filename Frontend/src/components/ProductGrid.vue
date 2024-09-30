@@ -83,12 +83,18 @@ export default {
 
 .product-price {
   font-size: 1em;
-  color: #e53935;
+   /* AMOR Y AMISTAD
+  color: #e53935;   */
+  /* DESCUENTO */
+  color: #ff7001;
   margin: 0 0 10px 0;
 }
 
 .add-to-cart-btn {
-  background-color: #ff6b6b;
+  /* AMOR Y AMISTAD
+  background-color: #ff6b6b;   */
+  /* DESCUENTO */
+  background-color: #ff7001;
   color: white;
   border: none;
   padding: 8px 15px;

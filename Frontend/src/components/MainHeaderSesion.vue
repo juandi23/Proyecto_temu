@@ -26,33 +26,60 @@
       </div>
     </div>
 
-    <!-- Barra inferior blanca -->
+    <!-- Barra inferior Blanca -->
     <div class="bottom-bar">
       <div class="bottom-bar-content">
-        <!-- Logo -->
-        <img src="../assets/logo-temu.png" alt="Temu logo" class="logo">
+
+        <div class="menu">
+          <router-link to="/">
+          <!-- Logo -->
+          <img src="../assets/logo-temu.png" alt="Temu logo" class="logo">
+          </router-link>
+        </div>  
 
         <!-- Navegación -->
         <nav class="nav-links">
           <div class="masvendidos">
-            <a href="#">
-              <img src="../assets/icono-mas-vendidos1.png" alt="Más vendidos" class="icon-small">
-              <div class="text-wrapper">
-                <span class="hot">HOT</span>
-                Más vendidos
-              </div>
-            </a>
+
+            <div class="menu">
+              <router-link to="MasVendidos">
+                <img src="../assets/icono-mas-vendidos1.png" alt="Más vendidos" class="icon-small">
+                <div class="text-wrapper">
+                  <span class="hot">HOT</span>
+                  Más vendidos
+                </div>
+              </router-link>
+            </div>
+          </div>
+          <div class="menu">
+            <router-link to="/CincoEstrellas">
+              <img src="../assets/icono-estrella1.png" alt="Icono estrella" class="icon-small"> 5 estrellas
+            </router-link>
           </div>
 
-          <a href="#">
-            <img src="../assets/icono-estrella1.png" alt="Icono estrella" class="icon-small"> 5 estrellas
-          </a>
-          <a href="#">
-            <img src="../assets/icono-corazon1.png" alt="Icono corazón" class="icon-small"> Amor y Amistad
-          </a>
-          <a href="#">Recién llegados</a>
-          <a href="#">Categorías <span>&#9660;</span></a>
+          <!-- Menú Amor Y Amistad 
+          <div class="menu">
+            <router-link to="/AmoryAmistad">
+              <img src="../assets/icono-corazon1.png" alt="Icono corazón" class="icon-small"> Amor y Amistad
+            </router-link>
+          </div>
+-->
+          <!-- Menú OFERTAS -->
+          <div class="menu">
+            <router-link to="/Descuentos">
+              <img src="../assets/iconsDescuento1.png" alt="Icono Descuento" class="icon-small"> Día del Ahorro
+            </router-link>
+          </div>
+
+          
+          <div class="menu">
+            <Router-link to="/RecienLlegados"> Recién llegados </router-link>
+          </div>
+          <div class="menu">
+            <a href="#">Categorías <span>&#9660;</span></a>
+          </div>
         </nav>
+
 
         <!-- Barra de búsqueda -->
         <div class="search-bar">
@@ -91,19 +118,24 @@
           </li>
         </div>
 
-        <a href="#" class="help-icon">
-          <img src="../assets/icono-ayuda1.png" alt="Icono ayuda" class="icon">
-          <span>Ayuda</span>
-        </a>
+        <div class="menu">
+          <router-link to="/Ayuda" class="help-icon">
+            <img src="../assets/icono-ayuda1.png" alt="Icono ayuda" class="icon">
+            <span>Ayuda</span>
+          </router-link>
+        </div>
 
-        <a href="#" class="language-icon">
-          <img src="../assets/icono-colombia.png" alt="Bandera Colombia" class="icon">
-          <span>ES</span>
-        </a>
-
-        <a href="#" class="cart-icon">
-          <img src="../assets/icono-carro-compras1.png" alt="Icono carrito" class="icon">
-        </a>
+        <div class="menu">
+          <a href="#" class="language-icon">
+            <img src="../assets/icono-colombia.png" alt="Bandera Colombia" class="icon">
+            <span>ES</span>
+          </a>
+        </div>
+        <div class="menu">
+          <a href="#" class="cart-icon">
+            <img src="../assets/icono-carro-compras1.png" alt="Icono carrito" class="icon">
+          </a>
+        </div>
 
         <Login v-if="showModal" @close="showModal = false" />
       </div>
@@ -187,6 +219,18 @@ export default {
 header {
   display: flex;
   flex-direction: column;
+}
+
+.menu:hover{
+/*Amor y amistad 
+  background-color: #f89eac; */
+
+  /*descuentos */
+  background-color: #d0cfcf;
+  margin: 1px;
+  border-radius: 20px;
+  border: 1px solid #f5f4f4;
+  padding: 3px;
 }
 
 .top-bar {

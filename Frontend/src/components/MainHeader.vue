@@ -57,13 +57,22 @@
             </router-link>
           </div>
 
+          <!-- Menú Amor Y Amistad 
           <div class="menu">
             <router-link to="/AmoryAmistad">
               <img src="../assets/icono-corazon.png" alt="Icono corazón" class="icon-small"> Amor y Amistad
             </router-link>
           </div>
+-->
+          <!-- Menú OFERTAS -->
           <div class="menu">
+            <router-link to="/Descuentos">
+              <img src="../assets/iconsDescuento.png" alt="Icono Descuento" class="icon-small"> Día del Ahorro
+            </router-link>
+          </div>
 
+          
+          <div class="menu">
             <Router-link to="/RecienLlegados"> Recién llegados </router-link>
           </div>
           <div class="menu">
@@ -136,7 +145,11 @@ header {
 }
 
 .menu:hover{
-  background-color: #f89eac;
+/*Amor y amistad 
+  background-color: #f89eac; */
+
+  /*descuentos */
+  background-color: #f58263;
   margin: 1px;
   border-radius: 20px;
   border: 1px solid #f5f4f4;
@@ -193,7 +206,12 @@ header {
 }
 
 .bottom-bar {
-  background-color: #f9697f;
+  /*Amor y amistad 
+  background-color: #f9697f; */
+
+  /*descuentos */
+  background-color: #f13300;
+  
   width: 100%;
   display: flex;
   justify-content: center;

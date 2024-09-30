@@ -15,7 +15,7 @@ const routes = [
   { path: '/HomeSesion', component: Home_Sesion },
   { path: '/MasVendidos', component: ViewMasVendidos },
   { path: '/CincoEstrellas', component: ViewCincoEstrellas },
-  { path: '/AmoryAmistad', component: ViewAmorAmistad },
+  { path: '/Descuentos', component: ViewAmorAmistad },
   { path: '/RecienLlegados', component: ViewRecienLlegados },
   { path: '/Ayuda', component: ViewAyuda }
 

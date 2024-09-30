@@ -1,7 +1,12 @@
 <template>
   <div class="main-banner-container" :class="{ 'expanded': isExpanded }">
     <div class="banner-content" @click="toggleExpand">
-      <img src="@/assets/amoryamistad.png" alt="Amor y Amistad" class="banner-image">
+      <!--AMOR Y AMISTAD
+      <img src="@/assets/amoryamistad.png" alt="Amor y Amistad" class="banner-image">      -->
+
+      <!--AMOR Y AMISTAD-->
+      <img src="@/assets/ahorro.png" alt="Amor y Amistad" class="banner-image">
+
       <div class="featured-products" v-if="!isExpanded">
         <div v-for="product in featuredProducts" :key="product.id" class="featured-product">
           <img :src="product.image" :alt="product.name" class="product-image">
@@ -114,7 +119,12 @@ export default {
 }
 
 .products-container {
-  background-color: #f6cecc;
+  
+   /*Amor y amistad 
+  background-color: #f6cecc; */
+
+  /*descuentos */
+  background-color: #ff7001;
   padding: 20px;
   width: 100%;
   box-sizing: border-box;
