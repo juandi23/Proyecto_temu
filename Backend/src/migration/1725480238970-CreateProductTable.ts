@@ -1,3 +1,5 @@
+// src/migration/1621579417666-create-product-table.ts
+
 import { MigrationInterface, QueryRunner } from "typeorm";
 
 export class CreateProductTable1621579417666 implements MigrationInterface {
@@ -19,5 +21,4 @@ export class CreateProductTable1621579417666 implements MigrationInterface {
     public async down(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`DROP TABLE \`product\``);
     }
-
 }

@@ -25,6 +25,7 @@ export const getUsers = async (req: Request, res: Response) => {
 
 export const getUserById = async (req: Request, res: Response) => {
     try {
+        console.log('llego');
         const user = await userRepository.findOneBy({ id: parseInt(req.params.id) });
         if (user) {
             res.status(200).json(user);

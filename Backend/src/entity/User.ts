@@ -17,6 +17,10 @@ export class User {
 
   @Column({ default: true })
   isActive?: boolean;
+  
+  @Column({ default: false }) // Campo para verificar si el correo ha sido verificado
+  verified: boolean;
+
 
   @OneToMany(() => Task, task => task.user)
   tasks!: Task[];
@@ -30,6 +34,7 @@ export class User {
   constructor(name: string, email: string, password: string, tasks?: Task[]) {
     this.name = name;
     this.email = email;
+    this.verified = false;  
     this.password = password;
     if (tasks) {
       this.tasks = tasks;
