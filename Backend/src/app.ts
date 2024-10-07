@@ -2,6 +2,8 @@ import express from 'express';
 import { dataSource } from './data-source';
 import taskRouter from './routes/taskRoutes';
 import userRouter from './routes/userRoutes';
+import ProductRouter from './routes/ProductRoutes';
+import CategoryRouter from './routes/categoryRoutes';
 import * as dotenv from 'dotenv';
 import cors from 'cors';
 
@@ -15,8 +17,11 @@ app.use(cors());
 app.use(express.json());
 
 // Rutas
+app.use('/api/categories', CategoryRouter);
 app.use('/api/tasks', taskRouter);
 app.use('/api/users', userRouter);
+app.use('/api/products', ProductRouter);
+
 
 // Middleware de manejo de errores
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {

@@ -1,12 +1,18 @@
 import { dataSource } from '../data-source';
 import { Repository } from 'typeorm';
 import { Product } from '../entity/Product';
+import { ImageProduct } from '../entity/ImageProduct';
+import { ProductCategory } from '../entity/ProductCategory';
 
 class ProductService {
     private productRepository: Repository<Product>;
+    private imageProductRepository: Repository<ImageProduct>;
+    private productCategoryRepository: Repository<ProductCategory>;
 
     constructor() {
         this.productRepository = dataSource.getRepository(Product);
+        this.imageProductRepository = dataSource.getRepository(ImageProduct);
+        this.productCategoryRepository = dataSource.getRepository(ProductCategory);
     }
 
     async createProduct(productData: Partial<Product>): Promise<Product> {
@@ -18,12 +24,16 @@ class ProductService {
         const [data, total] = await this.productRepository.findAndCount({
             skip: (page - 1) * pageSize,
             take: pageSize,
+            relations: ["images", "category"]
         });
         return { data, total };
     }
 
     async getProductById(id: number): Promise<Product | null> {
-        return await this.productRepository.findOneBy({ id });
+        return await this.productRepository.findOne({
+            where: { id },
+            relations: ["images", "category"]
+        });
     }
 
     async updateProduct(id: number, productData: Partial<Product>): Promise<Product | null> {
