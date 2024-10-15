@@ -32,10 +32,10 @@
 
         <div class="menu">
           <router-link to="/">
-          <!-- Logo -->
-          <img src="../assets/logo-temu.png" alt="Temu logo" class="logo">
+            <!-- Logo -->
+            <img src="../assets/logo-temu.png" alt="Temu logo" class="logo">
           </router-link>
-        </div>  
+        </div>
 
         <!-- Navegación -->
         <nav class="nav-links">
@@ -71,12 +71,76 @@
             </router-link>
           </div>
 
-          
+
+          <!-- Menú Categorias -->
           <div class="menu">
-            <Router-link to="/RecienLlegados"> Recién llegados </router-link>
-          </div>
-          <div class="menu">
-            <a href="#">Categorías <span>&#9660;</span></a>
+            <!-- Dropdown -->
+            <div class="dropdown">
+              <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                style="color: white; border: none;">
+                Categorias
+              </button>
+              <ul class="dropdown-menu">
+                <div class="row">
+                  <div class="col-xl-9">
+                    <div class="row">
+                      <!-- Izquierda -->
+                      <div id="Izquierda" class="col-6 col-sm-5">
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                      </div>
+                      <!-- Derecha -->
+                      <div id="Derecha" class="col-4 col-sm-6">
+                        <img src="@/assets/apple-icon.png" alt="" width="50px" height="50px">
+                        <img src="@/assets/apple-icon.png" alt="" width="50px" height="50px">
+                        <img src="@/assets/apple-icon.png" alt="" width="50px" height="50px">
+                        <img src="@/assets/apple-icon.png" alt="" width="50px" height="50px">
+                        <img src="@/assets/apple-icon.png" alt="" width="50px" height="50px">
+                        <img src="@/assets/apple-icon.png" alt="" width="50px" height="50px">
+                        <img src="@/assets/apple-icon.png" alt="" width="50px" height="50px">
+                        <img src="@/assets/apple-icon.png" alt="" width="50px" height="50px">
+                        <img src="@/assets/apple-icon.png" alt="" width="50px" height="50px">
+                        <img src="@/assets/apple-icon.png" alt="" width="50px" height="50px">
+                        <img src="@/assets/apple-icon.png" alt="" width="50px" height="50px">
+                        <img src="@/assets/apple-icon.png" alt="" width="50px" height="50px">
+                        <img src="@/assets/apple-icon.png" alt="" width="50px" height="50px">
+                        <img src="@/assets/apple-icon.png" alt="" width="50px" height="50px">
+                        <img src="@/assets/apple-icon.png" alt="" width="50px" height="50px">
+                        <img src="@/assets/apple-icon.png" alt="" width="50px" height="50px">
+                        <img src="@/assets/apple-icon.png" alt="" width="50px" height="50px">
+                        <img src="@/assets/apple-icon.png" alt="" width="50px" height="50px">
+                        <img src="@/assets/apple-icon.png" alt="" width="50px" height="50px">
+                        <img src="@/assets/apple-icon.png" alt="" width="50px" height="50px">
+                        <img src="@/assets/apple-icon.png" alt="" width="50px" height="50px">
+                        <img src="@/assets/apple-icon.png" alt="" width="50px" height="50px">
+                        <img src="@/assets/apple-icon.png" alt="" width="50px" height="50px">
+                        <img src="@/assets/apple-icon.png" alt="" width="50px" height="50px">
+                        <img src="@/assets/apple-icon.png" alt="" width="50px" height="50px">
+                        <img src="@/assets/apple-icon.png" alt="" width="50px" height="50px">
+                        <img src="@/assets/apple-icon.png" alt="" width="50px" height="50px">
+                        <img src="@/assets/apple-icon.png" alt="" width="50px" height="50px">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ul>
+            </div>
           </div>
         </nav>
 
@@ -128,7 +192,7 @@ import Login from '@/components/Login.vue'
 export default {
   components: {
     Login,
-    
+
   },
   data() {
     return {
@@ -139,13 +203,17 @@ export default {
 </script>
 
 <style scoped>
+.dropdown-menu.show {
+  display: block;
+}
+
 header {
   display: flex;
   flex-direction: column;
 }
 
-.menu:hover{
-/*Amor y amistad 
+.menu:hover {
+  /*Amor y amistad 
   background-color: #f89eac; */
 
   /*descuentos */
@@ -211,7 +279,7 @@ header {
 
   /*descuentos */
   background-color: #f13300;
-  
+
   width: 100%;
   display: flex;
   justify-content: center;
@@ -268,7 +336,7 @@ header {
   margin-right: 3px;
   margin-left: 3px;
   padding: auto;
-  
+
 }
 
 .search-bar {
@@ -332,9 +400,37 @@ header {
   text-decoration: none;
   justify-content: center;
 }
+
 .login_1:hover {
   background-color: #cf596b;
   border-radius: 15px;
   padding: 5px;
+}
+
+.dropdown-menu a {
+  color: black;
+}
+
+.row {
+  background-color: #f13300;
+  width: 90vh;
+  display: flex;
+  justify-content: start;
+  text-align: center;
+
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+  margin-top: 0;
+  /* remove the gap so it doesn't close */
+}
+#Izquierda  {
+  background-color: #f57d05;
+}
+#Derecha img {
+  border-radius: 100px;
+  background-color: white;
+  margin: 5px
 }
 </style>
