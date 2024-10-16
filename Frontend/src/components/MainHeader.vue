@@ -207,6 +207,13 @@ export default {
   display: block;
 }
 
+.menu {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
 header {
   display: flex;
   flex-direction: column;
@@ -221,7 +228,8 @@ header {
   margin: 1px;
   border-radius: 20px;
   border: 1px solid #f5f4f4;
-  padding: 3px;
+  align-items: center;
+  justify-content: center;
 }
 
 .top-bar {
@@ -411,12 +419,19 @@ header {
   color: black;
 }
 
+ul {
+  padding: 0;
+}
+
 .row {
-  background-color: #f13300;
+  background-color: #ffffff;
   width: 90vh;
   display: flex;
   justify-content: start;
   text-align: center;
+  -webkit-box-shadow: 0px 3px 17px 4px rgba(0, 0, 0, 0.27);
+  -moz-box-shadow: 0px 3px 17px 4px rgba(0, 0, 0, 0.27);
+  box-shadow: 0px 3px 17px 4px rgba(0, 0, 0, 0.27);
 
 }
 
@@ -425,9 +440,15 @@ header {
   margin-top: 0;
   /* remove the gap so it doesn't close */
 }
-#Izquierda  {
-  background-color: #f57d05;
+
+#Izquierda {
+  background-color: #ffffff;
 }
+
+.dropdown-item:hover {
+  background-color: #c7c7c7;
+}
+
 #Derecha img {
   border-radius: 100px;
   background-color: white;
