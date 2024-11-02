@@ -186,7 +186,7 @@
 </template>
 
 <script>
-import Login from '@/components/Login.vue'
+import Login from '@/components/Verificar_Codigo.vue'
 
 
 export default {
@@ -454,4 +454,4 @@ ul {
   background-color: white;
   margin: 5px
 }
-</style>
+</style>^

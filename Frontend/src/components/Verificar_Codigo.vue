@@ -1,9 +1,8 @@
 <template>
-  <div v-if="!session" class="login-page" @click.self="$emit('close')">
+  <div v-if="!session" class="verify-page" @click.self="$emit('close')">
     <div class="modal-content">
       <button class="close-button" @click="$emit('close')">×</button>
-      <h2 v-if="login">Iniciar sesión</h2>
-      <h2 v-if="!login">Registrarse</h2>
+      <h2 v-if="login">Codigo de verificación</h2>
       <p class="security-note">
         <img class="icon-lock" src="@/assets/lock-icon.png" alt="Seguridad" />
         Todos los datos se cifrarán
@@ -25,35 +24,21 @@
           </div>
         </div>
       </div>
-
       <form @submit.prevent="handleLogin">
-        <input id="email" type="email" v-model="email" placeholder="Email" required @blur="validateEmail" />
-        <input :class="{ 'is-invalid': !password_auth }" class="form-control" id="password" type="password"
-          v-model="password" placeholder="Contraseña" required />
+        <div class="Filas">
+          <input type="text">
+          <input type="text">
+          <input type="text">
+          <input type="text">
+          <input type="text">
+          <input type="text">
+        </div>
+        
+          
         <p v-if="emailError" class="error-message">{{ emailError }}</p>
         <p v-if="passwordError" class="error-message">{{ passwordError }}</p>
         <button type="submit" class="login-button">Continuar</button>
       </form>
-
-      <a href="#" class="forgot-password">¿Tienes problemas para iniciar sesión?</a>
-
-      <div class="social-login">
-        <p>O continúa de otras maneras</p>
-        <div class="social-icons">
-          <button v-if="showPrevButton" @click="prevSocialIcons" class="nav-button">&lt;</button>
-          <div class="social-icons-container" ref="socialIconsContainer">
-            <button v-for="icon in visibleIcons" :key="icon.name" @click="redirectToLink(icon.link)"
-              class="social-button">
-              <img :src="icon.src" :alt="icon.name" class="social-icon" />
-            </button>
-          </div>
-          <button v-if="showNextButton" @click="nextSocialIcons" class="nav-button">&gt;</button>
-        </div>
-      </div>
-
-      <p class="terms">
-        Al continuar, aceptas nuestros <a href="#">Términos de uso</a> y <a href="#">Política de privacidad</a>.
-      </p>
     </div>
   </div>
 </template>
@@ -243,7 +228,7 @@ export default {
 </script>
 
 <style scoped>
-.login-page {
+.verify-page {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -326,12 +311,24 @@ h2 {
 form {
   display: flex;
   flex-direction: column;
+  margin-top: 20px;
+}
+.Filas {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
 input {
+  width: 60px; /* Adjust the width as needed */
+  display: flex;
   margin-bottom: 10px;
   padding: 10px;
-  border: 1px solid #ddd;
+  border: 1px solid #c2bfbf;
   border-radius: 4px;
 }
 
