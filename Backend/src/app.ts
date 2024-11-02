@@ -4,24 +4,29 @@ import taskRouter from './routes/taskRoutes';
 import userRouter from './routes/userRoutes';
 import ProductRouter from './routes/ProductRoutes';
 import CategoryRouter from './routes/categoryRoutes';
+import imageProductRouter from './routes/imageProductRoutes';
 import * as dotenv from 'dotenv';
 import cors from 'cors';
+import path from 'path'; // Importación necesaria
 
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 5000;
-const jwtSecret = process.env.JWT_SECRET || 'default_secret'; 
+const jwtSecret = process.env.JWT_SECRET || 'default_secret';
 
 app.use(cors());
 app.use(express.json());
+
+// Sirve la carpeta 'uploads' como contenido estático
+app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
 
 // Rutas
 app.use('/api/categories', CategoryRouter);
 app.use('/api/tasks', taskRouter);
 app.use('/api/users', userRouter);
 app.use('/api/products', ProductRouter);
-
+app.use('/api', imageProductRouter);
 
 // Middleware de manejo de errores
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
@@ -38,5 +43,5 @@ dataSource.initialize()
     })
     .catch((error: any) => {
         console.error('Error al conectar a la base de datos', error);
-        process.exit(1); 
+        process.exit(1);
     });
