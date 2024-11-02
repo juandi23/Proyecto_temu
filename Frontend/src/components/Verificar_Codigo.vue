@@ -26,18 +26,18 @@
       </div>
       <form @submit.prevent="handleLogin">
         <div class="Filas">
-          <input type="text">
-          <input type="text">
-          <input type="text">
-          <input type="text">
-          <input type="text">
-          <input type="text">
+          <input type="number" v-model="unoInput" maxlength="1" @input="moveToNextInput('dosInput')" ref="unoInput">
+          <input type="number" v-model="dosInput" maxlength="1" @input="moveToNextInput('tresInput')" ref="dosInput">
+          <input type="number" v-model="tresInput" maxlength="1" @input="moveToNextInput('cuatroInput')" ref="tresInput">
+          <input type="number" v-model="cuatroInput" maxlength="1" @input="moveToNextInput('cincoInput')" ref="cuatroInput">
+          <input type="number" v-model="cincoInput" maxlength="1" @input="moveToNextInput('seisInput')" ref="cincoInput">
+          <input type="number" v-model="seisInput" maxlength="1"  @input="moveToNextInput('submit')" ref="seisInput">
         </div>
-        
-          
+
+
         <p v-if="emailError" class="error-message">{{ emailError }}</p>
         <p v-if="passwordError" class="error-message">{{ passwordError }}</p>
-        <button type="submit" class="login-button">Continuar</button>
+        <button type="submit" class="login-button" ref="submit">Continuar</button>
       </form>
     </div>
   </div>
@@ -48,6 +48,11 @@ export default {
   name: 'LoginComponent',
   data() {
     return {
+      unoInput: '',
+      dosInput: '',
+      tresInput: '',
+      cuatroInput: '',
+      cincoInput: '',
       email: '',
       password: '',
       emailError: '',
@@ -82,6 +87,12 @@ export default {
   },
 
   methods: {
+    moveToNextInput(nextInput) {
+      // Si se proporciona el ref del siguiente input, hacemos foco en él
+      if (nextInput) {
+        this.$refs[nextInput].focus();
+      }
+    },
     async handleLogin() {
       this.emailError = '';
       this.passwordError = '';
@@ -313,6 +324,7 @@ form {
   flex-direction: column;
   margin-top: 20px;
 }
+
 .Filas {
   display: flex;
   flex-direction: row;
@@ -324,12 +336,18 @@ form {
 }
 
 input {
-  width: 60px; /* Adjust the width as needed */
+  width: 60px;
+  /* Adjust the width as needed */
   display: flex;
   margin-bottom: 10px;
   padding: 10px;
   border: 1px solid #c2bfbf;
   border-radius: 4px;
+  text-align: center;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
 }
 
 .login-button {

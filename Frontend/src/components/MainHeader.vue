@@ -186,7 +186,7 @@
 </template>
 
 <script>
-import Login from '@/components/Verificar_Codigo.vue'
+import Login from '@/components/Login.vue'
 
 
 export default {
