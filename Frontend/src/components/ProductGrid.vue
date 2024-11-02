@@ -9,7 +9,7 @@
       />
       <img 
         v-else 
-        src="/assets/placeholder.png" 
+        
         alt="Imagen no disponible" 
         class="product-image" 
       />

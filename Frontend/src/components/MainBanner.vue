@@ -1,22 +1,15 @@
 <template>
   <div class="main-banner-container" :class="{ 'expanded': isExpanded }">
     <div class="banner-content" @click="toggleExpand">
+      <!--AMOR Y AMISTAD
+      <img src="@/assets/amoryamistad.png" alt="Amor y Amistad" class="banner-image">      -->
+
+      <!--AMOR Y AMISTAD-->
       <img src="@/assets/ahorro.png" alt="Amor y Amistad" class="banner-image">
-      
+
       <div class="featured-products" v-if="!isExpanded">
         <div v-for="product in featuredProducts" :key="product.id" class="featured-product">
-          <img 
-            v-if="product.images && product.images.length > 0" 
-            :src="product.images[0].imageUrl" 
-            :alt="product.name" 
-            class="product-image"
-          />
-          <img 
-            v-else 
-            src="/assets/placeholder.png" 
-            alt="Imagen no disponible" 
-            class="product-image"
-          />
+          <img :src="product.image" :alt="product.name" class="product-image">
           <p class="product-price">${{ product.price.toLocaleString() }}</p>
         </div>
       </div>
@@ -26,23 +19,12 @@
         <h2>Ofertas del día</h2>
         <div class="products-grid">
           <div v-for="product in products" :key="product.id" class="product-card">
-            <div class="discount-badge">-{{ product.discount || 0 }}%</div>
-            <img 
-              v-if="product.images && product.images.length > 0" 
-              :src="product.images[0].imageUrl" 
-              :alt="product.name" 
-              class="product-image"
-            />
-            <img 
-              v-else 
-              src="/assets/placeholder.png" 
-              alt="Imagen no disponible" 
-              class="product-image"
-            />
+            <div class="discount-badge">-{{ product.discount }}%</div>
+            <img :src="product.image" :alt="product.name" class="product-image">
             <div class="product-info">
-              <p class="product-sales">{{ product.sales || 'N/A' }}+ ventas</p>
-              <p class="original-price">${{ product.originalPrice ? product.originalPrice.toLocaleString() : 'N/A' }}</p>
-              <p class="discounted-price">${{ product.discountedPrice ? product.discountedPrice.toLocaleString() : product.price.toLocaleString() }}</p>
+              <p class="product-sales">{{ product.sales }}+ ventas</p>
+              <p class="original-price">${{ product.originalPrice.toLocaleString() }}</p>
+              <p class="discounted-price">${{ product.discountedPrice.toLocaleString() }}</p>
               <button class="add-to-cart">
                 <span class="cart-icon">🛒</span>
               </button>
@@ -55,50 +37,33 @@
 </template>
 
 <script>
-import { ref, onMounted } from 'vue';
-import axios from 'axios';
-
 export default {
   name: 'MainBanner',
-  setup() {
-    const isExpanded = ref(false);
-    const featuredProducts = ref([]);
-    const products = ref([]);
-
-    const toggleExpand = () => {
-      isExpanded.value = !isExpanded.value;
-    };
-
-    onMounted(async () => {
-      try {
-        // Obtener productos destacados del backend
-        const response = await axios.get('http://localhost:5000/api/products');
-        const productsData = response.data.data;
-
-        featuredProducts.value = productsData.slice(0, 2); // Asignar los primeros productos como destacados
-        products.value = productsData; // Asignar todos los productos
-      } catch (error) {
-        console.error('Error al obtener los productos:', error);
-      }
-    });
-
+  data() {
     return {
-      isExpanded,
-      toggleExpand,
-      featuredProducts,
-      products
-    };
+      isExpanded: false,
+      featuredProducts: [
+        { id: 1, name: 'Reloj Inteligente', image: new URL('@/assets/relojinteligente.png', import.meta.url).href, price: 39169 },
+        { id: 2, name: 'Reloj Lenovo', image: new URL('@/assets/relojlenovo.png', import.meta.url).href, price: 14079 },
+      ],
+      products: [
+        { id: 1, name: 'Food containers', image: new URL('@/assets/relojdeportivo.png', import.meta.url).href,  discount: 22, originalPrice: 18050, discountedPrice: 14079, sales: '100K' },
+        { id: 2, name: 'Kitchen paper', image: new URL('@/assets/camisetamujer.png', import.meta.url).href,  discount: 34, originalPrice: 59350, discountedPrice: 39169, sales: '81K' },
+        { id: 3, name: 'Gold watch', image: new URL('@/assets/conjuntodecollar.png', import.meta.url).href,  discount: 65, originalPrice: 30590, discountedPrice: 10607, sales: '35K' },
+        { id: 4, name: 'Door mat', image: new URL('@/assets/pulserahombre.png', import.meta.url).href,  discount: 68, originalPrice: 36116, discountedPrice: 11316, sales: '100K' },
+        { id: 5, name: 'Tool set', image: new URL('@/assets/conjuntoaretesdama.png', import.meta.url).href,  discount: 67, originalPrice: 71940, discountedPrice: 23394, sales: '775' },
+      ]
+    }
+  },
+  methods: {
+    toggleExpand() {
+      this.isExpanded = !this.isExpanded;
+    }
   }
 }
 </script>
 
 <style scoped>
-/* Estilos previos, no hay cambios necesarios */
-</style>
-
-
-<style scoped>
-/* Se mantienen los estilos ya definidos en tu código original */
 .main-banner-container {
   width: 100%;
   position: relative;
@@ -154,6 +119,11 @@ export default {
 }
 
 .products-container {
+  
+   /*Amor y amistad 
+  background-color: #f6cecc; */
+
+  /*descuentos */
   background-color: #ff7001;
   padding: 20px;
   width: 100%;
@@ -261,21 +231,21 @@ export default {
   .featured-products {
     display: none;
   }
-
+ 
   .products-grid {
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
     gap: 10px;
   }
-
+ 
   .product-card {
     font-size: 0.9em;
   }
-
+ 
   .discount-badge {
     font-size: 0.7em;
     padding: 3px 6px;
   }
-
+ 
   .white-container h2 {
     font-size: 1.5em;
   }
