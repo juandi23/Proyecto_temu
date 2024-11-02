@@ -31,7 +31,7 @@ class AuthService {
         const token = jwt.sign({ userId: result.id }, jwtSecret, { expiresIn: '1h' });
         console.log('token', token);    
 
-        return { user: { email: result.email, name: result.name }, token };
+        return { user: { email: result.email, name: result.name , verified: result.verified }, token };
     }
 
     async loginUser(email: string, password: string): Promise<{ user: Partial<User>, token: string }> {
@@ -47,7 +47,7 @@ class AuthService {
 
         const token = jwt.sign({ userId: user.id }, jwtSecret, { expiresIn: '1h' });
 
-        return { user: { email: user.email, name: user.name }, token };
+        return { user: { email: user.email, name: user.name,verified: user.verified }, token };
     }
 
     async loginWithGoogle(token: string): Promise<{ user: Partial<User>, token: string }> {
