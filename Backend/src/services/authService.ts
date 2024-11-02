@@ -4,7 +4,7 @@ import { dataSource } from '../data-source';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { sendVerificationEmail } from '../mailer'; // Asegúrate de que esta función está actualizada
-
+import admin from '../firebase-admin';
 const jwtSecret = process.env.JWT_SECRET || 'default_secret';
 const userRepository: Repository<User> = dataSource.getRepository(User);
 
@@ -43,6 +43,24 @@ class AuthService {
 
         return { user: { email: user.email, name: user.name }, token };
     }
+
+    async loginWithGoogle(token: string): Promise<{ user: Partial<User>, token: string }> {
+        const decodedToken = await admin.auth().verifyIdToken(token);
+        const { email, name, uid } = decodedToken;
+
+        let user = await userRepository.findOneBy({ email });
+
+        if (!user) {
+            const hashedPassword = await bcrypt.hash('root123', 10);
+            user = userRepository.create({ email,password: hashedPassword , name, verified: true });
+            user = await userRepository.save(user);
+        }
+
+        const jwtToken = jwt.sign({ userId: user.id }, jwtSecret, { expiresIn: '1h' });
+
+        return { user: { email: user.email, name: user.name }, token: jwtToken };
+    }
+
 
     // Método para enviar el correo de verificación
     private async sendVerificationEmail(user: User) {

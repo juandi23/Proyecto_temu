@@ -34,6 +34,10 @@
         <p v-if="passwordError" class="error-message">{{ passwordError }}</p>
         <button type="submit" class="login-button">Continuar</button>
       </form>
+      <div class="social-login">
+        <p>O continúa de otras maneras</p>
+        <button @click="signInWithGoogle" class="google-login-button">Iniciar sesión con Google</button>
+      </div>
 
       <a href="#" class="forgot-password">¿Tienes problemas para iniciar sesión?</a>
 
@@ -59,8 +63,10 @@
 </template>
 
 <script>
+import { auth, GoogleAuthProvider, signInWithPopup } from '@/firebase';
 export default {
   name: 'LoginComponent',
+  
   data() {
     return {
       email: '',
@@ -94,7 +100,10 @@ export default {
 
   created() {
     this.isSessionActive();
+    
   },
+      // Método para autenticación con Google
+
 
   methods: {
     async handleLogin() {
@@ -181,6 +190,46 @@ export default {
       }
     },
 
+    async signInWithGoogle() {
+      try {
+        console.log("Iniciando sesión con Google...");
+        const provider = new GoogleAuthProvider(); // Crea una instancia del proveedor
+        const result = await signInWithPopup(auth, provider);
+        const token = await result.user.getIdToken();
+
+        // Envía el token al backend para verificar y almacenar la sesión
+        const response = await fetch("http://localhost:5000/api/users/auth/google", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ token }),
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+          // Guardar los datos de usuario en localStorage
+          const userData = {
+            user: {
+              email: data.user.email,
+              name: data.user.name,
+            },
+            token: data.token,
+          };
+
+          localStorage.setItem("session", JSON.stringify(userData));
+          this.session = userData;
+
+          // Emitir el evento de login
+          this.$emit("login", userData.user);
+          this.$emit("close"); // Cierra el modal
+        } else {
+          console.error("Error en autenticación con Google:", data.message);
+        }
+      } catch (error) {
+        console.error("Error al iniciar sesión con Google:", error);
+      }
+    },
 
     prevSocialIcons() {
       if (this.currentIconIndex > 0) {
@@ -411,5 +460,18 @@ input {
   width: 20px;
   height: 20px;
   margin-right: 10px;
+}
+.google-login-button {
+  background-color: #4285f4;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 </style>
