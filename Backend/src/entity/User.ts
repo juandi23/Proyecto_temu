@@ -17,6 +17,9 @@ export class User {
 
   @Column({ default: true })
   isActive?: boolean;
+
+  @Column({default: ''})
+  token?: string;
   
   @Column({ default: false }) // Campo para verificar si el correo ha sido verificado
   verified: boolean;
@@ -31,13 +34,17 @@ export class User {
   @UpdateDateColumn({ type: 'timestamp' })
   updatedAt!: Date;
 
-  constructor(name: string, email: string, password: string, tasks?: Task[]) {
+  constructor(name: string, email: string, password: string, token?: string, tasks?: Task[]) {
     this.name = name;
     this.email = email;
-    this.verified = false;  
+    this.verified = false; 
+  
     this.password = password;
     if (tasks) {
       this.tasks = tasks;
+    }
+    if (token) {
+      this.token = token;
     }
   }
 }

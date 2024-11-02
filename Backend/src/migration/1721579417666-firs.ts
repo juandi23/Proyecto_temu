@@ -11,6 +11,7 @@ export class Firs1721579417666 implements MigrationInterface {
             \`id\` int NOT NULL AUTO_INCREMENT,
             \`name\` varchar(255) NOT NULL,
             \`email\` varchar(255) NOT NULL,
+            \`token\` varchar(6) NOT NULL DEFAULT '',
             \`password\` varchar(255) NOT NULL,
             \`isActive\` tinyint NOT NULL DEFAULT 1,
             \`verified\` tinyint NOT NULL DEFAULT 0, -- Campo verificado

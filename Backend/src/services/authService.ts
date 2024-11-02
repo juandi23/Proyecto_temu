@@ -16,14 +16,20 @@ class AuthService {
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
-        const user = userRepository.create({ email, password: hashedPassword, name, verified: false }); // Asegúrate de incluir verified
+
+        //crear random de 6 digitos
+        const random = Math.floor(100000 + Math.random() * 900000);
+        const user = userRepository.create({ email, password: hashedPassword, name, verified: false, token: random.toString() }); // Asegúrate de incluir verified
         const result = await userRepository.save(user);
         console.log('antes de enviar correo');
+        console.log(result);
 
         // Enviar correo de verificación
         await this.sendVerificationEmail(result); // Llama a la función de envío de correo
 
+        console.log('despues de enviar correo');
         const token = jwt.sign({ userId: result.id }, jwtSecret, { expiresIn: '1h' });
+        console.log('token', token);    
 
         return { user: { email: result.email, name: result.name }, token };
     }
@@ -65,7 +71,8 @@ class AuthService {
     // Método para enviar el correo de verificación
     private async sendVerificationEmail(user: User) {
         // Enviar el correo con el ID del usuario en lugar del token
-        await sendVerificationEmail(user.email, user.id);
+        console.log('Enviando correo de verificación ', user.token);
+        await sendVerificationEmail(user.email, user.id, user.token || ''); // Asegúrate de que esta función esté actualizada
     }
 
     // Método para verificar el correo electrónico
@@ -91,6 +98,23 @@ class AuthService {
             }
         }
     }
+
+    async validateVerificationToken(userId: number, token: string): Promise<boolean> {
+        try {
+            // Aquí deberías tener una lógica que verifique el token almacenado en la base de datos
+            const user = await userRepository.findOneBy({ id: userId });
+    
+            if (!user || user.token !== token) {
+                return false; // El usuario no existe o el token no coincide
+            }
+    
+            // Si existe, puedes agregar lógica para verificar si el token ha expirado, etc.
+            return true; // Token válido
+        } catch (error) {
+            throw new Error('Error al validar el token: ' );
+        }
+    }
+    
 }
 
 export const authService = new AuthService();

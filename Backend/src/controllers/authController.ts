@@ -57,7 +57,14 @@ export const loginUser = [
 export const verifyEmail = async (req: Request, res: Response) => {
     console.log('Verificando correo electrónico');
     console.log(req.query);
-    const { token } = req.query;
+    const { token, userId } = req.query;
+
+    const isTokenValid = await authService.validateVerificationToken(Number(userId), token as string);
+        
+    if (!isTokenValid) {
+        return res.status(400).json({ message: 'Token inválido o expirado' });
+    }
+
 
     // Verificar que se proporcionó el token
 
@@ -75,7 +82,6 @@ export const verifyEmail = async (req: Request, res: Response) => {
 
   
         // Respuesta exitosa
-        return res.redirect('http://localhost:5173');
         res.json({ message: 'Correo verificado correctamente' });
     } catch (error) {
         // Manejo de errores más específico
