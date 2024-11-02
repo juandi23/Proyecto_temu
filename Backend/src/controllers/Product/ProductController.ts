@@ -1,3 +1,4 @@
+// ProductController.ts
 import { Request, Response } from 'express';
 import { productService } from '../../services/ProductService';
 
@@ -7,6 +8,15 @@ export const createProduct = async (req: Request, res: Response) => {
         res.status(201).json(result);
     } catch (error) {
         res.status(500).json({ message: 'Error creating product', error });
+    }
+};
+
+export const createProducts = async (req: Request, res: Response) => {
+    try {
+        const result = await productService.createProducts(req.body.products);
+        res.status(201).json(result);
+    } catch (error) {
+        res.status(500).json({ message: 'Error creating products', error });
     }
 };
 

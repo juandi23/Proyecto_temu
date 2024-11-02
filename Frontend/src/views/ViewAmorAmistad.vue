@@ -1,29 +1,26 @@
 <template>
-    <div class="view-mas-vendidos">
-      <MainHeader />  
-      <MainBanner />
-      <BannerAmorAmistad />
-      <TheFooter />
-    </div>
-  </template>
-  
-  <script>
-  import MainHeader from '@/components/MainHeader.vue'
-  import BannerAmorAmistad from '@/components/BannerAmorAmistad.vue'
-  import TheFooter from '@/components/TheFooter.vue'
-  import MainBanner from '@/components/MainBanner.vue';
-  
-  export default {
-    name: 'ViewAmorAmistad',
-    components: {
-        MainHeader,
-        MainBanner,
-        BannerAmorAmistad,
-        TheFooter
-    }
+  <div>
+    <MainHeader />
+    <ProductGrid :categoryId="3" />
+    <TheFooter />
+  </div>
+</template>
+
+<script>
+import MainHeader from '../components/MainHeader.vue';
+import ProductGrid from '../components/ProductGrid.vue';
+import TheFooter from '../components/TheFooter.vue';
+
+export default {
+  name: 'ViewAmorAmistad',
+  components: {
+    MainHeader,
+    ProductGrid,
+    TheFooter
   }
-  </script>
-  
-  <style scoped>
- 
-  </style>
+}
+</script>
+
+<style scoped>
+/* Estilos específicos para la vista si es necesario */
+</style>

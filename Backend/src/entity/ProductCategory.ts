@@ -1,15 +1,18 @@
-import { Entity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
-import { Product } from './Product'; // Asegúrate de ajustar la ruta según tu estructura de carpetas
-import { Category } from './Category'; // Asegúrate de ajustar la ruta según tu estructura de carpetas
+import { Entity, ManyToOne, PrimaryColumn } from 'typeorm';
+import { Product } from './Product';
+import { Category } from './Category';
 
 @Entity()
 export class ProductCategory {
-  @PrimaryGeneratedColumn()
-  id!: number;
+    @PrimaryColumn()
+    productId!: number;
 
-  @ManyToOne(() => Product, (product) => product.category)
-  product!: Product;
+    @PrimaryColumn()
+    categoryId!: number;
 
-  @ManyToOne(() => Category, (category) => category.products)
-  category!: Category;
+    @ManyToOne(() => Product, (product) => product.category, { onDelete: 'CASCADE' })
+    product!: Product;
+
+    @ManyToOne(() => Category, (category) => category.products, { onDelete: 'CASCADE' })
+    category!: Category;
 }
