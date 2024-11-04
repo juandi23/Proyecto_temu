@@ -41,14 +41,14 @@
       <div class="social-login">
         <p>O continúa de otras maneras</p>
         <div class="social-icons">
-          <button v-if="showPrevButton" @click="signInWithGoogle" class="nav-button">&lt;</button>
           <div class="social-icons-container" ref="socialIconsContainer">
-            <button v-for="icon in visibleIcons" :key="icon.name" @click="signInWithGoogle"
-              class="social-button">
-              <img :src="icon.src" :alt="icon.name" class="social-icon" />
+            <button @click="signInWithGoogle" class="social-button">
+              <img :src="socialIcons[0].src" :alt="socialIcons[0].name" class="social-icon" />
+            </button>
+            <button @click="signInWithFacebook" class="social-button">
+              <img :src="socialIcons[1].src" :alt="socialIcons[1].name" class="social-icon" />
             </button>
           </div>
-          <button v-if="showNextButton" @click="nextSocialIcons" class="nav-button">&gt;</button>
         </div>
       </div>
 
@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import { auth, GoogleAuthProvider, signInWithPopup } from '@/firebase';
+import { auth, GoogleAuthProvider, signInWithPopup, FacebookAuthProvider } from '@/firebase';
 export default {
   name: 'LoginComponent',
   
@@ -76,8 +76,6 @@ export default {
       socialIcons: [
         { name: 'Google', src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQExly8Xk3GWUOkmUGETvVobduKHck3ivnVA&s', link: 'https://accounts.google.com/signin' },
         { name: 'Facebook', src: 'https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg', link: 'https://www.facebook.com/login/' },
-        { name: 'Apple', src: 'https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg', link: 'https://appleid.apple.com/' },
-        { name: 'Twitter', src: 'https://cdn.icon-icons.com/icons2/936/PNG/512/twitter-black-shape_icon-icons.com_73358.png', link: 'https://twitter.com/login' },
       ],
       currentIconIndex: 0,
       visibleIconCount: 3,
@@ -225,6 +223,46 @@ export default {
         }
       } catch (error) {
         console.error("Error al iniciar sesión con Google:", error);
+      }
+    },
+    
+    async signInWithFacebook() {
+      try {
+        console.log("Iniciando sesión con Facebook...");
+        const provider = new FacebookAuthProvider(); // Crea una instancia del proveedor
+        const result = await signInWithPopup(auth, provider);
+        const token = await result.user.getIdToken();
+
+        // Envía el token al backend para verificar y almacenar la sesión
+        const response = await fetch("http://localhost:5000/api/users/auth/facebook", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ token }),
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+          const userData = {
+            user: {
+              email: data.user.email,
+              name: data.user.name,
+            },
+            token: data.token,
+          };
+
+          localStorage.setItem("session", JSON.stringify(userData));
+          this.session = userData;
+
+          // Emitir el evento de login
+          this.$emit("login", userData.user);
+          this.$emit("close"); // Cierra el modal
+        } else {
+          console.error("Error en autenticación con Facebook:", data.message);
+        }
+      } catch (error) {
+        console.error("Error al iniciar sesión con Facebook:", error);
       }
     },
 
