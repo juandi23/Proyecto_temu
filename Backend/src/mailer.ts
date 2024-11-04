@@ -5,7 +5,7 @@ const transporter = nodemailer.createTransport({
     service: 'Gmail', // Cambia esto según tu proveedor de correo
     auth: {
         user: 'jhontaimal@gmail.com', // Correo electrónico estático
-        pass: 'uiayswpcxhgmhvga'    // Contraseña estática
+        pass: 'pdsekfnpkhsalqob'    // Contraseña estática
     }
 });
 

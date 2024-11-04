@@ -34,19 +34,16 @@
         <p v-if="passwordError" class="error-message">{{ passwordError }}</p>
         <button type="submit" class="login-button">Continuar</button>
       </form>
-      <div class="social-login">
-        <p>O continúa de otras maneras</p>
-        <button @click="signInWithGoogle" class="google-login-button">Iniciar sesión con Google</button>
-      </div>
+      
 
       <a href="#" class="forgot-password">¿Tienes problemas para iniciar sesión?</a>
 
       <div class="social-login">
         <p>O continúa de otras maneras</p>
         <div class="social-icons">
-          <button v-if="showPrevButton" @click="prevSocialIcons" class="nav-button">&lt;</button>
+          <button v-if="showPrevButton" @click="signInWithGoogle" class="nav-button">&lt;</button>
           <div class="social-icons-container" ref="socialIconsContainer">
-            <button v-for="icon in visibleIcons" :key="icon.name" @click="redirectToLink(icon.link)"
+            <button v-for="icon in visibleIcons" :key="icon.name" @click="signInWithGoogle"
               class="social-button">
               <img :src="icon.src" :alt="icon.name" class="social-icon" />
             </button>
