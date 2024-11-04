@@ -6,6 +6,9 @@ const transporter = nodemailer.createTransport({
     auth: {
         user: 'jhontaimal@gmail.com', // Correo electrónico estático
         pass: 'pdsekfnpkhsalqob'    // Contraseña estática
+    },
+    tls: {
+        rejectUnauthorized: false // Ignora certificados autofirmados
     }
 });
 
@@ -18,14 +21,34 @@ export const sendVerificationEmail = async (email: string, userId: number, token
         from: 'jhontaimal@gmail.com',
         to: email,
         subject: 'Verify Your Email',
-        text: `este es tu codigo de verificacion ${token}`,
+        text: `Este es tu código de verificación: ${token}`,
     };
 
-       try {
+    try {
         await transporter.sendMail(mailOptions);
         console.log('Correo enviado con éxito');
     } catch (error) {
         console.error('Error al enviar el correo:', error);
         // Aquí puedes manejar el error como desees, por ejemplo, lanzando una excepción o registrando el error
+    }
+};
+
+// Función para enviar el correo de recuperación de contraseña
+export const sendPasswordResetEmail = async (email: string, token: string) => {
+    const resetLink = `http://localhost:5173/reset-password/${token}`; // Cambia esto según tu frontend
+
+    const mailOptions = {
+        from: 'jhontaimal@gmail.com',
+        to: email,
+        subject: 'Recuperación de contraseña',
+        text: `Haz clic en el siguiente enlace para restablecer tu contraseña: ${resetLink}`,
+    };
+
+    try {
+        await transporter.sendMail(mailOptions);
+        console.log('Correo de recuperación enviado con éxito');
+    } catch (error) {
+        console.error('Error al enviar el correo de recuperación:', error);
+        throw error;
     }
 };
