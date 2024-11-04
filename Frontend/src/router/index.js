@@ -7,7 +7,7 @@ import ViewCincoEstrellas from '@/views/ViewCincoEstrellas.vue';
 import ViewAmorAmistad from '@/views/ViewAmorAmistad.vue';
 import ViewRecienLlegados from '@/views/ViewRecienLlegados.vue';
 import ViewAyuda from '@/views/ViewAyuda.vue';
-
+import ResetPasswordView from '../views/ResetPasswordView.vue'; // Importación del nuevo componente
 
 const routes = [
   { path: '/', component: HomeView },
@@ -17,11 +17,9 @@ const routes = [
   { path: '/CincoEstrellas', component: ViewCincoEstrellas },
   { path: '/Descuentos', component: ViewAmorAmistad },
   { path: '/RecienLlegados', component: ViewRecienLlegados },
-  { path: '/Ayuda', component: ViewAyuda }
-
-
+  { path: '/Ayuda', component: ViewAyuda },
+  { path: '/reset-password/:token', component: ResetPasswordView, name: 'ResetPassword' } // Nueva ruta
 ];
-
 
 const router = createRouter({
   history: createWebHistory(),
