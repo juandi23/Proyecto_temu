@@ -55,7 +55,7 @@ export default {
       this.isExpanded = !this.isExpanded;
     },
     fetchProducts() {
-      fetch('https://fakestoreapi.com/products?limit=5')
+      fetch('https://fakestoreapi.com/products?limit=4')
         .then((res) => res.json())
         .then((json) => {
           this.products = json;
@@ -171,6 +171,8 @@ export default {
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   display: flex;
   flex-direction: column;
+  height: 100%;
+  width: 70%;
 }
 
 .discount-badge {
