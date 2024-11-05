@@ -35,7 +35,7 @@
         <button type="submit" class="login-button">Continuar</button>
       </form>
       
-
+      <Codigo_Verificar v-if="showModal" @close="showModal = false" />
       <a href="#" class="forgot-password">¿Tienes problemas para iniciar sesión?</a>
 
       <div class="social-login">
@@ -60,12 +60,16 @@
 </template>
 
 <script>
+import Codigo_Verificar from '@/components/Verificar_Codigo.vue'
 import { auth, GoogleAuthProvider, signInWithPopup, FacebookAuthProvider } from '@/firebase';
 export default {
   name: 'LoginComponent',
-  
+  components: {
+    Codigo_Verificar,
+  },
   data() {
     return {
+      showModal: false,
       email: '',
       password: '',
       emailError: '',
@@ -322,6 +326,8 @@ export default {
         return false;
       }
     }
+
+    
   }
 };
 </script>
