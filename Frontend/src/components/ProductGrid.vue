@@ -1,20 +1,9 @@
 <template>
   <div class="product-grid">
     <div v-for="product in products" :key="product.id" class="product-card">
-      <img 
-        v-if="product.images && product.images.length > 0" 
-        :src="product.images[0].imageUrl" 
-        :alt="product.name" 
-        class="product-image" 
-      />
-      <img 
-        v-else 
-        
-        alt="Imagen no disponible" 
-        class="product-image" 
-      />
+      <img :src="product.image" :alt="product.name" class="product-image">
       <div class="product-details">
-        <h3 class="product-name">{{ product.name }}</h3>
+        <h3 class="product-name">{{ product.title }}</h3>
         <p class="product-price">{{ product.price }} COP</p>
         <button class="add-to-cart-btn">Agregar al carrito</button>
       </div>
@@ -23,31 +12,32 @@
 </template>
 
 <script>
-import { ref, onMounted } from 'vue';
-import axios from 'axios';
-
 export default {
   name: 'ProductGrid',
-  setup() {
-    const products = ref([]);
-
-    onMounted(async () => {
-      try {
-        // Obtener los productos del backend con sus imágenes incluidas
-        const response = await axios.get('http://localhost:5000/api/products');
-        const productsData = response.data.data;
-
-        // Asignar los productos obtenidos a la variable "products"
-        products.value = productsData;
-        console.log('Productos obtenidos:', products.value);
-      } catch (error) {
-        console.error('Error al obtener los productos:', error);
-      }
-    });
-
-    return { products };
-  }
+    data() {
+    return {
+      isExpanded: false,
+      products: [], // Array para almacenar los productos
+    }
+  },
+  methods: {
+    fetchProducts() {
+      fetch('https://fakestoreapi.com/products')
+        .then((res) => res.json())
+        .then((json) => {
+          this.products = json;
+          console.log('Products fetched:', this.products);
+        })
+        .catch((error) => console.error('Error fetching products:', error));
+    },
+    
+  },
+  created() {
+    // Llamar al método fetchProducts cuando se monte el componente
+    this.fetchProducts();
+  } 
 }
+
 </script>
 
 <style scoped>
