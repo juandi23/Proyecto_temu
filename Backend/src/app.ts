@@ -7,7 +7,7 @@ import CategoryRouter from './routes/categoryRoutes';
 import imageProductRouter from './routes/imageProductRoutes';
 import * as dotenv from 'dotenv';
 import cors from 'cors';
-import path from 'path'; // Importación necesaria
+import path from 'path';
 
 dotenv.config();
 
@@ -15,7 +15,13 @@ const app = express();
 const port = process.env.PORT || 5000;
 const jwtSecret = process.env.JWT_SECRET || 'default_secret';
 
-app.use(cors());
+// Configuración de CORS para permitir solo solicitudes desde http://localhost:5173
+app.use(cors({
+    origin: 'http://localhost:5173', // Solo permite este origen
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos permitidos
+    credentials: true // Permite el envío de cookies si es necesario
+}));
+
 app.use(express.json());
 
 // Sirve la carpeta 'uploads' como contenido estático
