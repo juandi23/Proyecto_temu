@@ -45,7 +45,7 @@
 
 <script>
 export default {
-  name: 'LoginComponent',
+  name: 'VerifyComponent',
   data() {
     return {
       unoInput: '',

@@ -17,7 +17,7 @@
       
       <!-- Detalles del producto -->
       <div class="product-details">
-        <h3 class="product-name">{{ product.name }}</h3>
+        <h3 class="product-name">{{ product.title }}</h3>
         <p class="product-price">{{ product.price }} COP</p>
         
         <!-- Botón para agregar al carrito -->
@@ -64,6 +64,7 @@ export default {
     return { products, addToCart };
   }
 }
+
 </script>
 
 <style scoped>

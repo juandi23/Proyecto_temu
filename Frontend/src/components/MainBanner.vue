@@ -23,8 +23,8 @@
             <img :src="product.image" :alt="product.name" class="product-image">
             <div class="product-info">
               <p class="product-sales">{{ product.sales }}+ ventas</p>
-              <p class="original-price">${{ product.originalPrice.toLocaleString() }}</p>
-              <p class="discounted-price">${{ product.discountedPrice.toLocaleString() }}</p>
+              <p class="original-price">${{ product.price.toLocaleString() }}</p>
+              <p class="discounted-price">${{ product.price.toLocaleString() }}</p>
               <button class="add-to-cart">
                 <span class="cart-icon">🛒</span>
               </button>
@@ -46,20 +46,30 @@ export default {
         { id: 1, name: 'Reloj Inteligente', image: new URL('@/assets/relojinteligente.png', import.meta.url).href, price: 39169 },
         { id: 2, name: 'Reloj Lenovo', image: new URL('@/assets/relojlenovo.png', import.meta.url).href, price: 14079 },
       ],
-      products: [
-        { id: 1, name: 'Food containers', image: new URL('@/assets/relojdeportivo.png', import.meta.url).href,  discount: 22, originalPrice: 18050, discountedPrice: 14079, sales: '100K' },
-        { id: 2, name: 'Kitchen paper', image: new URL('@/assets/camisetamujer.png', import.meta.url).href,  discount: 34, originalPrice: 59350, discountedPrice: 39169, sales: '81K' },
-        { id: 3, name: 'Gold watch', image: new URL('@/assets/conjuntodecollar.png', import.meta.url).href,  discount: 65, originalPrice: 30590, discountedPrice: 10607, sales: '35K' },
-        { id: 4, name: 'Door mat', image: new URL('@/assets/pulserahombre.png', import.meta.url).href,  discount: 68, originalPrice: 36116, discountedPrice: 11316, sales: '100K' },
-        { id: 5, name: 'Tool set', image: new URL('@/assets/conjuntoaretesdama.png', import.meta.url).href,  discount: 67, originalPrice: 71940, discountedPrice: 23394, sales: '775' },
-      ]
+      products: [], // Array para almacenar los productos
+      
     }
   },
   methods: {
     toggleExpand() {
       this.isExpanded = !this.isExpanded;
-    }
+    },
+    fetchProducts() {
+      fetch('https://fakestoreapi.com/products?limit=4')
+        .then((res) => res.json())
+        .then((json) => {
+          this.products = json;
+          console.log('Products fetched:', this.products);
+        })
+        .catch((error) => console.error('Error fetching products:', error));
+    },
+    
+  },
+  created() {
+    // Llamar al método fetchProducts cuando se monte el componente
+    this.fetchProducts();
   }
+
 }
 </script>
 
@@ -161,6 +171,8 @@ export default {
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   display: flex;
   flex-direction: column;
+  height: 100%;
+  width: 70%;
 }
 
 .discount-badge {
