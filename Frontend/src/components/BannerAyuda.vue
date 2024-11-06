@@ -95,7 +95,20 @@
     <!-- Sección de contacto -->
     <div class="contacto">
       <h3>¿Aún no se resuelve el problema?</h3>
-      <button>Contáctanos</button>
+      <button @click="abrirChat">Contáctanos</button>
+      <div v-if="mostrarChat" class="chat-modal">
+        <div class="chat-content">
+          <button @click="cerrarChat" class="close-btn">X</button>
+          <h2>Atención al Cliente</h2>
+          <p>Hola, soy el asistente virtual de Temu. Bienvenido al servicio de atención al cliente de Temu.</p>
+          <p>¿En qué puedo ayudarle?</p>
+          <!-- Campo de entrada del mensaje del cliente -->
+          <input type="text" v-model="mensajeCliente" placeholder="Escribe tu mensaje aquí..." />
+          <button @click="enviarMensaje">Enviar</button>
+        </div>
+      </div>
+
+
     </div>
   </div>
 </template>
@@ -104,6 +117,8 @@
 export default {
   data() {
     return {
+      mostrarChat: false,
+      mensajeCliente:'',
       temaSeleccionado: null,
       temasRecomendados: [
         "Cargos desconocidos",
@@ -336,7 +351,22 @@ export default {
 
     // Borra el contenido del textarea
     pregunta.comentarios = '';
-  }
+  },
+  abrirChat() {
+    this.mostrarChat = true;
+    
+  },
+  cerrarChat() {
+    this.mostrarChat = false;
+  },
+  enviarMensaje() {
+    if (this.mensajeCliente.trim() !== '') { // Asegura que el mensaje no esté vacío
+      alert("¡Mensaje enviado con éxito!");
+      this.mensajeCliente = ''; // Borra el contenido del campo de entrada
+    } else {
+      alert("Por favor, escribe un mensaje antes de enviar.");
+    }
+  },
   }
 };
 </script>
@@ -345,6 +375,37 @@ export default {
 
 
 <style>
+.chat-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.chat-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  width: 300px;
+  text-align: center;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+
 .temas-sidebar {
   width: 30%;
   border: 1px solid #e0e0e0;
