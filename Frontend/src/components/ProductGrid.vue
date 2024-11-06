@@ -1,33 +1,31 @@
 <template>
   <div class="product-grid">
     <div v-for="product in products" :key="product.id" class="product-card">
-      <!-- Mostrar imagen del producto si está disponible, de lo contrario, mostrar imagen por defecto -->
+      <!-- Mostrar imagen del producto directamente desde FakeStore -->
       <img 
-        v-if="product.images && product.images.length > 0" 
-        :src="product.images[0].imageUrl" 
-        :alt="product.name" 
-        class="product-image" 
-      />
-      <img 
-        v-else 
-        src="ruta_de_imagen_por_defecto.jpg" 
-        alt="Imagen no disponible" 
+        :src="product.image" 
+        :alt="product.title" 
         class="product-image" 
       />
       
       <!-- Detalles del producto -->
       <div class="product-details">
         <h3 class="product-name">{{ product.title }}</h3>
-        <p class="product-price">{{ product.price }} COP</p>
+        <p class="product-price">{{ product.price }} USD</p>
         
         <!-- Botón para agregar al carrito -->
         <button
           class="add-to-cart-btn"
-          @click="addToCart(product)"
+          @click="handleAddToCart(product)"
         >
           Agregar al carrito
         </button>
       </div>
+    </div>
+
+    <!-- Notificación de producto añadido -->
+    <div v-if="notification" class="notification">
+      {{ notification }}
     </div>
   </div>
 </template>
@@ -35,37 +33,45 @@
 <script>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
-import { useCart } from '@/composables/useCart'; // Asegúrate de que la ruta sea correcta
+import { useCart } from '@/composables/useCart';
+import { useEventBus } from '@vueuse/core';
 
 export default {
   name: 'ProductGrid',
   setup() {
     const products = ref([]);
     const { addToCart } = useCart();
+    const notification = ref('');
+    const eventBus = useEventBus('cart-updates'); // Crear instancia del bus de eventos
 
+    // Obtener productos de FakeStore
     onMounted(async () => {
       try {
-        // Llamada a la API para obtener los productos
-        const response = await axios.get('http://localhost:5000/api/products');
-        const productsData = response.data.data;
-
-        // Verificar si se obtuvieron los productos correctamente
-        if (productsData && Array.isArray(productsData)) {
-          products.value = productsData;
-          console.log('Productos obtenidos:', products.value);
-        } else {
-          console.error('No se recibieron productos válidos:', productsData);
-        }
+        const response = await axios.get('https://fakestoreapi.com/products?limit=50');
+        products.value = response.data;
       } catch (error) {
         console.error('Error al obtener los productos:', error);
       }
     });
 
-    return { products, addToCart };
-  }
-}
+    // Función para agregar el producto al carrito y mostrar notificación
+    const handleAddToCart = (product) => {
+      addToCart(product);
+      // Emitir evento para que el carrito se actualice instantáneamente en CartSidebar
+      eventBus.emit('update-cart', { product });
+      notification.value = `${product.title} añadido al carrito`;
 
+      // Ocultar la notificación después de 2 segundos
+      setTimeout(() => {
+        notification.value = '';
+      }, 2000);
+    };
+
+    return { products, handleAddToCart, notification };
+  }
+};
 </script>
+
 
 <style scoped>
 .product-grid {
@@ -163,3 +169,4 @@ export default {
   }
 }
 </style>
+
