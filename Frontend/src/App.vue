@@ -1,8 +1,9 @@
 <template>
   <div id="app" :class="{ 'cart-open': isCartOpen }">
-    <button @click="isCartOpen = !isCartOpen" class="toggle-cart-btn">🛒Carrito de Compras</button>
+    <button @click="toggleCart" class="toggle-cart-btn">🛒Carrito de Compras</button>
     <router-view></router-view>
-    <CartSidebar :isOpen="isCartOpen" @update:isOpen="isCartOpen = false" />
+    <!-- Forzamos la re-creación de CartSidebar cada vez que isCartOpen cambie -->
+    <CartSidebar :key="isCartOpen" :isOpen="isCartOpen" @update:isOpen="closeCart" />
   </div>
 </template>
 
@@ -18,9 +19,18 @@ export default {
     return {
       isCartOpen: false
     };
+  },
+  methods: {
+    toggleCart() {
+      this.isCartOpen = !this.isCartOpen;
+    },
+    closeCart() {
+      this.isCartOpen = false;
+    }
   }
 };
 </script>
+
 
 <style>
 /* Estilos para mostrar el carrito al lado del contenido */
