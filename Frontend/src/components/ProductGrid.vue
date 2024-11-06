@@ -1,6 +1,11 @@
 <template>
   <div class="product-grid">
-    <div v-for="product in products" :key="product.id" class="product-card">
+    <div
+      v-for="product in products"
+      :key="product.id"
+      class="product-card"
+      @click="handleProductClick(product)"
+    >
       <!-- Mostrar imagen del producto directamente desde FakeStore -->
       <img 
         :src="product.image" 
@@ -16,7 +21,7 @@
         <!-- Botón para agregar al carrito -->
         <button
           class="add-to-cart-btn"
-          @click="handleAddToCart(product)"
+          @click.stop="handleAddToCart(product)"
         >
           Agregar al carrito
         </button>
@@ -38,7 +43,8 @@ import { useEventBus } from '@vueuse/core';
 
 export default {
   name: 'ProductGrid',
-  setup() {
+  emits: ['product-click'], // Emite un evento para abrir el modal con detalles del producto
+  setup(props, { emit }) {
     const products = ref([]);
     const { addToCart } = useCart();
     const notification = ref('');
@@ -54,6 +60,11 @@ export default {
       }
     });
 
+    // Función para manejar el clic en el producto y emitir el evento para el modal
+    const handleProductClick = (product) => {
+      emit('product-click', product); // Emitir el producto seleccionado para abrir el modal
+    };
+
     // Función para agregar el producto al carrito y mostrar notificación
     const handleAddToCart = (product) => {
       addToCart(product);
@@ -67,7 +78,7 @@ export default {
       }, 2000);
     };
 
-    return { products, handleAddToCart, notification };
+    return { products, handleAddToCart, handleProductClick, notification };
   }
 };
 </script>
