@@ -1,4 +1,5 @@
 <template>
+  
   <div class="centro-ayuda">
     <!-- Header -->
     <div class="header">
@@ -58,7 +59,8 @@
               {{ pregunta.titulo }}
               <span class="flecha" :class="{ 'abierto': pregunta.abierta }">▼</span>
             </button>
-            <p v-if="pregunta.abierta" class="pregunta-contenido">{{ pregunta.contenido }}</p>
+            <p v-if="pregunta.abierta" class="pregunta-contenido" v-html="pregunta.contenido"></p>
+
 
             <!-- Opción de '¿Es útil?' dentro del bloque de cada pregunta -->
             <div v-if="pregunta.abierta">
@@ -133,7 +135,10 @@ export default {
       preguntasFrecuentes: [
         { subtema: 'Comprar en Temu', 
           titulo: 'Cómo obtener ayuda antes de comprar', 
-          contenido: 'Contenido de la pregunta...',
+          contenido: `<p>¿Tienes algo en mente? Estamos aquí para ayudarte.</p>
+                <p>Si tienes preguntas sobre artículos específicos, envíanos un mensaje directamente desde la aplicación Temu o a través de Temu.com.</p>
+                <p>Para otras preguntas sobre nuestras políticas u otros temas, te recomendamos que ingreses a nuestro Centro de Ayuda, donde respondemos las preguntas más comunes de nuestros clientes. ¡Felices compras!</p>`,
+   
           abierta: false,
           util: null,
           razon: '',
@@ -141,7 +146,9 @@ export default {
         },
         { subtema: 'Comprar en Temu', 
           titulo: 'Cómo buscar artículos en Temu', 
-          contenido: 'Para comprar, sigue estos pasos...',
+          contenido: `<p>Describe lo que buscas en la barra de búsqueda para iniciar tu búsqueda. Por ejemplo: "vestido de fiesta" o "pantalones cortos de mezclilla blanca". Ingresa varios términos descriptivos para reducir los resultados. Por ejemplo, si usas "vestido negro pequeño" como término de búsqueda generalmente esto producirá más resultados específicos que si escribes "vestido".</p>
+                <p>Los resultados de la búsqueda están ordenados según la relevancia con los artículos que buscas. Puedes utilizar la opción "Clasificar por" para reordenar los resultados de la búsqueda según tus preferencias.</p>
+                <p>Para las búsquedas que deseas seguir en el escritorio, puedes hacer clic en el botón naranja "Guardar" y recibir notificaciones cuando se publiquen nuevos artículos que se ajusten a tu búsqueda.</p>`,
           abierta: false,
           util: null,
           razon: '',
@@ -149,7 +156,17 @@ export default {
         },
         { subtema: 'Comprar en Temu', 
           titulo: 'Cómo comprar un artículo en Temu', 
-          contenido: 'Aceptamos tarjetas de crédito, débito y PayPal...',
+          contenido: `<p>Si tienes alguna pregunta sobre un artículo cuando compras en Temu, no dudes en enviarnos directamente un mensaje.</p>
+                <p>Ten la seguridad de que puedes comprar con confianza con la política de devolución y reembolso de Temu y el Programa de Protección de Compras de Temu.</p>
+                <p>Casi todos los artículos que compraste en Temu se pueden devolver y reembolsar en un plazo de 90 días si no son de tu agrado, con solo algunas excepciones:</p>
+                <ul>
+                  <li>Prendas de vestir que hayan sido usadas, lavadas, dañadas o a las que se les hayan quitado las etiquetas, el embalaje o las pegatinas de higiene, o que formen parte de un juego incompleto.</li>
+                  <li>Artículos etiquetados específicamente como no retornables.</li>
+                  <li>Artículos personalizados.</li>
+                  <li>Algunos regalos.</li>
+                </ul>
+                <p>Además, gracias al Programa de Protección de Compras de Temu, ofrecemos reembolsos completos de cualquier artículo que no llegue, llegue dañado o no sea como se describe.</p>
+                <p>En cuanto hagas clic en la compra y completes el pago, ¡felicitaciones! realizaste una compra en Temu. Te enviaremos un email confirmando los artículos en tu pedido. También puedes ver la información en "Tus pedidos" en la página de tu cuenta en la aplicación Temu o en Temu.com.</p>`,
           abierta: false,
           util: null,
           razon: '',
@@ -157,7 +174,14 @@ export default {
         },
         { subtema: 'Comprar en Temu', 
           titulo: 'Recibí un email sobre un pedido que no hice', 
-          contenido: 'Aceptamos tarjetas de crédito, débito y PayPal...',
+          contenido: `<p>Si recibiste una confirmación por email sobre un pedido que no hiciste, primero consulta con tu familia y amigos para ver si han utilizado accidentalmente los detalles de tu cuenta para realizar un pedido. También puede ser posible que:</p>
+                <ul>
+                  <li>Se haya escrito mal la dirección de email al registrarse para obtener una cuenta en Temu.</li>
+                  <li>Se haya creado una cuenta de Temu con tu dirección de email.</li>
+                  <li>Se haya hecho un pedido desde una computadora en la que iniciaste sesión en Temu.</li>
+                </ul>
+                <p>Si sospechas de actividad fraudulenta, te recomendamos que cambies inmediatamente la contraseña de tu cuenta para protegerla y evitar futuros pedidos no autorizados.</p>`,
+    
           abierta: false,
           util: null,
           razon: '',
@@ -165,7 +189,10 @@ export default {
         },
         { subtema: 'Comprar en Temu', 
           titulo: 'Cómo seguir proveedores comerciales', 
-          contenido: 'Aceptamos tarjetas de crédito, débito y PayPal...',
+          contenido: `<p>¡Lleva un registro de los proveedores que te encantan siguiéndolos en Temu!</p>
+                <p>Lo único que debes hacer es ir a la página del proveedor y hacer clic en el botón "Seguir".</p>
+                <p>Puedes encontrar el proveedor que vende los artículos que amas haciendo clic en su nombre en la página de detalles del producto o en la página de detalles del pedido.</p>
+                <p>Para ver los proveedores que sigues, ve a la página de tu cuenta en la aplicación Temu o en Temu.com. Haz clic en "Proveedores que sigo" para ver los proveedores que te gustaron.</p>`,
           abierta: false,
           util: null,
           razon: '',
@@ -173,7 +200,31 @@ export default {
         },
         { subtema: 'Comprar en Temu', 
           titulo: 'Consejos para comprar de forma segura en Temu', 
-          contenido: 'Aceptamos tarjetas de crédito, débito y PayPal...',
+          contenido: `<p>Estas son algunas de las prácticas recomendadas que garantizan compras seguras en Temu.</p>
+                <h3>Seguridad de la tarjeta de crédito</h3>
+                <ul>
+                  <li>Nunca informes todo el número de tu tarjeta de crédito, número de identificación fiscal o contraseña en un email, mensaje de Temu o teléfono.</li>
+                  <li>Revisa regularmente el estado de cuenta de tu tarjeta de crédito para rastrear tus gastos y la actividad de tu tarjeta.</li>
+                  <li>Lleva un registro de tu tarjeta de crédito: quién está autorizado para usarla y quién tiene acceso a ella.</li>
+                </ul>
+                <h3>Seguridad en Internet o con la computadora</h3>
+                <ul>
+                  <li>Cambia tus contraseñas regularmente. Cuanto más compleja sea una contraseña, mejor estará protegida.</li>
+                  <li>Si compartes tu computadora o dispositivo, cierra sesión en las cuentas de sitios web antes de permitir que otros los usen.</li>
+                </ul>
+                <h3>En Temu</h3>
+                <ul>
+                  <li>Averigua cómo la política de devolución y reembolso de Temu te ayuda a obtener un reembolso total del artículo. Casi todos los artículos que compraste en Temu pueden ser devueltos y reembolsados si no son de tu agrado, con solo algunas excepciones:</li>
+                  <ul>
+                    <li>(1) Prendas de vestir que hayan sido usadas, lavadas, dañadas o a las que se les hayan quitado las etiquetas, el embalaje o las pegatinas de higiene, o que formen parte de un juego incompleto.</li>
+                    <li>(2) Artículos etiquetados específicamente como no retornables.</li>
+                    <li>(3) Artículos personalizados.</li>
+                    <li>(4) Algunos regalos.</li>
+                  </ul>
+                  <li>Obtén información sobre el Programa de Protección de Compras de Temu, que ofrece reembolsos completos de todo artículo que no llegue, llegue dañado o que no sea como se describe.</li>
+                  <li>Registra tus transacciones en Temu. No podemos verificar ni asistir las transacciones hechas fuera de Temu.</li>
+                  <li>Si recibes un email sospechoso en el que se afirma ser de Temu, comunícalo a nuestro servicio de atención al cliente.</li>
+                </ul>`,
           abierta: false,
           util: null,
           razon: '',
@@ -181,12 +232,80 @@ export default {
         },
         { subtema: 'Comprar en Temu', 
           titulo: '¿Temu apoya el envío directo?', 
-          contenido: 'Aceptamos tarjetas de crédito, débito y PayPal...',
+          contenido: `<p>Temu no permite el envío directo. Conectamos a nuestros consumidores con millones de vendedores, fabricantes y marcas de todo el mundo, y vendemos exclusivamente en nuestro sitio web o en la App de Temu.</p>
+                <p>Le recomendamos comprar directamente a través de nuestra plataforma para poder ayudarle con cualquier servicio posventa y para que usted pueda participar en nuestras últimas ofertas y promociones.</p>
+                <p>¡Esperamos que disfrute comprando en Temu!</p>`,
+   
           abierta: false,
           util: null,
           razon: '',
           comentarios: ''
         },
+
+        {subtema: 'Antes de tu compra',
+         titulo: '¿Qué debo saber antes de comprar en Temu?',
+         contenido: `<p>Antes de realizar tu compra en Temu, revisa la disponibilidad de los artículos y la información sobre devoluciones en caso de que necesites cambiar o devolver tu producto.</p>
+                    <p>Lee también nuestras políticas de compra y revisa la información de cada vendedor para asegurarte de que el producto cumpla con tus expectativas.</p>
+                    <p>Si necesitas más información sobre un artículo en específico, puedes contactar al vendedor directamente desde la página del producto.</p>`,
+         abierta: false,
+         util: null,
+         razon: '',
+         comentarios: ''
+        },
+
+        {
+          subtema: 'Antes de tu compra',
+          titulo: '¿Qué debo saber antes de comprar en Temu?',
+          contenido: `<p>Antes de realizar tu compra en Temu, revisa la disponibilidad de los artículos y la información sobre devoluciones en caso de que necesites cambiar o devolver tu producto.</p>
+                      <p>Lee también nuestras políticas de compra y revisa la información de cada vendedor para asegurarte de que el producto cumpla con tus expectativas.</p>
+                      <p>Si necesitas más información sobre un artículo en específico, puedes contactar al vendedor directamente desde la página del producto.</p>`,
+          abierta: false,
+          util: null,
+          razon: '',
+          comentarios: ''
+        },
+
+        {
+          subtema: 'Buscar mi pedido',
+          titulo: '¿Cómo puedo hacer un seguimiento de mi pedido?',
+          contenido: `<p>Para hacer un seguimiento de tu pedido, inicia sesión en tu cuenta de Temu y dirígete a "Mis pedidos". Aquí verás el estado de todos tus pedidos en curso.</p>
+                      <p>Si has recibido un número de seguimiento, puedes utilizarlo en el sitio web del transportista para obtener más información detallada sobre la ubicación de tu pedido.</p>
+                      <p>Si tienes problemas para rastrear tu pedido, comunícate con nuestro equipo de soporte para recibir asistencia.</p>`,
+          abierta: false,
+          util: null,
+          razon: '',
+          comentarios: ''
+        },
+
+        {
+          subtema: 'Cambios de pedido',
+          titulo: '¿Puedo hacer cambios en mi pedido después de haberlo realizado?',
+          contenido: `<p>Una vez que has realizado un pedido, no es posible modificar los artículos seleccionados, pero puedes cancelar el pedido si aún no ha sido procesado.</p>
+                      <p>Para cancelar un pedido, dirígete a "Mis pedidos" en tu cuenta, selecciona el pedido que deseas cancelar y elige la opción de cancelación. Asegúrate de verificar los plazos de cancelación en nuestra política de pedidos.</p>
+                      <p>Si el pedido ya fue procesado, tendrás que esperar a recibirlo y luego realizar una devolución según nuestra política de devoluciones.</p>`,
+          abierta: false,
+          util: null,
+          razon: '',
+          comentarios: ''
+        },
+
+        {
+          subtema: 'Reseñas',
+          titulo: '¿Cómo puedo dejar una reseña sobre un producto?',
+          contenido: `<p>Para dejar una reseña sobre un producto que has comprado, inicia sesión en tu cuenta de Temu, ve a "Mis pedidos" y selecciona el pedido del producto que deseas reseñar.</p>
+                      <p>Una vez en la página de detalles del pedido, encontrarás la opción para calificar y escribir una reseña sobre el producto. Tus opiniones ayudan a otros compradores a tomar decisiones informadas.</p>
+                      <p>Gracias por compartir tu experiencia en Temu.</p>`,
+          abierta: false,
+          util: null,
+          razon: '',
+          comentarios: ''
+        }, 
+
+
+
+
+
+
       ],
       subtemaSeleccionado: 'Comprar en Temu',
     };
@@ -210,9 +329,14 @@ export default {
     marcarUtil(pregunta, valor) {
       pregunta.util = valor;
     },
+
     enviarFeedback(pregunta) {
-      console.log('Comentarios enviados:', pregunta.comentarios);
-    }
+    // Muestra la alerta de éxito
+    alert("¡Haz realizado el comentario con éxito!");
+
+    // Borra el contenido del textarea
+    pregunta.comentarios = '';
+  }
   }
 };
 </script>
