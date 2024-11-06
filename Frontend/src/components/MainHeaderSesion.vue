@@ -89,34 +89,36 @@
           </button>
         </div>
 
-        <!-- Iconos de usuario, ayuda, idioma y carrito -->
         <div class="login_1">
-          <li class="dropdown" @mouseover="showDropdown = true" @mouseleave="showDropdown = false">
-            <a href="#" id="Iniciar_sesion" class="user-icon">
-              <img src="../assets/icono-usuario1.png" alt="Icono usuario" class="icon">
-              <span>Hola, {{ formatEmail(session.user.email) }}</span>
-            </a>
+            <li class="dropdown" @mouseover="showDropdown = true" @mouseleave="showDropdown = false">
+              <a href="#" id="Iniciar_sesion" class="user-icon">
+                <img src="../assets/icono-usuario1.png" alt="Icono usuario" class="icon">
+                <span>Hola, {{ formatEmail(session.user.email) }}</span>
+              </a>
 
-            <div v-if="showDropdown" class="dropdown-menu">
-              <p><span>Hola, {{ formatEmail(session.user.email) }}</span></p>
-              <a href="">Tus pedidos</a>
-              <a href="">Tus reseñas</a>
-              <a href="">Tu perfil</a>
-              <a href="">Cupones y ofertas</a>
-              <a href="">Saldo de crédito</a>
-              <a href="">Proveedores seguidos</a>
-              <a href="">Historial de navegación</a>
-              <a href="">Direcciones</a>
-              <a href="">Seguridad de la cuenta</a>
-              <a href="">Permisos</a>
-              <a href="">Notificaciones</a>
-              <a href="">Cambiar cuenta</a>
-              <button @click="logout">Cerrar sesión</button>
-            </div>
+              <div v-if="showDropdown" class="dropdown-menu">
+                <div class="user-header">
+                  <img src="../assets/icono-usuario1.png" alt="Icono usuario" class="icon-large">
+                  <p><strong>{{ formatEmail(session.user.email) }}</strong></p>
+                </div>
+                <hr>
+                <a href="#" class="dropdown-item">Tus pedidos</a>
+                <a href="#" class="dropdown-item">Tus reseñas</a>
+                <a href="#" class="dropdown-item">Tu perfil</a>
+                <a href="#" class="dropdown-item">Cupones y ofertas</a>
+                <a href="#" class="dropdown-item">Saldo de crédito</a>
+                <a href="#" class="dropdown-item">Proveedores seguidos</a>
+                <a href="#" class="dropdown-item">Historial de navegación</a>
+                <a href="#" class="dropdown-item">Direcciones</a>
+                <a href="#" class="dropdown-item">Seguridad de la cuenta</a>
+                <a href="#" class="dropdown-item">Permisos</a>
+                <a href="#" class="dropdown-item">Notificaciones</a>
+                <a href="#" class="dropdown-item">Cambiar cuenta</a>
+                <button @click="logout" class="dropdown-item logout-btn">Cerrar sesión</button>
+              </div>
+            </li>
+          </div>
 
-
-          </li>
-        </div>
 
         <div class="menu">
           <router-link to="/Ayuda" class="help-icon">
@@ -221,11 +223,7 @@ header {
   flex-direction: column;
 }
 
-.menu:hover{
-/*Amor y amistad 
-  background-color: #f89eac; */
-
-  /*descuentos */
+.menu:hover {
   background-color: #d0cfcf;
   margin: 1px;
   border-radius: 20px;
@@ -263,8 +261,6 @@ header {
   display: flex;
   flex-direction: column;
 }
-
-
 
 .icon {
   height: 20px;
@@ -345,14 +341,12 @@ header {
 .search-bar {
   display: flex;
   align-items: center;
-  
   border-radius: 20px;
   overflow: hidden;
   flex-grow: 1;
   margin: 0 15px;
-  border: 2px solid #080808; /* Borde negro */
+  border: 2px solid #080808;
 }
-
 
 .search-bar input {
   border: none;
@@ -367,9 +361,8 @@ header {
   border: none;
   padding: 5px;
   cursor: pointer;
-  margin:3px;
+  margin: 3px;
   border-radius: 100%;
-  
 }
 
 .user-icon,
@@ -422,35 +415,67 @@ header {
   position: absolute;
   top: 100%;
   left: 0;
-  background-color: white;
-  border: 1px solid #000000;
-  padding: 10px;
-  width: 150px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: #e8e8e8;
+  border: 1px solid #131212;
+  padding: 15px;
+  width: 250px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  text-align: center;
-  font-size: 12px;
+  text-align: left;
+  font-size: 14px;
+  z-index: 1000;
 }
 
-.dropdown-menu button {
-  background-color: #ff8c00;
-  color: white;
-  border: none;
-  padding: 10px;
-  cursor: pointer;
+.dropdown-menu .user-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.dropdown-menu .user-header .icon-large {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.dropdown-item {
+  display: block;
+  padding: 8px 12px;
+  color: #333;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color 0.3s;
   width: 100%;
-  text-align: center;
-  margin-top: 10px;
+}
+
+.dropdown-item:hover {
+  background-color: #aca9a9;
+}
+
+.logout-btn {
+  background: none;
+  border: none;
+  color: #d9534f;
+  text-align: left;
+  width: 100%;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 4px;
+}
+
+.logout-btn:hover {
+  background-color: #ffffff;
 }
 
 .dropdown {
   display: flex;
-  list-style-type: none;
-  /* Elimina el punto del li */
-  align-items: center
+  align-items: center;
 }
+
 .login_1 {
   margin: auto;
   display: flex;
@@ -458,9 +483,11 @@ header {
   text-decoration: none;
   justify-content: center;
 }
+
 .login_1:hover {
   background-color: #f57d05;
   border-radius: 15px;
   padding: 5px;
 }
+
 </style>

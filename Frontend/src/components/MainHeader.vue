@@ -62,74 +62,15 @@
             </router-link>
           </div>
 
+         
           <!-- Menú Categorias -->
           <div class="menu">
             <div class="dropdown">
-              <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                style="color: white; border: none;">
+              <button class="btn dropdown-toggle" type="button" @mouseover="showCategoriasModal = true" style="color: white; border: none;">
                 Categorias
               </button>
-              <ul class="dropdown-menu">
-                <div class="row">
-                  <div class="col-xl-9">
-                    <div class="row">
-                      <!-- Izquierda -->
-                      <div id="Izquierda" class="col-6 col-sm-5">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                      </div>
-                      <!-- Derecha -->
-                      <div id="Derecha" class="col-4 col-sm-6">
-                        <img src="@/assets/apple-icon.png" alt="" width="50px" height="50px">
-                        <img src="@/assets/apple-icon.png" alt="" width="50px" height="50px">
-                        <img src="@/assets/apple-icon.png" alt="" width="50px" height="50px">
-                        <img src="@/assets/apple-icon.png" alt="" width="50px" height="50px">
-                        <img src="@/assets/apple-icon.png" alt="" width="50px" height="50px">
-                        <img src="@/assets/apple-icon.png" alt="" width="50px" height="50px">
-                        <img src="@/assets/apple-icon.png" alt="" width="50px" height="50px">
-                        <img src="@/assets/apple-icon.png" alt="" width="50px" height="50px">
-                        <img src="@/assets/apple-icon.png" alt="" width="50px" height="50px">
-                        <img src="@/assets/apple-icon.png" alt="" width="50px" height="50px">
-                        <img src="@/assets/apple-icon.png" alt="" width="50px" height="50px">
-                        <img src="@/assets/apple-icon.png" alt="" width="50px" height="50px">
-                        <img src="@/assets/apple-icon.png" alt="" width="50px" height="50px">
-                        <img src="@/assets/apple-icon.png" alt="" width="50px" height="50px">
-                        <img src="@/assets/apple-icon.png" alt="" width="50px" height="50px">
-                        <img src="@/assets/apple-icon.png" alt="" width="50px" height="50px">
-                        <img src="@/assets/apple-icon.png" alt="" width="50px" height="50px">
-                        <img src="@/assets/apple-icon.png" alt="" width="50px" height="50px">
-                        <img src="@/assets/apple-icon.png" alt="" width="50px" height="50px">
-                        <img src="@/assets/apple-icon.png" alt="" width="50px" height="50px">
-                        <img src="@/assets/apple-icon.png" alt="" width="50px" height="50px">
-                        <img src="@/assets/apple-icon.png" alt="" width="50px" height="50px">
-                        <img src="@/assets/apple-icon.png" alt="" width="50px" height="50px">
-                        <img src="@/assets/apple-icon.png" alt="" width="50px" height="50px">
-                        <img src="@/assets/apple-icon.png" alt="" width="50px" height="50px">
-                        <img src="@/assets/apple-icon.png" alt="" width="50px" height="50px">
-                        <img src="@/assets/apple-icon.png" alt="" width="50px" height="50px">
-                        <img src="@/assets/apple-icon.png" alt="" width="50px" height="50px">
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </ul>
             </div>
+            <CategoriasModal :show="showCategoriasModal" @close="showCategoriasModal = false" @mouseleave="showCategoriasModal = false" />
           </div>
         </nav>
 
@@ -180,21 +121,26 @@
  
 
 <script>
-import Login from '@/components/Login.vue'
+import Login from '@/components/Login.vue';
 import CartSidebar from '@/components/CartSidebar.vue';
+import CategoriasModal from './CategoriasModal.vue';
 
 export default {
   components: {
     Login,
     CartSidebar,
+    CategoriasModal,
   },
   data() {
     return {
       isCartOpen: false, // Controla la visibilidad del carrito
-      showModal: false
-    }
-  }
-}
+      showModal: false,  // Controla la visibilidad del modal de categorías
+      showCategoriasModal: false, // Controla la visibilidad del modal de categorías
+
+      
+    };
+  },
+};
 </script>
 
 <style scoped>
