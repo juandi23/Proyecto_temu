@@ -14,7 +14,7 @@ if (savedCart) {
 // Función para guardar el carrito en localStorage y emitir el evento
 function guardarCarrito() {
   localStorage.setItem('cart', JSON.stringify(cartItems.value));
-  cartUpdatesBus.emit(cartItems.value); // Emitir el estado actualizado del carrito
+  cartUpdatesBus.emit('update-cart', { cartItems: cartItems.value }); // Emitir el estado actualizado del carrito
 }
 
 export function useCart() {

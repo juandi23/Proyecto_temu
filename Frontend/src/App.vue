@@ -1,8 +1,8 @@
 <template>
-  <div id="app">
-    <button @click="isCartOpen = !isCartOpen" class="toggle-cart-btn">🛒 Toggle Carrito</button>
+  <div id="app" :class="{ 'cart-open': isCartOpen }">
+    <button @click="isCartOpen = !isCartOpen" class="toggle-cart-btn">🛒Carrito de Compras</button>
     <router-view></router-view>
-    <CartSidebar :isOpen="isCartOpen" />
+    <CartSidebar :isOpen="isCartOpen" @update:isOpen="isCartOpen = false" />
   </div>
 </template>
 
@@ -16,14 +16,19 @@ export default {
   },
   data() {
     return {
-      isCartOpen: false // Controla la visibilidad del carrito
+      isCartOpen: false
     };
   }
 };
 </script>
 
 <style>
-/* Estilos globales para tu aplicación */
+/* Estilos para mostrar el carrito al lado del contenido */
+#app.cart-open {
+  margin-right: 350px; /* Debe coincidir con el ancho del carrito */
+  transition: margin-right 0.3s ease;
+}
+
 .toggle-cart-btn {
   position: fixed;
   top: 20px;
@@ -34,5 +39,6 @@ export default {
   padding: 10px;
   cursor: pointer;
   border-radius: 5px;
+  z-index: 2000;
 }
 </style>

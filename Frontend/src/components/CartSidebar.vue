@@ -3,7 +3,8 @@
     <!-- Contenido del carrito -->
     <div class="cart-header">
       <h2>Subtotal: {{ cartTotal }} COP</h2>
-      <button @click="checkout" class="checkout-btn">Hacer pedido</button>
+      <!-- Botón de "Hacer pedido" con clase de Snipcart -->
+      <button class="checkout-btn snipcart-checkout" @click="syncCartWithSnipcart">Hacer pedido</button>
     </div>
     <div class="cart-items">
       <div v-for="item in cartItems" :key="item.id" class="cart-item">
@@ -40,9 +41,9 @@ export default {
   },
   setup() {
     const cartItems = ref([]);
-    const eventBus = useEventBus('cart-updates'); // Obtener el event bus
+    const eventBus = useEventBus('cart-updates'); // Event bus para sincronización
 
-    // Cargar el carrito desde localStorage al iniciar el componente
+    // Cargar el carrito desde localStorage al montar el componente
     onMounted(() => {
       const savedCart = localStorage.getItem('cart');
       if (savedCart) {
@@ -50,15 +51,9 @@ export default {
       }
     });
 
-    // Escuchar eventos del bus para actualizaciones en tiempo real
-    eventBus.on('update-cart', ({ product }) => {
-      const existingProduct = cartItems.value.find(item => item.id === product.id);
-      if (existingProduct) {
-        existingProduct.quantity += 1;
-      } else {
-        cartItems.value.push({ ...product, quantity: 1 });
-      }
-      guardarCarrito(); // Guardar el carrito en localStorage
+    // Escuchar eventos de actualización del carrito
+    eventBus.on('update-cart', (updatedCartItems) => {
+      cartItems.value = updatedCartItems;
     });
 
     // Función para guardar el carrito en localStorage
@@ -66,48 +61,62 @@ export default {
       localStorage.setItem('cart', JSON.stringify(cartItems.value));
     };
 
+    // Actualizar localStorage cuando cambie el carrito
     watch(cartItems, guardarCarrito, { deep: true });
 
-    // Función para calcular el total del carrito
+    // Calcular el total del carrito
     const cartTotal = computed(() => {
       return cartItems.value.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
     });
 
+    // Sincronizar el carrito con Snipcart para el checkout
+    const syncCartWithSnipcart = () => {
+      if (typeof Snipcart !== 'undefined') {
+        Snipcart.api.cart.empty(); // Vaciar el carrito de Snipcart
+        cartItems.value.forEach(item => {
+          Snipcart.api.cart.items.add({
+            id: item.id,
+            name: item.title,
+            price: item.price,
+            url: window.location.href,
+            image: item.image,
+            quantity: item.quantity
+          });
+        });
+      }
+    };
+
     // Función para aumentar la cantidad de un producto
-    function increaseQuantity(item) {
+    const increaseQuantity = (item) => {
       const cartItem = cartItems.value.find(cartItem => cartItem.id === item.id);
       if (cartItem) {
         cartItem.quantity += 1;
-        cartItems.value = [...cartItems.value]; // Forzar actualización reactiva
+        guardarCarrito();
       }
-    }
+    };
 
     // Función para disminuir la cantidad de un producto
-    function decreaseQuantity(item) {
+    const decreaseQuantity = (item) => {
       const cartItem = cartItems.value.find(cartItem => cartItem.id === item.id);
       if (cartItem && cartItem.quantity > 1) {
         cartItem.quantity -= 1;
-        cartItems.value = [...cartItems.value]; // Forzar actualización reactiva
+        guardarCarrito();
       } else if (cartItem && cartItem.quantity === 1) {
         removeFromCart(item.id);
       }
-    }
-
-    // Función para eliminar un producto del carrito
-    function removeFromCart(itemId) {
-      cartItems.value = cartItems.value.filter(item => item.id !== itemId);
-      cartItems.value = [...cartItems.value]; // Forzar actualización reactiva
-    }
-
-    // Función de checkout (proceso de pago)
-    const checkout = () => {
-      alert('Implementar proceso de pago');
     };
 
-    return { cartItems, increaseQuantity, decreaseQuantity, cartTotal, checkout, removeFromCart };
+    // Función para eliminar un producto del carrito
+    const removeFromCart = (itemId) => {
+      cartItems.value = cartItems.value.filter(item => item.id !== itemId);
+      guardarCarrito();
+    };
+
+    return { cartItems, increaseQuantity, decreaseQuantity, cartTotal, syncCartWithSnipcart, removeFromCart };
   }
 };
 </script>
+
 
 
   <style scoped>

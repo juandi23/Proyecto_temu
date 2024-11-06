@@ -7,7 +7,8 @@ import ViewCincoEstrellas from '@/views/ViewCincoEstrellas.vue';
 import ViewAmorAmistad from '@/views/ViewAmorAmistad.vue';
 import ViewRecienLlegados from '@/views/ViewRecienLlegados.vue';
 import ViewAyuda from '@/views/ViewAyuda.vue';
-import ResetPasswordView from '../views/ResetPasswordView.vue'; // Importación del nuevo componente
+import ResetPasswordView from '../views/ResetPasswordView.vue';
+import ProductDetailView from '../views/ProductDetailView.vue'; // Importación de la vista de detalle del producto
 
 const routes = [
   { path: '/', component: HomeView },
@@ -18,7 +19,8 @@ const routes = [
   { path: '/Descuentos', component: ViewAmorAmistad },
   { path: '/RecienLlegados', component: ViewRecienLlegados },
   { path: '/Ayuda', component: ViewAyuda },
-  { path: '/reset-password/:token', component: ResetPasswordView, name: 'ResetPassword' } // Nueva ruta
+  { path: '/reset-password/:token', component: ResetPasswordView, name: 'ResetPassword' },
+  { path: '/product/:id', component: ProductDetailView, name: 'ProductDetail', props: true } // Ruta para el detalle del producto
 ];
 
 const router = createRouter({

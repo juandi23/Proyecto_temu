@@ -4,7 +4,7 @@
       v-for="product in products"
       :key="product.id"
       class="product-card"
-      @click="handleProductClick(product)"
+      @click="goToProductDetail(product.id)"
     >
       <!-- Mostrar imagen del producto directamente desde FakeStore -->
       <img 
@@ -40,15 +40,16 @@ import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { useCart } from '@/composables/useCart';
 import { useEventBus } from '@vueuse/core';
+import { useRouter } from 'vue-router';
 
 export default {
   name: 'ProductGrid',
-  emits: ['product-click'], // Emite un evento para abrir el modal con detalles del producto
-  setup(props, { emit }) {
+  setup() {
     const products = ref([]);
-    const { addToCart } = useCart();
+    const { addToCart, cartItems } = useCart(); // Obtenemos cartItems para emitir el estado completo del carrito
     const notification = ref('');
     const eventBus = useEventBus('cart-updates'); // Crear instancia del bus de eventos
+    const router = useRouter(); // Instancia de Vue Router para redirigir
 
     // Obtener productos de FakeStore
     onMounted(async () => {
@@ -60,16 +61,16 @@ export default {
       }
     });
 
-    // Función para manejar el clic en el producto y emitir el evento para el modal
-    const handleProductClick = (product) => {
-      emit('product-click', product); // Emitir el producto seleccionado para abrir el modal
+    // Función para redirigir a la página de detalles del producto
+    const goToProductDetail = (id) => {
+      router.push({ name: 'ProductDetail', params: { id } }); // Navega a la ruta de detalles con el ID del producto
     };
 
     // Función para agregar el producto al carrito y mostrar notificación
     const handleAddToCart = (product) => {
       addToCart(product);
-      // Emitir evento para que el carrito se actualice instantáneamente en CartSidebar
-      eventBus.emit('update-cart', { product });
+      // Emitir evento con el carrito completo para actualizar CartSidebar
+      eventBus.emit('update-cart', cartItems.value);
       notification.value = `${product.title} añadido al carrito`;
 
       // Ocultar la notificación después de 2 segundos
@@ -78,7 +79,7 @@ export default {
       }, 2000);
     };
 
-    return { products, handleAddToCart, handleProductClick, notification };
+    return { products, handleAddToCart, goToProductDetail, notification };
   }
 };
 </script>
