@@ -1,16 +1,20 @@
 {
   "dependencies": {
     "@popperjs/core": "^2.11.8",
+    "@vueuse/core": "^11.2.0",
     "body-parser": "^1.20.3",
     "bootstrap": "^5.3.3",
     "dotenv": "^16.4.5",
     "express": "^4.21.0",
+    "geojs": "^1.12.3",
     "google-auth-library": "^9.14.1",
     "jsonwebtoken": "^9.0.2",
+    "leaflet": "^1.9.4",
     "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.9.15",
     "pinia": "^2.2.2",
     "typeorm": "^0.3.20",
+    "vue-i18n": "^10.0.4",
     "vue3-google-oauth2": "^1.0.7"
   },
   "devDependencies": {

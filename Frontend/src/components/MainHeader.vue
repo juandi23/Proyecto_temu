@@ -29,7 +29,6 @@
     <!-- Barra inferior rosada -->
     <div class="bottom-bar">
       <div class="bottom-bar-content">
-
         <div class="menu">
           <router-link to="/">
             <!-- Logo -->
@@ -40,7 +39,6 @@
         <!-- Navegación -->
         <nav class="nav-links">
           <div class="masvendidos">
-
             <div class="menu">
               <router-link to="MasVendidos">
                 <img src="../assets/icono-mas-vendidos.png" alt="Más vendidos" class="icon-small">
@@ -57,13 +55,6 @@
             </router-link>
           </div>
 
-          <!-- Menú Amor Y Amistad 
-          <div class="menu">
-            <router-link to="/AmoryAmistad">
-              <img src="../assets/icono-corazon.png" alt="Icono corazón" class="icon-small"> Amor y Amistad
-            </router-link>
-          </div>
--->
           <!-- Menú OFERTAS -->
           <div class="menu">
             <router-link to="/Descuentos">
@@ -71,10 +62,8 @@
             </router-link>
           </div>
 
-
           <!-- Menú Categorias -->
           <div class="menu">
-            <!-- Dropdown -->
             <div class="dropdown">
               <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
                 style="color: white; border: none;">
@@ -173,8 +162,10 @@
             <span>ES</span>
           </a>
         </div>
+        
+        <!-- Botón de carrito con Snipcart -->
         <div class="menu">
-          <a href="#" class="cart-icon">
+          <a href="#" class="cart-icon snipcart-checkout">
             <img src="../assets/icono-carro-compras.png" alt="Icono carrito" class="icon">
           </a>
         </div>
@@ -184,6 +175,7 @@
     </div>
   </header>
 </template>
+ 
 
 <script>
 import Login from '@/components/Login.vue'

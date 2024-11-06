@@ -1,6 +1,7 @@
 <template>
   <div class="product-grid">
     <div v-for="product in products" :key="product.id" class="product-card">
+      <!-- Mostrar imagen del producto si está disponible, de lo contrario, mostrar imagen por defecto -->
       <img 
         v-if="product.images && product.images.length > 0" 
         :src="product.images[0].imageUrl" 
@@ -9,14 +10,23 @@
       />
       <img 
         v-else 
-        
+        src="ruta_de_imagen_por_defecto.jpg" 
         alt="Imagen no disponible" 
         class="product-image" 
       />
+      
+      <!-- Detalles del producto -->
       <div class="product-details">
         <h3 class="product-name">{{ product.name }}</h3>
         <p class="product-price">{{ product.price }} COP</p>
-        <button class="add-to-cart-btn">Agregar al carrito</button>
+        
+        <!-- Botón para agregar al carrito -->
+        <button
+          class="add-to-cart-btn"
+          @click="addToCart(product)"
+        >
+          Agregar al carrito
+        </button>
       </div>
     </div>
   </div>
@@ -25,27 +35,33 @@
 <script>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
+import { useCart } from '@/composables/useCart'; // Asegúrate de que la ruta sea correcta
 
 export default {
   name: 'ProductGrid',
   setup() {
     const products = ref([]);
+    const { addToCart } = useCart();
 
     onMounted(async () => {
       try {
-        // Obtener los productos del backend con sus imágenes incluidas
+        // Llamada a la API para obtener los productos
         const response = await axios.get('http://localhost:5000/api/products');
         const productsData = response.data.data;
 
-        // Asignar los productos obtenidos a la variable "products"
-        products.value = productsData;
-        console.log('Productos obtenidos:', products.value);
+        // Verificar si se obtuvieron los productos correctamente
+        if (productsData && Array.isArray(productsData)) {
+          products.value = productsData;
+          console.log('Productos obtenidos:', products.value);
+        } else {
+          console.error('No se recibieron productos válidos:', productsData);
+        }
       } catch (error) {
         console.error('Error al obtener los productos:', error);
       }
     });
 
-    return { products };
+    return { products, addToCart };
   }
 }
 </script>
@@ -146,4 +162,3 @@ export default {
   }
 }
 </style>
-
