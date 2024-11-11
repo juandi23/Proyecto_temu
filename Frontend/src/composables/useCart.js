@@ -1,20 +1,25 @@
-// Archivo: src/composables/useCart.js
-import { ref, computed } from 'vue';
-import { useEventBus } from '@vueuse/core';
+import { ref } from 'vue';
 
+// Estado global del carrito
 const cartItems = ref([]);
-const cartUpdatesBus = useEventBus('cart-updates'); // Creamos una instancia específica del bus de eventos
 
 // Cargar el carrito desde localStorage al iniciar
 const savedCart = localStorage.getItem('cart');
 if (savedCart) {
-  cartItems.value = JSON.parse(savedCart);
+  try {
+    const parsedCart = JSON.parse(savedCart);
+    if (Array.isArray(parsedCart)) {
+      cartItems.value = parsedCart;
+    }
+  } catch (error) {
+    console.error('Error al parsear el carrito de localStorage:', error);
+  }
 }
 
-// Función para guardar el carrito en localStorage y emitir el evento
+// Función para guardar el carrito en localStorage
 function guardarCarrito() {
   localStorage.setItem('cart', JSON.stringify(cartItems.value));
-  cartUpdatesBus.emit('update-cart', { cartItems: cartItems.value }); // Emitir el estado actualizado del carrito
+  console.log('Carrito guardado y actualizado:', cartItems.value);
 }
 
 export function useCart() {
@@ -25,7 +30,7 @@ export function useCart() {
     } else {
       cartItems.value.push({ ...product, quantity: 1 });
     }
-    guardarCarrito(); // Guardar el carrito después de cada cambio
+    guardarCarrito();
   };
 
   const removeFromCart = (productId) => {
@@ -51,16 +56,11 @@ export function useCart() {
     }
   };
 
-  const cartTotal = computed(() =>
-    cartItems.value.reduce((total, item) => total + item.price * item.quantity, 0)
-  );
-
   return {
     cartItems,
     addToCart,
     removeFromCart,
     increaseQuantity,
     decreaseQuantity,
-    cartTotal,
   };
 }

@@ -3,7 +3,6 @@
     <!-- Contenido del carrito -->
     <div class="cart-header">
       <h2>Subtotal: {{ cartTotal }} COP</h2>
-      <!-- Botón de "Hacer pedido" con clase de Snipcart -->
       <button class="checkout-btn snipcart-checkout" @click="syncCartWithSnipcart">Hacer pedido</button>
     </div>
     <div class="cart-items">
@@ -30,38 +29,39 @@
 
 <script>
 import { ref, computed, onMounted, watch } from 'vue';
-import { useEventBus } from '@vueuse/core';
 
 export default {
   props: {
     isOpen: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
   setup() {
     const cartItems = ref([]);
-    const eventBus = useEventBus('cart-updates'); // Event bus para sincronización
 
-    // Cargar el carrito desde localStorage al montar el componente
+    // Cargar el carrito desde localStorage
     onMounted(() => {
-      const savedCart = localStorage.getItem('cart');
-      if (savedCart) {
-        cartItems.value = JSON.parse(savedCart);
+      try {
+        const savedCart = localStorage.getItem('cart');
+        if (savedCart) {
+          cartItems.value = JSON.parse(savedCart);
+        }
+      } catch (error) {
+        console.error('Error al cargar el carrito desde localStorage:', error);
       }
-    });
-
-    // Escuchar eventos de actualización del carrito
-    eventBus.on('update-cart', (updatedCartItems) => {
-      cartItems.value = updatedCartItems;
     });
 
     // Función para guardar el carrito en localStorage
     const guardarCarrito = () => {
-      localStorage.setItem('cart', JSON.stringify(cartItems.value));
+      try {
+        localStorage.setItem('cart', JSON.stringify(cartItems.value));
+      } catch (error) {
+        console.error('Error al guardar el carrito en localStorage:', error);
+      }
     };
 
-    // Actualizar localStorage cuando cambie el carrito
+    // Watch para actualizar el carrito en localStorage
     watch(cartItems, guardarCarrito, { deep: true });
 
     // Calcular el total del carrito
@@ -69,24 +69,26 @@ export default {
       return cartItems.value.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
     });
 
-    // Sincronizar el carrito con Snipcart para el checkout
+    // Función para sincronizar el carrito con Snipcart
     const syncCartWithSnipcart = () => {
-      if (typeof Snipcart !== 'undefined') {
-        Snipcart.api.cart.empty(); // Vaciar el carrito de Snipcart
-        cartItems.value.forEach(item => {
-          Snipcart.api.cart.items.add({
-            id: item.id,
-            name: item.title,
-            price: item.price,
-            url: window.location.href,
-            image: item.image,
-            quantity: item.quantity
-          });
-        });
+  try {
+    if (window.Snipcart && Snipcart.api && Snipcart.api.cart) {
+      // Verificar si la ruta actual es "/cart" antes de navegar
+      if (!window.location.pathname.includes('/cart')) {
+        document.querySelector('.snipcart-checkout').click();
+      } else {
+        console.log('Ya estás en la página del carrito. No es necesario navegar.');
       }
-    };
+    } else {
+      console.error('La API de Snipcart no está disponible.');
+    }
+  } catch (error) {
+    console.error('Error al mostrar el carrito:', error);
+  }
+};
 
-    // Función para aumentar la cantidad de un producto
+
+    // Funciones de manejo de la cantidad
     const increaseQuantity = (item) => {
       const cartItem = cartItems.value.find(cartItem => cartItem.id === item.id);
       if (cartItem) {
@@ -95,7 +97,6 @@ export default {
       }
     };
 
-    // Función para disminuir la cantidad de un producto
     const decreaseQuantity = (item) => {
       const cartItem = cartItems.value.find(cartItem => cartItem.id === item.id);
       if (cartItem && cartItem.quantity > 1) {
@@ -106,17 +107,22 @@ export default {
       }
     };
 
-    // Función para eliminar un producto del carrito
     const removeFromCart = (itemId) => {
       cartItems.value = cartItems.value.filter(item => item.id !== itemId);
       guardarCarrito();
     };
 
-    return { cartItems, increaseQuantity, decreaseQuantity, cartTotal, syncCartWithSnipcart, removeFromCart };
-  }
+    return {
+      cartItems,
+      increaseQuantity,
+      decreaseQuantity,
+      cartTotal,
+      syncCartWithSnipcart,
+      removeFromCart,
+    };
+  },
 };
 </script>
-
 
 
   <style scoped>
