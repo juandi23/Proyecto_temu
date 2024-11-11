@@ -6,32 +6,15 @@
       class="product-card"
       @click="goToProductDetail(product.id)"
     >
-      <!-- Mostrar imagen del producto directamente desde FakeStore -->
-      <img 
-        :src="product.image" 
-        :alt="product.title" 
-        class="product-image" 
-      />
-      
-      <!-- Detalles del producto -->
+      <img :src="product.image" :alt="product.title" class="product-image" />
       <div class="product-details">
         <h3 class="product-name">{{ product.title }}</h3>
         <p class="product-price">{{ product.price }} USD</p>
-        
-        <!-- Botón para agregar al carrito -->
-        <button
-          class="add-to-cart-btn"
-          @click.stop="handleAddToCart(product)"
-        >
-          Agregar al carrito
-        </button>
+        <button class="add-to-cart-btn" @click.stop="handleAddToCart(product)">Agregar al carrito</button>
       </div>
     </div>
 
-    <!-- Notificación de producto añadido -->
-    <div v-if="notification" class="notification">
-      {{ notification }}
-    </div>
+    <div v-if="notification" class="notification">{{ notification }}</div>
   </div>
 </template>
 
@@ -39,17 +22,15 @@
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { useCart } from '@/composables/useCart';
-import { useEventBus } from '@vueuse/core';
 import { useRouter } from 'vue-router';
 
 export default {
   name: 'ProductGrid',
   setup() {
     const products = ref([]);
-    const { addToCart, cartItems } = useCart(); // Obtenemos cartItems para emitir el estado completo del carrito
+    const { addToCart, cartItems } = useCart();
     const notification = ref('');
-    const eventBus = useEventBus('cart-updates'); // Crear instancia del bus de eventos
-    const router = useRouter(); // Instancia de Vue Router para redirigir
+    const router = useRouter();
 
     // Obtener productos de FakeStore
     onMounted(async () => {
@@ -61,28 +42,28 @@ export default {
       }
     });
 
-    // Función para redirigir a la página de detalles del producto
+    // Redirigir a la página de detalles del producto
     const goToProductDetail = (id) => {
-      router.push({ name: 'ProductDetail', params: { id } }); // Navega a la ruta de detalles con el ID del producto
+      router.push({ name: 'ProductDetail', params: { id } });
     };
 
-    // Función para agregar el producto al carrito y mostrar notificación
+    // Función para agregar al carrito
     const handleAddToCart = (product) => {
       addToCart(product);
-      // Emitir evento con el carrito completo para actualizar CartSidebar
-      eventBus.emit('update-cart', cartItems.value);
       notification.value = `${product.title} añadido al carrito`;
 
-      // Ocultar la notificación después de 2 segundos
       setTimeout(() => {
         notification.value = '';
       }, 2000);
     };
 
     return { products, handleAddToCart, goToProductDetail, notification };
-  }
+  },
 };
 </script>
+
+
+
 
 
 <style scoped>
