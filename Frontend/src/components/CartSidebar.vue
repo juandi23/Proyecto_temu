@@ -72,20 +72,20 @@ export default {
     // Función para sincronizar el carrito con Snipcart
     const syncCartWithSnipcart = () => {
   try {
-    if (window.Snipcart && Snipcart.api && Snipcart.api.cart) {
-      // Verificar si la ruta actual es "/cart" antes de navegar
-      if (!window.location.pathname.includes('/cart')) {
-        document.querySelector('.snipcart-checkout').click();
+    if (window.Snipcart && window.Snipcart.api && typeof window.Snipcart.api.theme.cart.open === 'function') {
+      if (!window.location.href.includes('/cart')) {
+        window.Snipcart.api.theme.cart.open(); // Abre el carrito usando la API de Snipcart
       } else {
-        console.log('Ya estás en la página del carrito. No es necesario navegar.');
+        console.log('Ya estás en la página del carrito. No es necesario navegar de nuevo.');
       }
     } else {
-      console.error('La API de Snipcart no está disponible.');
+      console.error('La API de Snipcart no está disponible o no está cargada completamente.');
     }
   } catch (error) {
     console.error('Error al mostrar el carrito:', error);
   }
 };
+
 
 
     // Funciones de manejo de la cantidad
@@ -123,6 +123,7 @@ export default {
   },
 };
 </script>
+
 
 
   <style scoped>

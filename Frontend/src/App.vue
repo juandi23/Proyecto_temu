@@ -20,6 +20,17 @@ export default {
       isCartOpen: false
     };
   },
+  mounted() {
+    // Evento que se ejecuta cuando Snipcart está completamente inicializado
+    if (window.Snipcart) {
+      window.Snipcart.events.on('snipcart.initialized', () => {
+        console.log('Snipcart está inicializado y listo para usarse');
+        // Aquí puedes llamar a las funciones de Snipcart sin problema
+      });
+    } else {
+      console.error('Snipcart no está disponible en el momento de la carga.');
+    }
+  },
   methods: {
     toggleCart() {
       this.isCartOpen = !this.isCartOpen;
@@ -30,7 +41,6 @@ export default {
   }
 };
 </script>
-
 
 <style>
 /* Estilos para mostrar el carrito al lado del contenido */

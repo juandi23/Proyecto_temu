@@ -9,47 +9,59 @@ import * as dotenv from 'dotenv';
 import cors from 'cors';
 import path from 'path';
 
+// Cargar variables de entorno
 dotenv.config();
-console.log('JWT_SECRET:', process.env.JWT_SECRET); // Agrega esta línea para verificar
-
+console.log('JWT_SECRET:', process.env.JWT_SECRET);
 
 const app = express();
-const port = process.env.PORT || 5000;
 const jwtSecret = process.env.JWT_SECRET || 'default_secret';
 
 // Configuración de CORS para permitir solo solicitudes desde http://localhost:5173
 app.use(cors({
-    origin: 'http://localhost:5173', // Solo permite este origen
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos permitidos
-    credentials: true // Permite el envío de cookies si es necesario
+    origin: 'http://localhost:5173',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true
 }));
 
+// Configuración de middlewares
 app.use(express.json());
 
-// Sirve la carpeta 'uploads' como contenido estático
+// Servir la carpeta 'uploads' como contenido estático
 app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
 
 // Rutas
 app.use('/api/categories', CategoryRouter);
 app.use('/api/tasks', taskRouter);
-app.use('/api/users', userRouter);
+app.use('/api/users', userRouter); // Ruta que incluye la autenticación
 app.use('/api/products', ProductRouter);
 app.use('/api', imageProductRouter);
 
 // Middleware de manejo de errores
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
-    console.error(err.stack);
-    res.status(err.status || 500).json({ message: err.message || 'Internal Server Error' });
+    console.error('Error en la aplicación:', err.stack);
+    res.status(err.status || 500).json({
+        message: err.message || 'Internal Server Error',
+        ...(process.env.NODE_ENV !== 'production' && { error: err }) // Incluye detalles del error en entornos de desarrollo y prueba
+    });
 });
 
-// Iniciar el servidor y conectar a la base de datos
-dataSource.initialize()
-    .then(() => {
-        app.listen(port, () => {
-            console.log(`Servidor corriendo en http://localhost:${port}`);
+// Inicialización de la base de datos solo si no está ya inicializada
+console.log('Iniciando la aplicación...');
+console.log('Configurando conexión a la base de datos...');
+
+if (!dataSource.isInitialized) {
+    dataSource.initialize()
+        .then(() => {
+            console.log('Conexión a la base de datos exitosa');
+        })
+        .catch((error: any) => {
+            console.error('Error al conectar a la base de datos', error);
+            // Evitar que las pruebas se interrumpan
+            if (process.env.NODE_ENV !== 'test') {
+                process.exit(1);
+            }
         });
-    })
-    .catch((error: any) => {
-        console.error('Error al conectar a la base de datos', error);
-        process.exit(1);
-    });
+}
+
+console.log('Exportando instancia de la aplicación...');
+export default app; // Exporta la instancia de `app`
