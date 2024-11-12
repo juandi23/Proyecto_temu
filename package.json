@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@google-cloud/translate": "^8.5.0",
     "@popperjs/core": "^2.11.8",
     "@vueuse/core": "^11.2.0",
     "body-parser": "^1.20.3",

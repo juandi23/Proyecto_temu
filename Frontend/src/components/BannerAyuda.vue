@@ -1,6 +1,8 @@
 <template>
   
-  <div class="centro-ayuda">
+    <div class="centro-ayuda">
+    <!-- Botón para traducir el contenido -->
+    <button @click="traducirContenido">Traducir al ingles</button>
     <!-- Header -->
     <div class="header">
       <div class="breadcrumb">Inicio &gt; Centro de ayuda</div>
@@ -114,6 +116,8 @@
 </template>
 
 <script>
+import { translateText } from '@/services/translateService';
+
 export default {
   data() {
     return {
@@ -332,6 +336,38 @@ export default {
     }
   },
   methods: {
+
+    async traducirContenido() {
+  try {
+    // Traducción de temas recomendados
+    for (let i = 0; i < this.temasRecomendados.length; i++) {
+      if (this.temasRecomendados[i]) {
+        this.temasRecomendados[i] = await translateText(this.temasRecomendados[i], 'en');
+      }
+    }
+
+    // Traducción de preguntas frecuentes
+    for (let i = 0; i < this.preguntasFrecuentes.length; i++) {
+      if (this.preguntasFrecuentes[i].titulo) {
+        this.preguntasFrecuentes[i].titulo = await translateText(this.preguntasFrecuentes[i].titulo, 'en');
+      }
+      if (this.preguntasFrecuentes[i].contenido) {
+        // Convierte contenido HTML a texto plano si es necesario
+        let contenidoTexto = this.preguntasFrecuentes[i].contenido.replace(/<[^>]+>/g, ''); // Quita etiquetas HTML
+        this.preguntasFrecuentes[i].contenido = await translateText(contenidoTexto, 'en');
+      }
+    }
+
+    alert('Traducción completada');
+  } catch (error) {
+    console.error('Error al traducir el contenido:', error);
+    alert('Hubo un error al traducir el contenido. Por favor, intenta de nuevo.');
+  }
+},
+
+
+
+
     toggleTema(index) {
       this.temasAyuda[index].abierto = !this.temasAyuda[index].abierto;
     },
