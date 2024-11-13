@@ -76,7 +76,8 @@
             <Router-link to="/RecienLlegados"> Recién llegados </router-link>
           </div>
           <div class="menu">
-            <a href="#">Categorías <span>&#9660;</span></a>
+            <a href="#" @mouseover="showCategoriasModal = true">Categorías <span>&#9660;</span></a>
+            <CategoriasModal :show="showCategoriasModal" @close="showCategoriasModal = false" @mouseleave="showCategoriasModal = false" />
           </div>
         </nav>
 
@@ -134,8 +135,10 @@
           </a>
         </div>
         <div class="menu">
-          <a href="#" class="cart-icon">
-            <img src="../assets/icono-carro-compras1.png" alt="Icono carrito" class="icon">
+          <a href="#" class="cart-icon" @click="isCartOpen = !isCartOpen">
+            <img src="../assets/icono-carro-compras1.png" alt="Icono carrito" class="icon" >
+            <router-view></router-view>
+            <CartSidebar :isOpen="isCartOpen" />
           </a>
         </div>
 
@@ -147,17 +150,23 @@
 
 <script>
 import Login from '@/components/Login.vue'
+import CartSidebar from '@/components/CartSidebar.vue';
+import CategoriasModal from './CategoriasModal.vue';
 
 export default {
   components: {
-    Login
+    Login,
+    CartSidebar,
+    CategoriasModal,
 
   },
   data() {
     return {
       showModal: false,
       showDropdown: false, // Controla la visibilidad del dropdown
-      session: null // Nueva propiedad para la sesión actual
+      session: null, // Nueva propiedad para la sesión actual
+      isCartOpen: false, // Controla la visibilidad del carrito
+      showCategoriasModal: false, // Controla la visibilidad del modal de categorías
     }
   },
 
