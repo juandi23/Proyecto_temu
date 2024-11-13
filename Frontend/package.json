@@ -16,6 +16,7 @@
     "bootstrap": "^5.3.3",
     "firebase": "^11.0.1",
     "leaflet": "^1.9.4",
+    "pexels": "^1.4.0",
     "temu": "file:",
     "vue": "^3.4.29",
     "vue-router": "^4.4.5",
