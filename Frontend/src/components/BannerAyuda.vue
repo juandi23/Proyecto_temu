@@ -4,23 +4,32 @@
     <!-- Botón para traducir el contenido -->
     <button @click="traducirContenido">Traducir al ingles</button>
     <!-- Header -->
+
+
     <div class="header">
-      <div class="breadcrumb">Inicio &gt; Centro de ayuda</div>
+      <nav class="breadcrumb">
+        <router-link to="/">Inicio</router-link> &gt;
+        <span>Centro de ayuda</span>
+      </nav>
       <h1>Hola, ¿cómo podemos ayudarte?</h1>
       <p>Selecciona un pedido para obtener ayuda con problemas de artículos, envíos, devoluciones, reembolsos, etc.</p>
     </div>
 
     <!-- Temas recomendados -->
     <div class="temas-recomendados">
-      <h2>Temas recomendados</h2>
-      <div class="temas-grid">
-        <div :class="['tema', 'tema-recomendado']" v-for="tema in temasRecomendados" :key="tema">
-
-          {{ tema }}
-          <span class="arrow">></span>
-        </div>
+    <h2>Temas recomendados</h2>
+    <div class="temas-grid">
+      <div
+        :class="['tema', 'tema-recomendado']"
+        v-for="tema in temasRecomendados"
+        :key="tema"
+        @click="mostrarAyuda(tema)"
+      >
+        {{ tema }}
+        <span class="arrow">></span>
       </div>
     </div>
+  </div>
 
     <!-- Registros de atención al cliente -->
     <div class="registros-link">
@@ -55,7 +64,7 @@
         </div>
 
         <!-- Lista de preguntas frecuentes dinámicas según la subopción seleccionada -->
-        <div class="preguntas-frecuentes">
+        <div v-if="preguntasFrecuentesFiltradas.length > 0" class="preguntas-frecuentes">
           <div v-for="(pregunta, index) in preguntasFrecuentesFiltradas" :key="index">
             <button @click="togglePregunta(index)" class="pregunta-titulo">
               {{ pregunta.titulo }}
@@ -142,14 +151,14 @@ export default {
           abierto: true,
           subtemas: ['Comprar en Temu', 'Antes de tu compra', 'Buscar mi pedido', 'Cambios de pedido', 'Reseñas']
         },
-        { titulo: 'Envío y entrega', icono: 'fas fa-truck', abierto: false, subtemas: [] },
-        { titulo: 'Devolución y reembolso', icono: 'fas fa-dollar-sign', abierto: false, subtemas: [] },
-        { titulo: 'Producto y existencias', icono: 'fas fa-box-open', abierto: false, subtemas: [] },
-        { titulo: 'Administrar mi cuenta', icono: 'fas fa-user', abierto: false, subtemas: [] },
-        { titulo: 'Pago y promociones', icono: 'fas fa-credit-card', abierto: false, subtemas: [] },
-        { titulo: 'Tu seguridad', icono: 'fas fa-shield-alt', abierto: false, subtemas: [] },
-        { titulo: 'Políticas y otros', icono: 'fas fa-ellipsis-h', abierto: false, subtemas: [] },
-        { titulo: 'Solicitar un artículo', icono: 'fas fa-edit', abierto: false, subtemas: [] }
+        { titulo: 'Envío y entrega', icono: 'fas fa-truck', abierto: false, subtemas: ['Envío', 'Entrega'] },
+        { titulo: 'Devolución y reembolso', icono: 'fas fa-dollar-sign', abierto: false, subtemas: ['Devolución', 'Reembolso'] },
+        { titulo: 'Producto y existencias', icono: 'fas fa-box-open', abierto: false, subtemas: ['Existencias','Talla y ajuste'] },
+        { titulo: 'Administrar mi cuenta', icono: 'fas fa-user', abierto: false, subtemas: ['Configuración de la cuenta','Inicio de sesión'] },
+        { titulo: 'Pago y promociones', icono: 'fas fa-credit-card', abierto: false, subtemas: ['Pagos', 'Crédito Temu', 'Promociones'] },
+        { titulo: 'Tu seguridad', icono: 'fas fa-shield-alt', abierto: false, subtemas: ['Seguridad y privacidad'] },
+        { titulo: 'Políticas y otros', icono: 'fas fa-ellipsis-h', abierto: false, subtemas: ['Políticas','Comentarios y consultas de colaboración'] },
+        { titulo: 'Solicitar un artículo', icono: 'fas fa-edit', abierto: false, subtemas: ['Solicitar un artículo'] }
       ],
       preguntasFrecuentes: [
         { subtema: 'Comprar en Temu', 
@@ -272,17 +281,6 @@ export default {
          comentarios: ''
         },
 
-        {
-          subtema: 'Antes de tu compra',
-          titulo: '¿Qué debo saber antes de comprar en Temu?',
-          contenido: `<p>Antes de realizar tu compra en Temu, revisa la disponibilidad de los artículos y la información sobre devoluciones en caso de que necesites cambiar o devolver tu producto.</p>
-                      <p>Lee también nuestras políticas de compra y revisa la información de cada vendedor para asegurarte de que el producto cumpla con tus expectativas.</p>
-                      <p>Si necesitas más información sobre un artículo en específico, puedes contactar al vendedor directamente desde la página del producto.</p>`,
-          abierta: false,
-          util: null,
-          razon: '',
-          comentarios: ''
-        },
 
         {
           subtema: 'Buscar mi pedido',
@@ -320,8 +318,199 @@ export default {
           comentarios: ''
         }, 
 
+        { subtema: 'Envío', 
+          titulo: '¿Por qué mi pedido está tardando más tiempo de lo normal?', 
+          contenido: `<p>Nuestro almacén normalmente procesa todos los pedidos en un plazo de 1 a 3 días. Sin embargo, si tu pedido tarda más tiempo en procesarse, podría deberse a artículos específicos dentro de tu pedido que tienen tiempos de procesamiento más largos de lo normal.</p>
+                <p>Puedes ver el tiempo de entrega estimado para cada artículo en tu pedido en las páginas de producto específicas. Si deseas recibir los otros artículos en tu pedido lo antes posible, puedes cancelar los otros artículos de procesamiento más prolongado para obtener un reembolso. Los artículos restantes pueden enviarse inmediatamente.</p>
+                <p>Sabemos que estás entusiasmado por obtener tu pedido, ¡y nosotros también lo estamos! Si tu pedido llega tarde, te emitiremos un crédito de COP 4000 (envío estándar o Punto de recogida ) a tu cuenta como un pequeño signo de agradecimiento por tu paciencia</p>`,
+   
+          abierta: false,
+          util: null,
+          razon: '',
+          comentarios: ''
+        },
+
+        { subtema: 'Entrega', 
+          titulo: '¿Por qué no hay actualización de rastreo?', 
+          contenido: `<p>Si no has recibido ninguna actualización de rastreo de tu pedido desde el envío, es muy probable que se deba a que se envió desde nuestros almacenes en el extranjero. El rastreo no se actualizará hasta que tu paquete llegue a los Estados Unidos y sea retirado por nuestro repartidor de envío local para entregarlo en tu puerta. El socio de envío local escaneará tu paquete (durante los días hábiles únicamente) para actualizar su información de rastreo.</p>
+                <p>Puedes hacer un rastreo de tu pedido en la página "Tus pedidos" de Temu.com o en la aplicación Temu. Desde allí, podrás encontrar tu pedido y hacer clic en "Rastrear" para ver la información de rastreo más reciente.</p>
+
+                <p>Sabemos que estás entusiasmado por obtener tu pedido, ¡y nosotros también lo estamos! Si tu pedido llega tarde, te emitiremos un crédito de COP 4000 (envío estándar)  a tu cuenta como un pequeño signo de agradecimiento por tu paciencia.</p>`,
+   
+          abierta: false,
+          util: null,
+          razon: '',
+          comentarios: ''
+        },
+
+        { subtema: 'Devolución', 
+          titulo: '¿Cuál es el estado de mi devolución o intercambio?', 
+          contenido: `<p>Puedes rastrear el estado de tu devolución si vas a tu cuenta de Temu desde la aplicación Temu o Temu.com. Ve a "Tus pedidos" > "Devoluciones". Desde allí, podrás rastrear el estado de tu devolución, cuándo recibimos tu paquete y cuándo se emitió tu reembolso.</p>`,
+   
+          abierta: false,
+          util: null,
+          razon: '',
+          comentarios: ''
+        },
+
+        { subtema: 'Reembolso', 
+          titulo: '¿Cómo realizo un rastreo de mi reembolso?', 
+          contenido: `<p>Puedes realizar un rastreo del progreso de tu reembolso a través de cualquiera de las siguientes maneras:
+
+1. Ve a "Tus pedidos" en la aplicación Temu o en Temu.com, busca el pedido correspondiente y haz clic para ver sus detalles. Desplázate hasta el artículo reembolsado y haz clic en "Detalles". A continuación, puedes checar el estado de tu reembolso y el método de reembolso para cada artículo reembolsado.</p>
+                <p>2. Ve a tu cuenta en la aplicación Temu o en Temu.com, busca la sección "Mensajes" y haz clic en la notificación de tu mensaje de reembolso para ver los detalles.</p>
+                <p>3. Si habilitaste las notificaciones por mensaje de texto o correo electrónico para tu pedido, también puedes hacer clic en los enlaces para realizar un rastrep del estado de tu reembolso.
+
+Una vez que Temu emita tu reembolso, espera de 5 a 14 días hábiles (hasta 30 días) para que el reembolso se refleje en tu método de pago original, ya que los tiempos de procesamiento varían según las instituciones financieras. Si optas por un reembolso de crédito Temu, se añadirá rápidamente a tu saldo de crédito Temu en 3 minutos.</p>`,
+   
+          abierta: false,
+          util: null,
+          razon: '',
+          comentarios: ''
+        },
+
+        { subtema: 'Existencias', 
+          titulo: '¿Cómo puedo saber si un artículo está en stock?', 
+          contenido: `<p>Puede verificar si un artículo está en stock yendo a la página de detalles del producto. Desde allí, puede ver qué tallas/colores están disponibles y, si el inventario está bajando, también puede ver una alerta que le indica exactamente cuántos artículos quedan.</p>
+                <p>Para cualquier pregunta específica sobre un artículo o su disponibilidad, no dudes en ponerte en contacto con nosotros.</p>`,
+   
+          abierta: false,
+          util: null,
+          razon: '',
+          comentarios: ''
+        },
+
+        { subtema: 'Talla y ajuste', 
+          titulo: 'La talla es demasiado pequeña/grande y no me queda bien', 
+          contenido: `<p>Lamentamos que no esté contento/a con el ajuste de su prenda. Algunas piezas pueden tener un ajuste diferente según el estilo, como sudaderas y camisetas oversize que suelen ser más grandes que las medidas generales.</p>
+                <p>Si no está satisfecho/a con su prenda, puede devolverla para obtener un reembolso completo y volver a pedirla en una talla diferente, si está disponible. Casi todos los artículos pueden ser dev y devolución y reembolso, con excepción de las prendas que han sido usadas, lavadas, dañadas, y las sin etiquetas, empaque o etiqueta de higiene o en un conjunto incompleto.</p>
+                 <p>Para futuros pedidos, puede contactarnos si tiene cualquier pregunta sobre las tallas y medidas de los productos.</p>
+                  <p>En Temu, la inclusión y la diversidad constituyen uno de nuestros valores fundamentales y estamos constantemente tratando de mejorar nuestras ofertas para seguir permitiendo a nuestros clientes disfrutar de la mejor calidad, flexibilidad y variedad en su selección de productos</p>`,
+   
+          abierta: false,
+          util: null,
+          razon: '',
+          comentarios: ''
+        },
+
+        { subtema: 'Configuración de la cuenta', 
+          titulo: '¿Cómo configurar las preferencias de notificación?', 
+          contenido: `<p>Si no quieres recibir notificaciones por email, push o SMS, puedes abrir la aplicación Temu, ir a 'Tú' > 'Configuración' > 'Notificaciones' y elegir ' Editar' para establecer tus preferencias.</p>
+          <p>También puedes ir a Temu.com y hacer clic en tu nombre de usuario en la parte superior derecha de la pantalla. Haz clic en "Notificaciones" en la barra lateral izquierda y luego elige "Editar" para establecer tus preferencias.</p>`,
+   
+          abierta: false,
+          util: null,
+          razon: '',
+          comentarios: ''
+        },
+
+        { subtema: 'Inicio de sesión', 
+          titulo: 'Cómo crear una cuenta Temu', 
+          contenido: `<p>¡Bienvenido a Temu! Nos encantaría ayudarte a que te unas a nuestra comunidad.</p>
+          <p>Para registrarte en una cuenta de Temu:</p>
+          <p>1. Descarga y abre tu aplicación Temu o visita Temu.com.</p>
+          <p>2. Ingresa en el avatar del usuario en la aplicación Temu y haz clic en "Iniciar sesión/Registrarse" en la parte superior de la página, o haz clic en "Iniciar sesión/Registrarse" en la esquina superior derecha de Temu.com.</p>
+          <p>3. Revisa detenidamente los Términos de uso y la Política de privacidad de Temu.</p>
+                <p>4. Puedes utilizar tu dirección de email o número de teléfono para crear una cuenta y configurar una nueva contraseña, o bien puedes hacer clic en "Continuar con Google", "Continuar con Facebook", "Continuar con Twitter" o "Continuar con Apple" para iniciar sesión con tus cuentas actuales.</p>`,
+   
+          abierta: false,
+          util: null,
+          razon: '',
+          comentarios: ''
+        },
+
+        { subtema: 'Pagos', 
+          titulo: 'Cargos desconocidos', 
+          contenido: `<p>El cargo desconocido es una autorización bancaria.</p>
+          <p>Cuando realiza un pedido, Temu se comunica con el banco emisor para confirmar la validez del método de pago. Tu banco reserva los fondos hasta que se procese la transacción o caduque la autorización. Esta reserva aparece inmediatamente en tu estado de cuenta, pero no es un cargo real.</p>
+          <p>Si cancelas tu pedido, la autorización se elimina de tu cuenta de acuerdo con las políticas de tu banco. Ponte en contacto con tu banco para aclarar cuánto tiempo tienen para poner autorizaciones en espera para pedidos en línea.</p>
+          <p>Veo un cargo en mi tarjeta de crédito que no reconozco</p>
+                <p>Si ves una compra o un cargo en la tarjeta de crédito que no reconoces, verifica con familiares, amigos o compañeros de trabajo que puedan haber tenido acceso a tu dispositivo o permiso para usar tu tarjeta.</p>
+                <p>Si crees que tu cuenta de Temu se ha visto comprometida, inicia sesión para cambiar tu contraseña.
+Desde la seguridad de tu cuenta, edita la contraseña y cambia tu contraseña de Temu.</p>
+<p> Si aún necesitas ayuda, se te pedirá que proporciones la mayor cantidad de información posible para ayudarnos a resolver tu problema. Por tu seguridad, no incluyas la información completa de tu cuenta bancaria.</p>`,
+   
+          abierta: false,
+          util: null,
+          razon: '',
+          comentarios: ''
+        },
+
+        { subtema: 'Crédito Temu', 
+          titulo: '¿Qué es el crédito de Temu?', 
+          contenido: `<p>Los créditos Temu son créditos de compras que se pueden utilizar para pagar pedidos en la aplicación Temu o en Temu.com. Existen varias maneras en las que puede recibir créditos Temu que incluyen:</p>
+          <p>- Recompensas por participar en nuestras actividades temáticas y eventos promocionales</p>
+          <p>- Créditos como parte de nuestra política de entrega tardía</p>
+          <p>- Reembolso de los pagos cuando elijas créditos Temu para recibir un reembolso en un plazo de 3 minutos en lugar de recibirlo de vuelta en el método de pago original.</p>`,
+   
+          abierta: false,
+          util: null,
+          razon: '',
+          comentarios: ''
+        },
 
 
+        { subtema: 'Promociones', 
+          titulo: 'Cómo canjear un código de cupón', 
+          contenido: `<p>Cuando realizas un pedido, nuestro sistema aplicará automáticamente el cupón óptimo que te ayudará a maximizar tus ahorros. Se puede aplicar únicamente un cupón por pedido.</p>
+          <p>Asegúrate de que tus cupones no utilizados estén en tu cuenta para tu uso en la página de tu cuenta Temu desde la aplicación Temu o en Temu.com. Selecciona "Códigos de cupón" en el menú para ver tus cupones no utilizados y vencidos.</p>
+          <p>Si tienes un nuevo código de cupón que deseas agregar a tu cuenta, ingrésalo en el campo de entrada en la pestaña "No usado" y haz clic en "Aplicar"</p>`,
+   
+          abierta: false,
+          util: null,
+          razon: '',
+          comentarios: ''
+        },
+
+        { subtema: 'Seguridad y privacidad', 
+          titulo: 'Protégete de los mensajes de texto no deseados y las estafas de phishing', 
+          contenido: `<p>¡Cuidado con los mensajes de spam, correos electrónicos y llamadas telefónicas! Los estafadores utilizan con frecuencia estos métodos de comunicación para robar información personal y financiera. Para protegerse, te recomendamos que no respondas a estos mensajes o llamadas, y evites hacer clic en enlaces en correos electrónicos o mensajes de texto de fuentes desconocidas. Si no estás seguro de la legitimidad de un mensaje, es mejor tomar precauciones e informarnos. Si necesitas ayuda, comunícate con nuestro equipo de atención al cliente e investigaremos tus reportes a fondo para garantizar que tu información permanezca segura y protegida.</p>
+          <p>Dinos si:</p>
+          <p>1. Un tercero desconocido se puso en contacto contigo diciendo ser un repartidor y pidiéndote gastos de envío adicionales.</p>
+          <p>2. Se te acercó un vendedor que decía ser de Temu pidiéndote que realizaras transacciones a través de otros canales ajenos a Temu (código QR, monedero electrónico, transferencia bancaria, etc.).</p>
+                <p>3. Fuiste engañado para comprar artículos e iniciar pagos/transacciones en un sitio web/app falso similar al de Temu con una notificación de que habías ganado algo.</p>
+                <p>4. Recibiste algun mensaje de un número desconocido ofreciéndote un servicio financiero o un trabajo de tiempo parcial, y te pidieron que rellenaras información personal (por ejemplo, la información de tu cuenta Temu o el número de transacción).</p>
+                <p>5. Recibiste una llamada de un número desconocido pidiéndote que revelaras/verificaras tu información personal u ofreciéndote un reembolso que no solicitaste.</p>`,
+   
+          abierta: false,
+          util: null,
+          razon: '',
+          comentarios: ''
+        },
+
+        { subtema: 'Políticas', 
+          titulo: '¿Cuál es la política de envío de Temu?', 
+          contenido: `<p>¿Cuál es la política de envío de Temu?</p>
+          <p>Visita nuestra página de información de envío para ver más detalles sobre nuestra política de envío.</p>`,
+   
+          abierta: false,
+          util: null,
+          razon: '',
+          comentarios: ''
+        },
+
+        { subtema: 'Comentarios y consultas de colaboración', 
+          titulo: '¿Cómo puedo enviar mis comentarios?', 
+          contenido: `<p>La experiencia de nuestros clientes es lo más importante para nosotros y agradeceríamos mucho tus comentarios. Si tienes alguna sugerencia para mejorar, comunícate con nuestro equipo de atención al cliente a través de nuestro sitio web en https://temu.com o en la aplicación Temu.</p>`,
+   
+          abierta: false,
+          util: null,
+          razon: '',
+          comentarios: ''
+        },
+
+        { subtema: 'Solicitar un artículo', 
+          titulo: 'Solicitar un artículo', 
+          contenido: `<p>¿No encuentras lo que buscas?</p>
+          <p>Puedes pegar el enlace de un artículo que quieras que esté en otras plataformas de comercio electrónico o cargar una captura de pantalla del artículo en otras plataformas.</p>`,
+   
+          abierta: false,
+          util: null,
+          razon: '',
+          comentarios: ''
+        },
+
+      
 
 
 
@@ -366,8 +555,6 @@ export default {
 },
 
 
-
-
     toggleTema(index) {
       this.temasAyuda[index].abierto = !this.temasAyuda[index].abierto;
     },
@@ -403,6 +590,17 @@ export default {
       alert("Por favor, escribe un mensaje antes de enviar.");
     }
   },
+
+  mostrarAyuda(tema) {
+        // Redirige o selecciona el subtema correspondiente al tema recomendado
+        this.subtemaSeleccionado = tema;
+      },
+      seleccionarSubtema(subtema) {
+        this.subtemaSeleccionado = subtema;
+      },
+      togglePregunta(index) {
+        this.preguntasFrecuentesFiltradas[index].abierta = !this.preguntasFrecuentesFiltradas[index].abierta;
+      }
   }
 };
 </script>
@@ -707,6 +905,20 @@ export default {
 
 .centro-ayuda {
   font-family: Arial, sans-serif;
+}
+
+.breadcrumb {
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.breadcrumb a {
+  color: #3498db; /* Color para los enlaces */
+  text-decoration: none;
+}
+
+.breadcrumb a:hover {
+  text-decoration: underline; /* Subrayado al pasar el cursor */
 }
 
 </style>
