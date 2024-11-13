@@ -1,7 +1,9 @@
 <template>
   <div class="orders-page">
     <nav aria-label="breadcrumb" class="breadcrumb">
-      Inicio > Tus pedidos
+      <router-link to="/">Inicio</router-link> &gt;
+        <span>Tus pedidos</span>
+    
     </nav>
     
     <div class="main-content">
