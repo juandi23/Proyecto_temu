@@ -65,3 +65,5 @@ if (!dataSource.isInitialized) {
 
 console.log('Exportando instancia de la aplicación...');
 export default app; // Exporta la instancia de `app`
+
+//hola
