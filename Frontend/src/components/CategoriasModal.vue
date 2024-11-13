@@ -25,8 +25,11 @@
               :key="index"
               class="sub-category"
             >
-            
-            <img  v-for="photo in photos" :key="photo.id" :src="photo.src.medium" class="category-image"/>
+              <img
+                :src="subCategory.image"
+                :alt="subCategory.name"
+                class="category-image"
+              />
               <span class="category-name">{{ subCategory.name }}</span>
               <span v-if="subCategory.isHot" class="hot-badge">HOT</span>
             </div>
@@ -37,8 +40,6 @@
   </template>
   
   <script>
-import { getPhotosByCategory } from '@/services/pexelsService.js';
-
   export default {
     props: {
       show: {
@@ -48,8 +49,6 @@ import { getPhotosByCategory } from '@/services/pexelsService.js';
     },
     data() {
       return {
-        category: 'nature', // Cambia esto para mostrar la categoría deseada
-        photos: [],
         mainCategories: [
           "Destacado",
           "Hogar y cocina",
@@ -330,10 +329,6 @@ import { getPhotosByCategory } from '@/services/pexelsService.js';
         this.selectedCategoryIndex = index;
       },
     },
-    async created() {
-    this.photos = await getPhotosByCategory(this.category);
-    console.log(this.photos);
-  },
   };
   </script>
   
