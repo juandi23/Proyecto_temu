@@ -11,9 +11,13 @@ import path from 'path';
 
 // Cargar variables de entorno
 dotenv.config();
+if (!process.env.JWT_SECRET) {
+    console.warn('Advertencia: JWT_SECRET no está definido en .env, usando valor por defecto');
+}
 console.log('JWT_SECRET:', process.env.JWT_SECRET);
 
 const app = express();
+const PORT = process.env.PORT || 5000;
 const jwtSecret = process.env.JWT_SECRET || 'default_secret';
 
 // Configuración de CORS para permitir solo solicitudes desde http://localhost:5173
@@ -53,6 +57,10 @@ if (!dataSource.isInitialized) {
     dataSource.initialize()
         .then(() => {
             console.log('Conexión a la base de datos exitosa');
+            // Iniciar el servidor una vez que la base de datos esté conectada
+            app.listen(PORT, () => {
+                console.log(`Servidor corriendo en http://localhost:${PORT}`);
+            });
         })
         .catch((error: any) => {
             console.error('Error al conectar a la base de datos', error);
@@ -61,9 +69,11 @@ if (!dataSource.isInitialized) {
                 process.exit(1);
             }
         });
+} else {
+    app.listen(PORT, () => {
+        console.log(`Servidor corriendo en http://localhost:${PORT}`);
+    });
 }
 
 console.log('Exportando instancia de la aplicación...');
 export default app; // Exporta la instancia de `app`
-
-//hola
