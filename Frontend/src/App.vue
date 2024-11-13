@@ -1,10 +1,10 @@
 <template>
   <div id="app" :class="{ 'cart-open': isCartOpen }">
     <router-view></router-view>
-    <!-- Forzamos la re-creación de CartSidebar cada vez que isCartOpen cambie -->
     <CartSidebar :key="isCartOpen" :isOpen="isCartOpen" @update:isOpen="closeCart" />
   </div>
 </template>
+
 
 <script>
 import CartSidebar from '@/components/CartSidebar.vue';
