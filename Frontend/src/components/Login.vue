@@ -133,7 +133,7 @@ export default {
 
       try {
         // Enviar los datos al servidor
-        let endpoint = this.login ? 'http://localhost:5000/api/users/login' : 'http://localhost:5000/api/users/register';
+        let endpoint = this.login ? 'https://my-express-app-latest-3.onrender.com/api/users/login' : 'https://my-express-app-latest-3.onrender.com/api/users/register';
         const response = await fetch(endpoint, {
           method: 'POST',
           headers: {
@@ -197,7 +197,7 @@ export default {
         const token = await result.user.getIdToken();
 
         // Envía el token al backend para verificar y almacenar la sesión
-        const response = await fetch("http://localhost:5000/api/users/auth/google", {
+        const response = await fetch("https://my-express-app-latest-3.onrender.com/api/users/auth/google", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -238,7 +238,7 @@ export default {
         const token = await result.user.getIdToken();
 
         // Envía el token al backend para verificar y almacenar la sesión
-        const response = await fetch("http://localhost:5000/api/users/auth/facebook", {
+        const response = await fetch("https://my-express-app-latest-3.onrender.com/api/users/auth/facebook", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

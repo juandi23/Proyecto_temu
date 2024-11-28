@@ -9,7 +9,7 @@ export const useAuthStore = defineStore('auth', {
   actions: {
     async login(email, password) {
       try {
-        const response = await axios.post('http://localhost:3000/api/auth/login', { email, password });
+        const response = await axios.post('https://my-express-app-latest-3.onrender.com/api/auth/login', { email, password });
         this.user = response.data.user;
         this.token = response.data.token;
         localStorage.setItem('token', this.token);
@@ -30,7 +30,7 @@ export const useAuthStore = defineStore('auth', {
       if (token) {
         try {
           axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-          const response = await axios.get('http://localhost:3000/api/auth/me');
+          const response = await axios.get('https://my-express-app-latest-3.onrender.com/api/auth/me');
           this.user = response.data;
           this.token = token;
         } catch (error) {

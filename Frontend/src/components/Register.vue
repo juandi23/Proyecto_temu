@@ -62,7 +62,7 @@ export default {
 
             try {
                 // Enviar los datos al servidor para el registro
-                const response = await fetch('http://localhost:5000/api/users/register', {
+                const response = await fetch('https://my-express-app-latest-3.onrender.com/api/users/register', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

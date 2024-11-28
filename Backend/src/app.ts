@@ -22,9 +22,9 @@ const jwtSecret = process.env.JWT_SECRET || 'default_secret';
 
 // Configuración de CORS para permitir solo solicitudes desde http://localhost:5173
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: '*', // Permite solicitudes desde cualquier origen
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: true
+    credentials: true // Puedes eliminar esto si no estás manejando cookies
 }));
 
 // Configuración de middlewares
