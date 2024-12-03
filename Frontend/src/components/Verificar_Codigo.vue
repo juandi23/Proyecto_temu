@@ -121,7 +121,7 @@ export default {
 
       try {
         // Enviar los datos al servidor
-        let endpoint = this.login ? 'https://my-express-app-latest-3.onrender.com/api/users/login' : 'https://my-express-app-latest-3.onrender.com/api/users/register';
+        let endpoint = this.login ? 'http://localhost:5000/api/users/login' : 'http://localhost:5000/api/users/register';
         const response = await fetch(endpoint, {
           method: 'POST',
           headers: {
