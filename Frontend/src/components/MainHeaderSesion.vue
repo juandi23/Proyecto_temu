@@ -109,7 +109,7 @@
                   <p><strong>{{ formatEmail(session.user.email) }}</strong></p>
                 </div>
                 <hr>
-                <a href="#" class="dropdown-item">Tus pedidos</a>
+                <router-link to="/TusPedidos" class="dropdown-item">Tus pedidos</router-link>
                 <a href="#" class="dropdown-item">Tus reseñas</a>
                 <router-link to="/perfil" class="dropdown-item">Tu Perfil</router-link>
                 <a href="#" class="dropdown-item">Cupones y ofertas</a>
