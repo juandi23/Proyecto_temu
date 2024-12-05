@@ -64,13 +64,19 @@
             </router-link>
           </div>
 -->
-          <!-- Menú OFERTAS -->
+          <!-- Menú OFERTAS 
           <div class="menu">
             <router-link to="/Descuentos">
               <img src="../assets/iconsDescuento1.png" alt="Icono Descuento" class="icon-small"> Día del Ahorro
             </router-link>
-          </div>
+          </div>                             -->
 
+          <!-- Navidad -->
+          <div class="menu">
+            <router-link to="/Descuentos">
+              <img src="../assets/iconfelicidad1N.png" alt="Icono Felicidad" class="icon-small"> 12.12
+            </router-link>
+          </div>
           
           <div class="menu">
             <Router-link to="/RecienLlegados"> Recién llegados </router-link>
@@ -105,7 +111,7 @@
                 <hr>
                 <a href="#" class="dropdown-item">Tus pedidos</a>
                 <a href="#" class="dropdown-item">Tus reseñas</a>
-                <a href="#" class="dropdown-item">Tu perfil</a>
+                <router-link to="/perfil" class="dropdown-item">Tu Perfil</router-link>
                 <a href="#" class="dropdown-item">Cupones y ofertas</a>
                 <a href="#" class="dropdown-item">Saldo de crédito</a>
                 <a href="#" class="dropdown-item">Proveedores seguidos</a>
@@ -152,6 +158,7 @@
 import Login from '@/components/Login.vue'
 import CartSidebar from '@/components/CartSidebar.vue';
 import CategoriasModal from './CategoriasModal.vue';
+
 
 export default {
   components: {

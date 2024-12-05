@@ -7,6 +7,8 @@ export default defineConfig(({ mode }) => {
   // Carga las variables de entorno de acuerdo al modo (desarrollo, producción)
   const env = loadEnv(mode, process.cwd(), '');
 
+  
+
   return {
     plugins: [
       vue(),
@@ -20,5 +22,6 @@ export default defineConfig(({ mode }) => {
       'process.env': env, // Hace accesibles las variables de entorno en el código del cliente
     }
   }
-})
+}
+)
 

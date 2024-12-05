@@ -4,8 +4,11 @@
       <!--AMOR Y AMISTAD
       <img src="@/assets/amoryamistad.png" alt="Amor y Amistad" class="banner-image">      -->
 
-      <!--AMOR Y AMISTAD-->
-      <img src="@/assets/ahorro.png" alt="Amor y Amistad" class="banner-image">
+      <!--AHORRO
+      <img src="@/assets/ahorro.png" alt="Amor y Amistad" class="banner-image">      -->
+
+       <!--NAVIDAD-->
+       <img src="@/assets/navidad.png" alt="Navidad" class="banner-image">
 
       <div class="featured-products" v-if="!isExpanded">
         <div v-for="product in featuredProducts" :key="product.id" class="featured-product">
@@ -133,8 +136,13 @@ export default {
    /*Amor y amistad 
   background-color: #f6cecc; */
 
-  /*descuentos */
-  background-color: #ff7001;
+  /*descuentos 
+  background-color: #ff7001;*/
+
+  /*Navidad */
+  background-color: #880202;
+
+
   padding: 20px;
   width: 100%;
   box-sizing: border-box;
