@@ -26,7 +26,7 @@
       </div>
     </div>
 
-    <!-- Barra inferior rosada -->
+    <!-- segunda barra, menu principal -->
     <div class="bottom-bar">
       <div class="bottom-bar-content">
         <div class="menu">
@@ -55,10 +55,18 @@
             </router-link>
           </div>
 
-          <!-- Menú OFERTAS -->
+          <!-- Menú OFERTAS 
+           
           <div class="menu">
             <router-link to="/Descuentos">
               <img src="../assets/iconsDescuento.png" alt="Icono Descuento" class="icon-small"> Día del Ahorro
+            </router-link>
+          </div>                            -->
+
+           <!-- Navidad -->
+           <div class="menu">
+            <router-link to="/Descuentos">
+              <img src="../assets/iconfelicidad1B.png" alt="Icono Felicidad" class="icon-small"> 12.12
             </router-link>
           </div>
 
@@ -164,13 +172,17 @@ header {
   /*Amor y amistad 
   background-color: #f89eac; */
 
-  /*descuentos */
-  background-color: #f58263;
+  /*descuentos 
+  background-color: #f58263 ;  */
+
+   /*Navidad */
+   background-color: rgb(118, 15, 15);
+
   margin: 1px;
-  border-radius: 20px;
-  border: 1px solid #f5f4f4;
+  border-radius: 30px;
   align-items: center;
   justify-content: center;
+  padding: 7px;
 }
 
 .top-bar {
@@ -226,8 +238,11 @@ header {
   /*Amor y amistad 
   background-color: #f9697f; */
 
-  /*descuentos */
-  background-color: #f13300;
+  /*descuentos 
+  background-color: #f13300;   */
+
+   /*Navidad */
+   background-color: #b00000;
 
   width: 100%;
   display: flex;

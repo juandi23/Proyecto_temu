@@ -35,8 +35,14 @@
         <button type="submit" class="login-button">Continuar</button>
       </form>
       
-      <Codigo_Verificar v-if="showModal" @close="showModal = false" />
-      <a href="#" class="forgot-password">¿Tienes problemas para iniciar sesión?</a>
+      
+
+        <div>
+          <a href="#" class="forgot-password" @click.prevent="openModal">
+            ¿Tienes problemas para iniciar sesión?
+          </a>
+          <ForgotPasswordModal v-if="showModal" :isVisible="showModal" @close="closeModal" />
+        </div>
 
       <div class="social-login">
         <p>O continúa de otras maneras</p>
@@ -53,19 +59,28 @@
       </div>
 
       <p class="terms">
-        Al continuar, aceptas nuestros <a href="#">Términos de uso</a> y <a href="#">Política de privacidad</a>.
+
+        Al continuar, aceptas nuestros 
+        <router-link to="/terminos-de-uso" target="_blank">Términos de uso</router-link> 
+        y autorizas el procesamiento de tus datos personales de acuerdo con nuestra 
+        <router-link to="/politica-de-privacidad" target="_blank">Política de privacidad</router-link>. 
+        Para obtener más detalles sobre los fines y métodos del procesamiento de datos, tus derechos y cómo ejercerlos, visita nuestra 
+        <router-link to="/politica-de-privacidad" target="_blank">Política de privacidad</router-link>.
       </p>
     </div>
   </div>
 </template>
 
 <script>
+import ForgotPasswordModal from '@/components/ForgotPasswordModal.vue';
+
 import Codigo_Verificar from '@/components/Verificar_Codigo.vue'
 import { auth, GoogleAuthProvider, signInWithPopup, FacebookAuthProvider } from '@/firebase';
 export default {
   name: 'LoginComponent',
   components: {
     Codigo_Verificar,
+    ForgotPasswordModal,
   },
   data() {
     return {
@@ -105,6 +120,14 @@ export default {
 
 
   methods: {
+
+    openModal() {
+      this.showModal = true;
+    },
+    closeModal() {
+      this.showModal = false;
+    },
+
     async handleLogin() {
       this.emailError = '';
       this.passwordError = '';
@@ -333,6 +356,7 @@ export default {
 </script>
 
 <style scoped>
+
 .login-page {
   display: flex;
   justify-content: center;
@@ -344,6 +368,12 @@ export default {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 9999;
+}
+
+.forgot-password {
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .modal-content {
