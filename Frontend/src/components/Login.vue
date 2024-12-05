@@ -34,15 +34,12 @@
         <p v-if="passwordError" class="error-message">{{ passwordError }}</p>
         <button type="submit" class="login-button">Continuar</button>
       </form>
-      
-      
 
-        <div>
-          <a href="#" class="forgot-password" @click.prevent="openModal">
-            ¿Tienes problemas para iniciar sesión?
-          </a>
-          <ForgotPasswordModal v-if="showModal" :isVisible="showModal" @close="closeModal" />
-        </div>
+      <div>
+        <router-link to="/reset-password/fake-token" class="forgot-password">
+          ¿Tienes problemas para iniciar sesión?
+        </router-link>
+      </div>
 
       <div class="social-login">
         <p>O continúa de otras maneras</p>
