@@ -63,7 +63,9 @@
             </div>
             
             <p class="footer-text">
-                Temu considera que la transparencia es primordial y solicita una cantidad mínima de permisos. Puedes obtener más información sobre cómo operamos para proteger la privacidad de nuestros usuarios en la <a href="#" class="link">Política de privacidad</a>.
+                Temu considera que la transparencia es primordial y solicita una cantidad mínima de permisos. Puedes obtener más información sobre cómo operamos para proteger la privacidad de nuestros usuarios en la 
+                <router-link to="/politica-de-privacidad" target="_blank">Política de privacidad</router-link>.
+              
             </p>
         </div>
   
