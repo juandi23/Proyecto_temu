@@ -29,7 +29,8 @@ const routes = [
   { path: '/terminos-de-uso', component: TermsOfUse, name: 'TermsOfUse' },
   { path: '/politica-de-privacidad', component: PrivacyPolicy, name: 'PrivacyPolicy' }, 
   { path: '/perfil', component: ViewPerfil, name: 'ViewPerfil' },
-  { path: '/permisos', component: ViewPermisos, name: 'ViewPermisos' }
+  { path: '/permisos', component: ViewPermisos, name: 'ViewPermisos' },
+  { path: '/TusPedidos', component: Home_Sesion }
   
   
 ];

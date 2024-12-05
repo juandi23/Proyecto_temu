@@ -109,7 +109,7 @@
                   <p><strong>{{ formatEmail(session.user.email) }}</strong></p>
                 </div>
                 <hr>
-                <a href="#" class="dropdown-item">Tus pedidos</a>
+                <router-link to="/TusPedidos" class="dropdown-item">Tus pedidos</router-link>
                 <a href="#" class="dropdown-item">Tus reseñas</a>
                 <router-link to="/perfil" class="dropdown-item">Tu Perfil</router-link>
                 <a href="#" class="dropdown-item">Cupones y ofertas</a>
@@ -119,7 +119,6 @@
                 <a href="#" class="dropdown-item">Direcciones</a>
                 <a href="#" class="dropdown-item">Seguridad de la cuenta</a>
                 <router-link to="/permisos" class="dropdown-item">Permisos</router-link>
-                <a href="#" class="dropdown-item">Permisos</a>
                 <a href="#" class="dropdown-item">Notificaciones</a>
                 <a href="#" class="dropdown-item">Cambiar cuenta</a>
                 <button @click="logout" class="dropdown-item logout-btn">Cerrar sesión</button>
