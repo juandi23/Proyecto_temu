@@ -1,53 +1,33 @@
 <template>
-  <div id="app" :class="{ 'cart-open': isCartOpen }">
+  <div id="app">
+    <!-- Botón para abrir el carrito -->
+    <button class="toggle-cart-btn snipcart-checkout">
+      Ver carrito
+    </button>
+
+    <!-- Contenedor para las rutas de la aplicación -->
     <router-view></router-view>
-    <CartSidebar :key="isCartOpen" :isOpen="isCartOpen" @update:isOpen="closeCart" />
   </div>
 </template>
 
-
 <script>
-import CartSidebar from '@/components/CartSidebar.vue';
-
 export default {
   name: 'App',
-  components: {
-    CartSidebar
-  },
-  data() {
-    return {
-      isCartOpen: false
-    };
-  },
   mounted() {
-    // Evento que se ejecuta cuando Snipcart está completamente inicializado
     if (window.Snipcart) {
-      window.Snipcart.events.on('snipcart.initialized', () => {
-        console.log('Snipcart está inicializado y listo para usarse');
-        // Aquí puedes llamar a las funciones de Snipcart sin problema
+      // Escuchar eventos de Snipcart para depuración
+      window.Snipcart.events.on('cart.updated', (cart) => {
+        console.log('Carrito actualizado:', cart);
       });
     } else {
-      console.error('Snipcart no está disponible en el momento de la carga.');
+      console.error('Snipcart no está disponible.');
     }
   },
-  methods: {
-    toggleCart() {
-      this.isCartOpen = !this.isCartOpen;
-    },
-    closeCart() {
-      this.isCartOpen = false;
-    }
-  }
 };
 </script>
 
 <style>
-/* Estilos para mostrar el carrito al lado del contenido */
-#app.cart-open {
-  margin-right: 350px; /* Debe coincidir con el ancho del carrito */
-  transition: margin-right 0.3s ease;
-}
-
+/* Estilos para el botón del carrito */
 .toggle-cart-btn {
   position: fixed;
   top: 20px;
@@ -59,5 +39,9 @@ export default {
   cursor: pointer;
   border-radius: 5px;
   z-index: 2000;
+}
+
+#app {
+  font-family: Arial, sans-serif;
 }
 </style>

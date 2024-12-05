@@ -10,26 +10,32 @@
       <div class="product-details">
         <h3 class="product-name">{{ product.title }}</h3>
         <p class="product-price">{{ product.price }} COP</p>
-        <button class="add-to-cart-btn" @click.stop="handleAddToCart(product)">Agregar al carrito</button>
+        <!-- Botón para agregar al carrito con Snipcart -->
+        <button
+          class="snipcart-add-item add-to-cart-btn"
+          :data-item-id="product.id"
+          :data-item-name="product.title"
+          :data-item-price="product.price"
+          :data-item-url="'/product/' + product.id"
+          :data-item-description="product.description"
+          :data-item-image="product.image"
+        >
+          Agregar al carrito
+        </button>
       </div>
     </div>
-
-    <div v-if="notification" class="notification">{{ notification }}</div>
   </div>
 </template>
 
 <script>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
-import { useCart } from '@/composables/useCart';
 import { useRouter } from 'vue-router';
 
 export default {
   name: 'ProductGrid',
   setup() {
     const products = ref([]);
-    const { addToCart, cartItems } = useCart();
-    const notification = ref('');
     const router = useRouter();
 
     // Obtener productos de FakeStore
@@ -47,24 +53,10 @@ export default {
       router.push({ name: 'ProductDetail', params: { id } });
     };
 
-    // Función para agregar al carrito
-    const handleAddToCart = (product) => {
-      addToCart(product);
-      notification.value = `${product.title} añadido al carrito`;
-
-      setTimeout(() => {
-        notification.value = '';
-      }, 2000);
-    };
-
-    return { products, handleAddToCart, goToProductDetail, notification };
+    return { products, goToProductDetail };
   },
 };
 </script>
-
-
-
-
 
 <style scoped>
 .product-grid {
@@ -162,4 +154,3 @@ export default {
   }
 }
 </style>
-

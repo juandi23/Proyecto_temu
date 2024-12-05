@@ -140,13 +140,6 @@
             <span>ES</span>
           </a>
         </div>
-        <div class="menu">
-          <a href="#" class="cart-icon" @click="isCartOpen = !isCartOpen">
-            <img src="../assets/icono-carro-compras1.png" alt="Icono carrito" class="icon" >
-            <router-view></router-view>
-            <CartSidebar :isOpen="isCartOpen" />
-          </a>
-        </div>
 
         <Login v-if="showModal" @close="showModal = false" />
       </div>
@@ -156,14 +149,12 @@
 
 <script>
 import Login from '@/components/Login.vue'
-import CartSidebar from '@/components/CartSidebar.vue';
 import CategoriasModal from './CategoriasModal.vue';
 
 
 export default {
   components: {
     Login,
-    CartSidebar,
     CategoriasModal,
 
   },

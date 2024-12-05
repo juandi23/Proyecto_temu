@@ -112,14 +112,7 @@
           </a>
         </div>
         
-        <!-- Botón de carrito con Snipcart -->
-        <div class="menu">
-          <a href="#" class="cart-icon " @click="isCartOpen = !isCartOpen">
-            <img src="../assets/icono-carro-compras.png" alt="Icono carrito" class="icon">
-          </a>
-          <router-view></router-view>
-          <CartSidebar :isOpen="isCartOpen" />
-        </div>
+
 
         <Login v-if="showModal" @close="showModal = false" />
       </div>
@@ -130,18 +123,15 @@
 
 <script>
 import Login from '@/components/Login.vue';
-import CartSidebar from '@/components/CartSidebar.vue';
 import CategoriasModal from './CategoriasModal.vue';
 
 export default {
   components: {
     Login,
-    CartSidebar,
     CategoriasModal,
   },
   data() {
     return {
-      isCartOpen: false, // Controla la visibilidad del carrito
       showModal: false,  // Controla la visibilidad del modal de categorías
       showCategoriasModal: false, // Controla la visibilidad del modal de categorías
 
