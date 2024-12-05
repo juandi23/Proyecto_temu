@@ -9,7 +9,7 @@
       <img :src="product.image" :alt="product.title" class="product-image" />
       <div class="product-details">
         <h3 class="product-name">{{ product.title }}</h3>
-        <p class="product-price">{{ product.price }} USD</p>
+        <p class="product-price">{{ product.price }} COP</p>
         <button class="add-to-cart-btn" @click.stop="handleAddToCart(product)">Agregar al carrito</button>
       </div>
     </div>
