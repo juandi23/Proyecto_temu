@@ -12,6 +12,7 @@ import ProductDetailView from '../views/ProductDetailView.vue';
 import PrivacyPolicy from '@/views/PrivacyPolicy.vue';
 import TermsOfUse from '@/views/TermsOfUse.vue';
 import ViewPerfil from '@/views/ViewPerfil.vue';
+import ViewPermisos from '@/views/ViewPermisos.vue';
 
 
 const routes = [
@@ -28,6 +29,7 @@ const routes = [
   { path: '/terminos-de-uso', component: TermsOfUse, name: 'TermsOfUse' },
   { path: '/politica-de-privacidad', component: PrivacyPolicy, name: 'PrivacyPolicy' }, 
   { path: '/perfil', component: ViewPerfil, name: 'ViewPerfil' },
+  { path: '/permisos', component: ViewPermisos, name: 'ViewPermisos' }
   
   
 ];

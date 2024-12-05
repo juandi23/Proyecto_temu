@@ -118,6 +118,7 @@
                 <a href="#" class="dropdown-item">Historial de navegación</a>
                 <a href="#" class="dropdown-item">Direcciones</a>
                 <a href="#" class="dropdown-item">Seguridad de la cuenta</a>
+                <router-link to="/permisos" class="dropdown-item">Permisos</router-link>
                 <a href="#" class="dropdown-item">Permisos</a>
                 <a href="#" class="dropdown-item">Notificaciones</a>
                 <a href="#" class="dropdown-item">Cambiar cuenta</a>
