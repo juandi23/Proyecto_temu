@@ -37,14 +37,27 @@ export default {
   setup() {
     const products = ref([]);
     const router = useRouter();
+    const tasaDeCambio = ref(null); // Variable para almacenar la tasa de cambio
+
 
     // Obtener productos de FakeStore
     onMounted(async () => {
       try {
+        // Obtener la tasa de cambio de USD a COP
+        const tasaResponse = await axios.get('https://api.exchangerate-api.com/v4/latest/USD');
+        tasaDeCambio.value = tasaResponse.data.rates.COP; // Guardamos la tasa de cambio
+
+        // Obtener los productos
         const response = await axios.get('https://fakestoreapi.com/products?limit=50');
-        products.value = response.data;
+        const productsData = response.data;
+
+        // Convertir los precios de los productos a COP
+        products.value = productsData.map(product => ({
+          ...product,
+          price: (product.price * tasaDeCambio.value).toFixed(2), // Convertir precio a COP
+        }));
       } catch (error) {
-        console.error('Error al obtener los productos:', error);
+        console.error('Error al obtener los datos:', error);
       }
     });
 
