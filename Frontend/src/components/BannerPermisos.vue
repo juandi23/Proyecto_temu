@@ -50,7 +50,7 @@
 
         <div class="permissions-page">
             <h2>Temu NO obtiene tus permisos en el navegador</h2>
-            <p>Para conocer los permisos de la aplicación Temu, <a href="#" class="link">haz clic aquí</a></p>
+            
             
             <div class="permissions-grid">
                 <div v-for="(permission, index) in permissions" :key="index" class="permission-card">
@@ -103,6 +103,43 @@
           { icon: '&#128275;', label: 'Permisos' },
           { icon: '&#128276;', label: 'Notificaciones' }
         ],
+        permissions: [
+        {
+          icon: "icon-contacts",
+          title: "Contactos",
+          description: "Temu no solicita acceso a tus contactos en el navegador.",
+        },
+        {
+          icon: "icon-microphone",
+          title: "Micrófono",
+          description: "Temu no solicita acceder a tu micrófono en el navegador. Sólo se usará en grabaciones que tú permitas.",
+        },
+        {
+          icon: "icon-bluetooth",
+          title: "Bluetooth",
+          description: "Temu no solicita acceso a tu Bluetooth en el navegador.",
+        },
+        {
+          icon: "icon-location",
+          title: "Ubicación",
+          description: "En la mayoría de los países, Temu no solicita acceso a tu ubicación salvo que sea necesario para envíos.",
+        },
+        {
+          icon: "icon-photos",
+          title: "Fotos",
+          description: "Temu no solicita acceso a tus fotos salvo que tú lo permitas para cargar imágenes.",
+        },
+        {
+          icon: "icon-camera",
+          title: "Cámara",
+          description: "Temu no solicita permiso para acceder a tu cámara en el navegador.",
+        },
+        {
+          icon: "icon-other",
+          title: "Otros",
+          description: "Temu no solicitará acceso a funciones como tu calendario, recordatorios, etc.",
+        },
+      ],
         socialIcons: {
           google: { src: 'https://cdn.cdnlogo.com/logos/g/35/google-icon.svg', url:  'https://accounts.google.com' },
           facebook: { src: 'https://cdn.cdnlogo.com/logos/f/84/facebook.svg', url: 'https://www.facebook.com/login' },
@@ -340,5 +377,61 @@
     width: 18px;
     height:18px;
     }
+
+    .permissions-page {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+.permissions-page h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.permissions-page .link {
+  color: #ff6600;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.permissions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.permission-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.permission-card .icon {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  color: #ff6600;
+}
+
+.permission-card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+}
+
+.permission-card p {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.footer-text {
+  margin-top: 20px;
+  font-size: 0.8rem;
+  color: #777;
+}
   
   </style>
