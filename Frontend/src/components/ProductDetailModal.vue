@@ -11,7 +11,7 @@
 
       <h2 class="product-title">{{ product.title }}</h2>
       <p class="product-description">{{ product.description }}</p>
-      <div class="product-price">Precio: {{ product.price }} USD</div>
+      <div class="product-price">Precio: {{ product.price }} COP</div>
 
       <!-- Botón para añadir al carrito -->
       <button class="add-to-cart-btn">Añadir al carrito</button>

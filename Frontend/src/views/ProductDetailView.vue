@@ -11,7 +11,7 @@
     <div class="product-info">
       <h1>{{ product.title }}</h1>
       <p>{{ product.description }}</p>
-      <div class="price">Precio: {{ product.price }} USD</div>
+      <div class="price">Precio: {{ product.price }} COP</div>
   
       <!-- Opciones de compra -->
       <div v-if="product.options">

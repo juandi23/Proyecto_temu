@@ -54,24 +54,36 @@ export default {
     }
   },
   methods: {
-    toggleExpand() {
-      this.isExpanded = !this.isExpanded;
-    },
-    fetchProducts() {
-      fetch('https://fakestoreapi.com/products?limit=4')
-        .then((res) => res.json())
-        .then((json) => {
-          this.products = json;
-          console.log('Products fetched:', this.products);
-        })
-        .catch((error) => console.error('Error fetching products:', error));
-    },
-    
+  toggleExpand() {
+    this.isExpanded = !this.isExpanded;
   },
-  created() {
-    // Llamar al método fetchProducts cuando se monte el componente
-    this.fetchProducts();
-  }
+  async fetchProducts() {
+    try {
+      // Obtener tasa de cambio de USD a COP
+      const response = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
+      const data = await response.json();
+      const tasaDeCambio = data.rates.COP;
+
+      // Obtener productos
+      const res = await fetch('https://fakestoreapi.com/products?limit=4');
+      const products = await res.json();
+
+      // Convertir precios a COP
+      this.products = products.map(product => ({
+        ...product,
+        price: (product.price * tasaDeCambio).toFixed(2), // Convertir a COP
+      }));
+
+      console.log('Productos con precios convertidos:', this.products);
+    } catch (error) {
+      console.error('Error fetching products or tasa de cambio:', error);
+    }
+  },
+},
+created() {
+  this.fetchProducts(); // Llamar al método fetchProducts cuando se monte el componente
+},
+
 
 }
 </script>
