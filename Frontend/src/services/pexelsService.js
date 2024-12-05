@@ -15,7 +15,7 @@ export const getPhotosByCategory = async (category) => {
     const response = await pexelsService.get(`search`, {
       params: {
         query: category,
-        per_page: 1, // Define cuántas fotos quieres traer por categoría
+        per_page: 50,  // Cambia esto para obtener más imágenes
       },
     });
     return response.data.photos;

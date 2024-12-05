@@ -1,71 +1,74 @@
 <template>
-    <div v-if="show" class="modal-overlay" @click.self="closeModal">
-      <div class="modal-content">
-        <!-- Panel Izquierdo: Categorías -->
-        <div class="left-panel">
-          <h2 class="panel-title">Categorías</h2>
-          <ul>
-            <li
-              v-for="(category, index) in mainCategories"
-              :key="index"
-              @click="selectCategory(index)"
-              :class="{ active: index === selectedCategoryIndex }"
-            >
-              {{ category }}
-            </li>
-          </ul>
-        </div>
-  
-        <!-- Panel Derecho: Subcategorías con imágenes -->
-        <div class="right-panel">
-          <h2 class="panel-title">{{ selectedCategory }}</h2>
-          <div class="sub-category-list">
-            <div
-              v-for="(subCategory, index) in selectedSubCategories"
-              :key="index"
-              class="sub-category"
-            >
-            <img  v-for="photo in photos" :key="photo.id" :src="photo.src.medium" class="category-image"/>
-              <span class="category-name">{{ subCategory.name }}</span>
-              <span v-if="subCategory.isHot" class="hot-badge">HOT</span>
-            </div>
+  <div v-if="show" class="modal-overlay" @click.self="closeModal">
+    <div class="modal-content">
+      <!-- Panel Izquierdo: Categorías -->
+      <div class="left-panel">
+        <h2 class="panel-title">Categorías</h2>
+        <ul>
+          <li
+            v-for="(category, index) in mainCategories"
+            :key="index"
+            @click="selectCategory(index)"
+            :class="{ active: index === selectedCategoryIndex }"
+          >
+            {{ category }}
+          </li>
+        </ul>
+      </div>
+
+      <!-- Panel Derecho: Subcategorías con imágenes -->
+      <div class="right-panel">
+        <h2 class="panel-title">{{ selectedCategory }}</h2>
+        <div class="sub-category-list">
+          <div
+            v-for="(photo, index) in selectedSubCategories"
+            :key="index"
+            class="sub-category"
+          >
+            <!-- Mostrar la imagen de Pexels -->
+            <img :src="photo.image" class="category-image" />
+            <span class="category-name">{{ photo.name }}</span> <!-- Mostrar el nombre de la subcategoría -->
+            <span v-if="photo.isHot" class="hot-badge">HOT</span> <!-- Mostrar la etiqueta HOT -->
           </div>
         </div>
       </div>
     </div>
-  </template>
-  
-  <script>
-  import { getPhotosByCategory } from '@/services/pexelsService.js';
-  export default {
-    props: {
-      show: {
-        type: Boolean,
-        required: true,
-      },
+  </div>
+</template>
+
+<script>
+import { getPhotosByCategory } from '@/services/pexelsService.js';
+
+export default {
+  props: {
+    show: {
+      type: Boolean,
+      required: true,
     },
-    data() {
-      return {
-        category: 'nature', // Cambia esto para mostrar la categoría deseada
-        photos: [],
-        mainCategories: [
-          "Destacado",
-          "Hogar y cocina",
-          "Ropa de mujer",
-          "Deporte y aire libre",
-          "Mujer curvy",
-          "Juguetes",
-          "Calzado de mujer",
-          "Automotriz",
-          "Lencería y pijamas de mujer",
-          "Patio, césped y jardín",
-          "Ropa de hombre",
-          "Tecnología",
-          "Calzado de hombre",
-          "Negocios, industria y ciencia",
-          "Hombre de talla grande",
-          "Herramientas y hogar",
-        ],
+  },
+  data() {
+    return {
+      selectedCategoryIndex: null,
+      selectedCategory: '',
+      selectedSubCategories: [], // Subcategorías que se actualizan según la categoría seleccionada
+      mainCategories: [
+        "Destacado",
+        "Hogar y cocina",
+        "Ropa de mujer",
+        "Deporte y aire libre",
+        "Mujer curvy",
+        "Juguetes",
+        "Calzado de mujer",
+        "Automotriz",
+        "Lencería y pijamas de mujer",
+        "Patio, césped y jardín",
+        "Ropa de hombre",
+        "Tecnología",
+        "Calzado de hombre",
+        "Negocios, industria y ciencia",
+        "Hombre de talla grande",
+        "Herramientas y hogar",
+      ],
         subCategoriesData: {
   "Destacado": [
     { name: "Almacenaje y organización", image: "https://via.placeholder.com/80", isHot: false },
@@ -316,23 +319,40 @@
       selectedCategory() {
         return this.mainCategories[this.selectedCategoryIndex];
       },
-      selectedSubCategories() {
-        return this.subCategoriesData[this.selectedCategory] || [];
-      },
     },
     methods: {
-      closeModal() {
-        this.$emit("close");
-      },
-      selectCategory(index) {
-        this.selectedCategoryIndex = index;
-      },
+    closeModal() {
+      this.$emit("close"); // Emite un evento para cerrar el modal
     },
-    async created() {
-    this.photos = await getPhotosByCategory(this.category);
-    console.log(this.photos);
+    selectCategory(index) {
+      this.selectedCategoryIndex = index;
+      this.selectedCategory = this.mainCategories[index]; // Asigna el nombre de la categoría seleccionada
+      this.fetchPhotosForCategory(this.selectedCategory);
+    },
+    async fetchPhotosForCategory(category) {
+  try {
+    const photos = await getPhotosByCategory(category);
+    console.log('Fotos obtenidas para', category, photos);  // Verifica la cantidad de imágenes obtenidas
+    
+    this.selectedSubCategories = this.subCategoriesData[this.selectedCategory].map((subCategory, index) => {
+      const photo = photos[index % photos.length] || { src: { medium: "https://via.placeholder.com/80" } };
+      return {
+        ...subCategory,
+        image: photo.src.medium,
+      };
+    });
+  } catch (error) {
+    console.error("Error al obtener fotos para la categoría:", error);
+      }
+    },
   },
-  };
+  async created() {
+    // Obtener fotos usando la API al principio
+    if (this.mainCategories.length > 0) {
+      await this.fetchPhotosForCategory(this.mainCategories[0]); // Llamamos con la primera categoría al iniciar
+    }
+  },
+};
   </script>
   
   <style scoped>
