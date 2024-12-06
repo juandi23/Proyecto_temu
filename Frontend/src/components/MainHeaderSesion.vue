@@ -110,9 +110,13 @@
                 </div>
                 <hr>
                 <router-link to="/TusPedidos" class="dropdown-item">Tus pedidos</router-link>
-                <a href="#" class="dropdown-item">Tus reseñas</a>
+                <router-link to="/TusReseñas" class="dropdown-item">Tus Reseñas</router-link>
                 <router-link to="/perfil" class="dropdown-item">Tu Perfil</router-link>
-                <a href="#" class="dropdown-item">Cupones y ofertas</a>
+                <router-link to="/Cupones_y_Ofertas" class="dropdown-item">Cupones y Ofertas</router-link>
+                <router-link to="/Saldo_y_Crédito" class="dropdown-item">Saldo y Crédito</router-link>
+                <router-link to="/Proveedores" class="dropdown-item">Proveedores seguidos</router-link>
+                
+
                 <a href="#" class="dropdown-item">Saldo de crédito</a>
                 <a href="#" class="dropdown-item">Proveedores seguidos</a>
                 <a href="#" class="dropdown-item">Historial de navegación</a>

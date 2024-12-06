@@ -2,7 +2,7 @@
   <div class="orders-page">
     <nav aria-label="breadcrumb" class="breadcrumb">
       <router-link to="/">Inicio</router-link> &gt;
-        <span>Tus pedidos</span>
+        <span>Tu perfil</span>
     
     </nav>
     
@@ -24,7 +24,8 @@
           </ul>
         </transition>
 
-         <ul class="secondary-menu">
+        
+        <ul class="secondary-menu">
             <li
                 v-for="(item, index) in secondaryMenuItems"
                 :key="index"
@@ -38,34 +39,48 @@
       </aside>
       
       <main class="main-panel">
-        <div class="tabs-and-search">
-          <div class="tabs">
-            <button v-for="(tab, index) in tabs" :key="index" 
-                    @click="selectTab(index)" 
-                    :class="{ active: selectedTab === index }"
-                    :aria-selected="selectedTab === index">
-              {{ tab }}
-            </button>
-          </div>
-
-          <div class="search-bar">
-            <input type="text" placeholder="Nombre del artículo / ID del pedido / Número de Seguimiento">
-            <button aria-label="Buscar">
-              <img src="../assets/icono-buscar.png" alt="Icono buscar" class="icon-small">
-            </button>
-          </div>
-
-
+        <div class="user-info">
+          
+          
+            <div class="coupon-container">
+  <div class="tabs">
+    <button class="tab active">Disponible</button>
+    <button class="tab">Usado</button>
+    <button class="tab">Vencido</button>
+  </div>
+  <div class="coupon-input">
+    <input type="text" placeholder="Ingresa el código del cupón" />
+    <button class="apply-button">Aplicar</button>
+  </div>
+  <div class="filter-buttons">
+    <button class="filter-button active">Todos</button>
+    <button class="filter-button">Ofertas y cupones para Temu</button>
+    <button class="filter-button">Cupones para artículos específicos</button>
+  </div>
+  <div class="special-offer">
+    <h3>Oferta especial para ti</h3>
+    <div class="offer-card">
+      <div class="offer-content">
+        <h4>Regalo gratis en la Granja</h4>
+        <p>¡Hasta <strong>$300.000</strong> en recompensas esperándote en la Granja!</p>
+        <p>¡Cuando el progreso del riego alcance el 100%, podrás obtener regalos!</p>
+      </div>
+      <button class="get-button">Obtener</button>
+    </div>
+  </div>
+  <div class="limited-discount">
+    <a href="#">Descuento por tiempo limitado para artículos seleccionados</a>
+  </div>
+</div>
 
 
         </div>
-
+        
         <div v-if="messages[selectedTab] || messages[selectedSecondaryMenuItem]" class="no-returns">
-            <div class="icon_pedidos">&#128230;</div>
+            <span class="icon large-icon">&#127991;&#65039;</span>
+
             <p>{{ messages[selectedTab] || messages[selectedSecondaryMenuItem] }}</p>
          </div>
-
-
 
         <section class="help-section">
           <h2>¿No puedes encontrar tu pedido?</h2>
@@ -90,10 +105,24 @@
   </div>
 </template>
 
-
-
 <script>
 import Login from '@/components/Login.vue'
+
+document.querySelectorAll(".tab").forEach((tab, index) => {
+  tab.addEventListener("click", () => {
+    document.querySelector(".tab.active").classList.remove("active");
+    tab.classList.add("active");
+    console.log(`Tab ${index} selected`);
+    // Aquí podrías alternar contenido basado en la pestaña seleccionada
+  });
+});
+
+document.querySelectorAll(".filter-button").forEach((button) => {
+  button.addEventListener("click", () => {
+    document.querySelector(".filter-button.active").classList.remove("active");
+    button.classList.add("active");
+  });
+});
 
 export default {
   components: {
@@ -102,9 +131,12 @@ export default {
   name: 'OrdersComponent',
   data() {
     return {
+      session: null,
+      user: {
+        avatar: "../assets/default-avatar.png", 
+      },
       showSubmenu: true,
       menuItems: ['Todos', 'Procesando', 'Enviado', 'Entregado', 'Devoluciones'],
-      tabs: ['Todos', 'Procesando', 'Enviado', 'Entregado', 'Devoluciones'],
       selectedMenuItem: 0,
       selectedTab: 0,
       messages: {
@@ -198,6 +230,117 @@ goToHelp() {
 </script>
 
 <style scoped>
+
+.coupon-container {
+  font-family: Arial, sans-serif;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.tabs {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.tab {
+  padding: 8px 16px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.tab.active {
+  color: black;
+  border-bottom: 2px solid black;
+}
+
+.coupon-input {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.coupon-input input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.apply-button {
+  padding: 8px 16px;
+  background-color: black;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.filter-buttons {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.filter-button {
+  padding: 8px 16px;
+  border: 1px solid #ccc;
+  background-color: white;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.filter-button.active {
+  border-color: black;
+  font-weight: bold;
+}
+
+.special-offer {
+  margin-bottom: 16px;
+}
+
+.offer-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background-color: #fff7eb;
+  border: 1px solid #ffdab9;
+  border-radius: 8px;
+}
+
+.offer-content h4 {
+  margin: 0 0 8px;
+  color: orange;
+}
+
+.get-button {
+  padding: 8px 16px;
+  background-color: orange;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.limited-discount a {
+  color: black;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+
+.large-icon {
+  font-size: 7em; /* Incrementa el tamaño 3 veces */
+  display: inline-block; /* Asegura que respete el espacio como un elemento en línea */
+  vertical-align: middle; /* Opcional: centra el ícono en relación con el texto */
+}
+
 
 .secondary-menu .active {
 font-weight: bold;

@@ -26,10 +26,16 @@
 
         
         <ul class="secondary-menu">
-          <li v-for="(item, index) in secondaryMenuItems" :key="index">
-            <span class="icon" v-html="item.icon"></span>{{ item.label }}
-          </li>
+            <li
+                v-for="(item, index) in secondaryMenuItems"
+                :key="index"
+                @click="selectSecondaryMenuItem(item.key)"
+                :class="{ active: selectedSecondaryMenuItem === item.key }"
+            >
+                <span class="icon" v-html="item.icon"></span>{{ item.label }}
+            </li>
         </ul>
+
       </aside>
       
       <main class="main-panel">
@@ -45,10 +51,10 @@
 
         </div>
         
-        <div v-if="messages[selectedTab]" class="no-returns">
-          <div class="icon_pedidos">&#128230;</div>
-          <p>{{ messages[selectedTab] }}</p>
-        </div>
+        <div v-if="messages[selectedTab] || messages[selectedSecondaryMenuItem]" class="no-returns">
+            <div class="icon_pedidos">&#128230;</div>
+            <p>{{ messages[selectedTab] || messages[selectedSecondaryMenuItem] }}</p>
+         </div>
 
         <section class="help-section">
           <h2>¿No puedes encontrar tu pedido?</h2>
@@ -96,22 +102,35 @@ export default {
         1: 'No tienes ningun pedidos en procesamiento',
         2: 'No tienes pedidos enviados',
         3: 'No tienes pedidos entregados',
-        4: 'No tienes pedidos para devolver'
+        4: 'No tienes pedidos para devolver',
+          'reseñas': 'Aquí están tus reseñas',
+          'perfil': 'Aquí puedes gestionar tu perfil',
+          'cupones': 'Encuentra aquí tus cupones y ofertas',
+          'saldo': 'Consulta tu saldo de crédito disponible',
+          'proveedores': 'Estos son tus proveedores seguidos',
+          'historial': 'Revisa tu historial de navegación',
+          'direcciones': 'Gestión de tus direcciones guardadas',
+          'pais': 'Configura tu país, región e idioma',
+          'metodos': 'Consulta y gestiona tus métodos de pago',
+          'seguridad': 'Ajustes de seguridad de la cuenta',
+          'permisos': 'Administra tus permisos',
+          'notificaciones': 'Configura tus notificaciones'
       },
       secondaryMenuItems: [
-        { icon: '&#128172;', label: 'Tus reseñas' },
-        { icon: '&#128100;', label: 'Tu perfil' },
-        { icon: '&#127915;', label: 'Cupones y ofertas' },
-        { icon: '&#128176;', label: 'Saldo de crédito' },
-        { icon: '&#128101;', label: 'Proveedores seguidos' },
-        { icon: '&#128340;', label: 'Historial de navegación' },
-        { icon: '&#127968;', label: 'Direcciones' },
-        { icon: '&#127758;', label: 'País/región e idioma' },
-        { icon: '&#128179;', label: 'Métodos de pago' },
-        { icon: '&#128274;', label: 'Seguridad de la cuenta' },
-        { icon: '&#128275;', label: 'Permisos' },
-        { icon: '&#128276;', label: 'Notificaciones' }
-      ],
+          { icon: '&#128172;', label: 'Tus reseñas', key: 'reseñas' },
+          { icon: '&#128100;', label: 'Tu perfil', key: 'perfil' },
+          { icon: '&#127915;', label: 'Cupones y ofertas', key: 'cupones' },
+          { icon: '&#128176;', label: 'Saldo de crédito', key: 'saldo' },
+          { icon: '&#128101;', label: 'Proveedores seguidos', key: 'proveedores' },
+          { icon: '&#128340;', label: 'Historial de navegación', key: 'historial' },
+          { icon: '&#127968;', label: 'Direcciones', key: 'direcciones' },
+          { icon: '&#127758;', label: 'País/región e idioma', key: 'pais' },
+          { icon: '&#128179;', label: 'Métodos de pago', key: 'metodos' },
+          { icon: '&#128274;', label: 'Seguridad de la cuenta', key: 'seguridad' },
+          { icon: '&#128275;', label: 'Permisos', key: 'permisos' },
+          { icon: '&#128276;', label: 'Notificaciones', key: 'notificaciones' }
+          ],
+          selectedSecondaryMenuItem: null, // Nuevo estado para el menú secundario
       socialIcons: {
         google: { src: 'https://cdn.cdnlogo.com/logos/g/35/google-icon.svg', url:  'https://accounts.google.com' },
         facebook: { src: 'https://cdn.cdnlogo.com/logos/f/84/facebook.svg', url: 'https://www.facebook.com/login' },
@@ -135,30 +154,45 @@ export default {
   return email || ''; 
 },
 
-    
-    toggleSubmenu() {
-      this.showSubmenu = !this.showSubmenu
-    },
-    selectMenuItem(index) {
-      this.selectedMenuItem = index
-      this.selectedTab = index
-    },
-    selectTab(index) {
-      this.selectedTab = index
-      this.selectedMenuItem = index
-    },
-    goTo(url) {
-      window.open(url, '_blank')  
-    },
-    goToHelp() {
-      window.open('https://www.google.com/search?q=como+encontrar+mi+pedido', '_blank')
-    }
+selectSecondaryMenuItem(itemKey) {
+  this.selectedSecondaryMenuItem = itemKey;
+  this.selectedMenuItem = null; // Reinicia la selección del menú principal
+},
+
+toggleSubmenu() {
+  this.showSubmenu = !this.showSubmenu
+},
+selectMenuItem(index) {
+  this.selectedMenuItem = index
+  this.selectedTab = index
+  this.selectedSecondaryMenuItem = null // Desactivar selección del menú secundario
+},
+selectTab(index) {
+  this.selectedTab = index
+  this.selectedMenuItem = index
+  this.selectedSecondaryMenuItem = null // Desactivar selección del menú secundario
+},
+selectSecondaryMenuItem(itemKey) {
+  this.selectedSecondaryMenuItem = itemKey // Activar el ítem del menú secundario
+  this.selectedMenuItem = null // Desactivar el menú principal
+  this.selectedTab = null // Desactivar la selección de tabs
+},
+goTo(url) {
+  window.open(url, '_blank')  
+},
+goToHelp() {
+  window.open('https://www.google.com/search?q=como+encontrar+mi+pedido', '_blank')
+},
   }
 }
 </script>
 
 <style scoped>
 
+.secondary-menu .active {
+font-weight: bold;
+color: #007bff;
+}
 
 .orders-page {
   font-family: Arial, sans-serif;

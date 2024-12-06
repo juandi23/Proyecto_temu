@@ -2,7 +2,7 @@
     <div class="orders-page">
       <nav aria-label="breadcrumb" class="breadcrumb">
         <router-link to="/">Inicio</router-link> &gt;
-          <span>Permisos</span>
+          <span>Tu Reseñas</span>
       
       </nav>
       
@@ -23,8 +23,9 @@
               </li>
             </ul>
           </transition>
-
-           <ul class="secondary-menu">
+  
+          
+          <ul class="secondary-menu">
             <li
                 v-for="(item, index) in secondaryMenuItems"
                 :key="index"
@@ -38,117 +39,100 @@
         </aside>
         
         <main class="main-panel">
-          <div class="tabs-and-search">
-            <div class="tabs">
-              <button v-for="(tab, index) in tabs" :key="index" 
-                      @click="selectTab(index)" 
-                      :class="{ active: selectedTab === index }"
-                      :aria-selected="selectedTab === index">
-                {{ tab }}
-              </button>
-            </div>
+          <div class="user-info">
+            
+            
+            <a href="#" id="Iniciar_sesion" class="user-icon">
+              <img src="../assets/icono-usuario1.png" alt="Icono usuario" class="icon">
+              <span>
+                Hola, {{ session?.user?.email ? formatEmail(session.user.email) : 'Iniciar sesión' }}
+              </span>
+            </a>
   
           </div>
-  
+          
           <div v-if="messages[selectedTab] || messages[selectedSecondaryMenuItem]" class="no-returns">
-            <div class="icon_pedidos">&#128230;</div>
+            <div class="icon_pedidos">&#128203;</div>
+
             <p>{{ messages[selectedTab] || messages[selectedSecondaryMenuItem] }}</p>
          </div>
 
-        <div class="permissions-page">
-            <h2>Temu NO obtiene tus permisos en el navegador</h2>
-            
-            
-            <div class="permissions-grid">
-                <div v-for="(permission, index) in permissions" :key="index" class="permission-card">
-                    <div class="icon">
-                        <span :class="permission.icon"></span>
-                    </div>
-                    <h3>{{ permission.title }}</h3>
-                    <p>{{ permission.description }}</p>
-                </div>
-            </div>
-            
-            <p class="footer-text">
-                Temu considera que la transparencia es primordial y solicita una cantidad mínima de permisos. Puedes obtener más información sobre cómo operamos para proteger la privacidad de nuestros usuarios en la 
-                <router-link to="/politica-de-privacidad" target="_blank">Política de privacidad</router-link>.
-              
-            </p>
-        </div>
   
+          <section class="help-section">
+            <h2>¿No puedes encontrar tu pedido?</h2>
+            <div class="buttons">
+              <button class="login-button">
+                Inicia sesión con otra cuenta
+                <span class="icons">
+                  <span v-for="(icon, name) in socialIcons" :key="name" 
+                        class="icon" :class="name" @click.stop="goTo(icon.url)">
+                    <img :src="icon.src" :alt="name" width="16" height="16">
+                  </span>
+                </span>
+              </button>
+              <button class="help-button" @click="goToHelp">
+                Ayuda para encontrar el pedido
+                <span class="arrow">▶</span>
+              </button>
+            </div>
+          </section>
         </main>
       </div>
     </div>
   </template>
   
   <script>
+  import Login from '@/components/Login.vue'
+  
   export default {
+    components: {
+      Login,
+    },
     name: 'OrdersComponent',
     data() {
       return {
+        session: null,
+        user: {
+          avatar: "../assets/default-avatar.png", 
+        },
         showSubmenu: true,
         menuItems: ['Todos', 'Procesando', 'Enviado', 'Entregado', 'Devoluciones'],
-        //tabs: ['Todos', 'Procesando', 'Enviado', 'Entregado', 'Devoluciones'],
         selectedMenuItem: 0,
-        
+        selectedTab: 0,
         messages: {
           0: 'No tienes pedidos',
           1: 'No tienes ningun pedidos en procesamiento',
           2: 'No tienes pedidos enviados',
           3: 'No tienes pedidos entregados',
-          4: 'No tienes pedidos para devolver'
+          4: 'No tienes pedidos para devolver',
+            'reseñas': 'Aquí están tus reseñas',
+            'perfil': 'Aquí puedes gestionar tu perfil',
+            'cupones': 'Encuentra aquí tus cupones y ofertas',
+            'saldo': 'Consulta tu saldo de crédito disponible',
+            'proveedores': 'Estos son tus proveedores seguidos',
+            'historial': 'Revisa tu historial de navegación',
+            'direcciones': 'Gestión de tus direcciones guardadas',
+            'pais': 'Configura tu país, región e idioma',
+            'metodos': 'Consulta y gestiona tus métodos de pago',
+            'seguridad': 'Ajustes de seguridad de la cuenta',
+            'permisos': 'Administra tus permisos',
+            'notificaciones': 'Configura tus notificaciones'
         },
         secondaryMenuItems: [
-          { icon: '&#128172;', label: 'Tus reseñas' },
-          { icon: '&#128100;', label: 'Tu perfil' },
-          { icon: '&#127915;', label: 'Cupones y ofertas' },
-          { icon: '&#128176;', label: 'Saldo de crédito' },
-          { icon: '&#128101;', label: 'Proveedores seguidos' },
-          { icon: '&#128340;', label: 'Historial de navegación' },
-          { icon: '&#127968;', label: 'Direcciones' },
-          { icon: '&#127758;', label: 'País/región e idioma' },
-          { icon: '&#128179;', label: 'Métodos de pago' },
-          { icon: '&#128274;', label: 'Seguridad de la cuenta' },
-          { icon: '&#128275;', label: 'Permisos' },
-          { icon: '&#128276;', label: 'Notificaciones' }
-        ],
-        permissions: [
-        {
-          icon: "icon-contacts",
-          title: "Contactos",
-          description: "Temu no solicita acceso a tus contactos en el navegador.",
-        },
-        {
-          icon: "icon-microphone",
-          title: "Micrófono",
-          description: "Temu no solicita acceder a tu micrófono en el navegador. Sólo se usará en grabaciones que tú permitas.",
-        },
-        {
-          icon: "icon-bluetooth",
-          title: "Bluetooth",
-          description: "Temu no solicita acceso a tu Bluetooth en el navegador.",
-        },
-        {
-          icon: "icon-location",
-          title: "Ubicación",
-          description: "En la mayoría de los países, Temu no solicita acceso a tu ubicación salvo que sea necesario para envíos.",
-        },
-        {
-          icon: "icon-photos",
-          title: "Fotos",
-          description: "Temu no solicita acceso a tus fotos salvo que tú lo permitas para cargar imágenes.",
-        },
-        {
-          icon: "icon-camera",
-          title: "Cámara",
-          description: "Temu no solicita permiso para acceder a tu cámara en el navegador.",
-        },
-        {
-          icon: "icon-other",
-          title: "Otros",
-          description: "Temu no solicitará acceso a funciones como tu calendario, recordatorios, etc.",
-        },
-      ],
+            { icon: '&#128172;', label: 'Tus reseñas', key: 'reseñas' },
+            { icon: '&#128100;', label: 'Tu perfil', key: 'perfil' },
+            { icon: '&#127915;', label: 'Cupones y ofertas', key: 'cupones' },
+            { icon: '&#128176;', label: 'Saldo de crédito', key: 'saldo' },
+            { icon: '&#128101;', label: 'Proveedores seguidos', key: 'proveedores' },
+            { icon: '&#128340;', label: 'Historial de navegación', key: 'historial' },
+            { icon: '&#127968;', label: 'Direcciones', key: 'direcciones' },
+            { icon: '&#127758;', label: 'País/región e idioma', key: 'pais' },
+            { icon: '&#128179;', label: 'Métodos de pago', key: 'metodos' },
+            { icon: '&#128274;', label: 'Seguridad de la cuenta', key: 'seguridad' },
+            { icon: '&#128275;', label: 'Permisos', key: 'permisos' },
+            { icon: '&#128276;', label: 'Notificaciones', key: 'notificaciones' }
+            ],
+            selectedSecondaryMenuItem: null, // Nuevo estado para el menú secundario
         socialIcons: {
           google: { src: 'https://cdn.cdnlogo.com/logos/g/35/google-icon.svg', url:  'https://accounts.google.com' },
           facebook: { src: 'https://cdn.cdnlogo.com/logos/f/84/facebook.svg', url: 'https://www.facebook.com/login' },
@@ -156,31 +140,62 @@
         }
       }
     },
+  
+    created() {
+      this.loadSession();
+    },
+  
     methods: {
-      toggleSubmenu() {
-        this.showSubmenu = !this.showSubmenu
+      loadSession() {
+        const sessionData = localStorage.getItem('session');
+        if (sessionData) {
+          this.session = JSON.parse(sessionData);
+        }
       },
-      selectMenuItem(index) {
-        this.selectedMenuItem = index
-        this.selectedTab = index
-      },
-      selectTab(index) {
-        this.selectedTab = index
-        this.selectedMenuItem = index
-      },
-      goTo(url) {
-        window.open(url, '_blank')  
-      },
-      goToHelp() {
-        window.open('https://www.google.com/search?q=como+encontrar+mi+pedido', '_blank')
-      }
+      formatEmail(email) {
+    return email || ''; 
+  },
+
+  selectSecondaryMenuItem(itemKey) {
+    this.selectedSecondaryMenuItem = itemKey;
+    this.selectedMenuItem = null; // Reinicia la selección del menú principal
+  },
+  
+  toggleSubmenu() {
+    this.showSubmenu = !this.showSubmenu
+  },
+  selectMenuItem(index) {
+    this.selectedMenuItem = index
+    this.selectedTab = index
+    this.selectedSecondaryMenuItem = null // Desactivar selección del menú secundario
+  },
+  selectTab(index) {
+    this.selectedTab = index
+    this.selectedMenuItem = index
+    this.selectedSecondaryMenuItem = null // Desactivar selección del menú secundario
+  },
+  selectSecondaryMenuItem(itemKey) {
+    this.selectedSecondaryMenuItem = itemKey // Activar el ítem del menú secundario
+    this.selectedMenuItem = null // Desactivar el menú principal
+    this.selectedTab = null // Desactivar la selección de tabs
+  },
+  goTo(url) {
+    window.open(url, '_blank')  
+  },
+  goToHelp() {
+    window.open('https://www.google.com/search?q=como+encontrar+mi+pedido', '_blank')
+  },
     }
   }
-
-  
   </script>
   
   <style scoped>
+  
+  .secondary-menu .active {
+  font-weight: bold;
+  color: #007bff;
+}
+
   .orders-page {
     font-family: Arial, sans-serif;
     color: #000000;
@@ -189,8 +204,20 @@
     background-color: #ffffff;
     font-size: 14px;
   
-   
-    
+  }
+  
+  .user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .user-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
   }
   
   .breadcrumb {
@@ -198,6 +225,8 @@
     margin-bottom: 20px;
     margin: 20px;
   }
+  
+  
   
   .main-content {
     display: flex;
@@ -386,61 +415,5 @@
     width: 18px;
     height:18px;
     }
-
-    .permissions-page {
-  font-family: Arial, sans-serif;
-  padding: 20px;
-  background-color: #f9f9f9;
-  color: #333;
-}
-
-.permissions-page h2 {
-  font-size: 1.5rem;
-  margin-bottom: 10px;
-}
-
-.permissions-page .link {
-  color: #ff6600;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-.permissions-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
-  margin-top: 20px;
-}
-
-.permission-card {
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 20px;
-  text-align: center;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.permission-card .icon {
-  font-size: 2rem;
-  margin-bottom: 10px;
-  color: #ff6600;
-}
-
-.permission-card h3 {
-  font-size: 1.1rem;
-  margin-bottom: 10px;
-}
-
-.permission-card p {
-  font-size: 0.9rem;
-  color: #555;
-}
-
-.footer-text {
-  margin-top: 20px;
-  font-size: 0.8rem;
-  color: #777;
-}
   
   </style>

@@ -13,6 +13,10 @@ import PrivacyPolicy from '@/views/PrivacyPolicy.vue';
 import TermsOfUse from '@/views/TermsOfUse.vue';
 import ViewPerfil from '@/views/ViewPerfil.vue';
 import ViewPermisos from '@/views/ViewPermisos.vue';
+import ViewReseñas from '@/views/ViewReseñas.vue';
+import ViewCupones from '@/views/ViewCupones.vue';
+import ViewSaldoCredito from '@/views/ViewSaldoCredito.vue';
+
 
 
 const routes = [
@@ -30,8 +34,11 @@ const routes = [
   { path: '/politica-de-privacidad', component: PrivacyPolicy, name: 'PrivacyPolicy' }, 
   { path: '/perfil', component: ViewPerfil, name: 'ViewPerfil' },
   { path: '/permisos', component: ViewPermisos, name: 'ViewPermisos' },
-  { path: '/TusPedidos', component: Home_Sesion }
-  
+  { path: '/TusPedidos', component: Home_Sesion },
+  { path: '/TusReseñas', component: ViewReseñas },
+  { path: '/Cupones_y_Ofertas', component: ViewCupones },	
+  { path: '/Saldo_y_Crédito', component: ViewSaldoCredito },
+
   
 ];
 
