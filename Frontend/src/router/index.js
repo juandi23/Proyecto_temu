@@ -16,6 +16,8 @@ import ViewPermisos from '@/views/ViewPermisos.vue';
 import ViewReseñas from '@/views/ViewReseñas.vue';
 import ViewCupones from '@/views/ViewCupones.vue';
 import ViewSaldoCredito from '@/views/ViewSaldoCredito.vue';
+import ViewProveedores from '@/views/ViewProveedores.vue';
+import ViewDireccion from '@/views/ViewDireccion.vue';
 
 
 
@@ -38,7 +40,8 @@ const routes = [
   { path: '/TusReseñas', component: ViewReseñas },
   { path: '/Cupones_y_Ofertas', component: ViewCupones },	
   { path: '/Saldo_y_Crédito', component: ViewSaldoCredito },
-
+  { path: '/Proveedores', component: ViewProveedores },
+  { path: '/Direccion', component: ViewDireccion },
   
 ];
 

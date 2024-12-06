@@ -34,12 +34,15 @@
         <p v-if="passwordError" class="error-message">{{ passwordError }}</p>
         <button type="submit" class="login-button">Continuar</button>
       </form>
+     
+     
 
-      <div>
-        <router-link to="/reset-password/fake-token" class="forgot-password">
-          ¿Tienes problemas para iniciar sesión?
-        </router-link>
-      </div>
+        <div>
+          <a href="#" class="forgot-password" @click.prevent="openModal">
+            ¿Tienes problemas para iniciar sesión?
+          </a>
+          <ForgotPasswordModal v-if="showModal" :isVisible="showModal" @close="closeModal" />
+        </div>
 
       <div class="social-login">
         <p>O continúa de otras maneras</p>
@@ -57,11 +60,11 @@
 
       <p class="terms">
 
-        Al continuar, aceptas nuestros 
-        <router-link to="/terminos-de-uso" target="_blank">Términos de uso</router-link> 
-        y autorizas el procesamiento de tus datos personales de acuerdo con nuestra 
-        <router-link to="/politica-de-privacidad" target="_blank">Política de privacidad</router-link>. 
-        Para obtener más detalles sobre los fines y métodos del procesamiento de datos, tus derechos y cómo ejercerlos, visita nuestra 
+        Al continuar, aceptas nuestros
+        <router-link to="/terminos-de-uso" target="_blank">Términos de uso</router-link>
+        y autorizas el procesamiento de tus datos personales de acuerdo con nuestra
+        <router-link to="/politica-de-privacidad" target="_blank">Política de privacidad</router-link>.
+        Para obtener más detalles sobre los fines y métodos del procesamiento de datos, tus derechos y cómo ejercerlos, visita nuestra
         <router-link to="/politica-de-privacidad" target="_blank">Política de privacidad</router-link>.
       </p>
     </div>
@@ -111,7 +114,7 @@ export default {
 
   created() {
     this.isSessionActive();
-    
+   
   },
       // Método para autenticación con Google
 
@@ -249,7 +252,7 @@ export default {
         console.error("Error al iniciar sesión con Google:", error);
       }
     },
-    
+   
     async signInWithFacebook() {
       try {
         console.log("Iniciando sesión con Facebook...");
@@ -347,7 +350,7 @@ export default {
       }
     }
 
-    
+   
   }
 };
 </script>

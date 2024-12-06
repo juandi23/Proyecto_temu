@@ -2,7 +2,7 @@
   <div class="orders-page">
     <nav aria-label="breadcrumb" class="breadcrumb">
       <router-link to="/">Inicio</router-link> &gt;
-        <span>Saldo de credito</span>
+        <span>Proveedores y seguidos</span>
     
     </nav>
     
@@ -42,45 +42,19 @@
         <div class="user-info">
           
           
-          <div class="credit-balance-container">
-            <h2 class="title">
-              Saldo de crédito
-              <span class="info-icon">ℹ️</span>
-            </h2>
-            <p class="security-info">
-              <span class="lock-icon">🔒</span> Todos los datos están cifrados
-            </p>
-            <p class="total">
-              Total (COP): <span class="amount">$0</span>
-            </p>
-            <hr />
-            <h3>Historial</h3>
-            <table class="history-table">
-              <thead>
-                <tr>
-                  <th>Fecha</th>
-                  <th>Descripción</th>
-                  <th>Monto</th>
-                  <th>Estado</th>
-                </tr>
-              </thead>
-              <tbody id="history-body">
-                <tr class="empty-state">
-                  <td colspan="4">
-                    <div class="empty-container">
-                      <div class="empty-icon">🗑️</div>
-                      <p>Aún no hay elementos en tu historial</p>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
 
         </div>
         
         
+        <div class="icon-container">
+          <div class="icon_proveedores">&#128202;</div>
+        </div>
+
+
+      
+
+            
+         
 
         <section class="help-section">
           <h2>¿No puedes encontrar tu pedido?</h2>
@@ -215,90 +189,17 @@ goToHelp() {
 
 <style scoped>
 
-.credit-balance-container {
-  font-family: Arial, sans-serif;
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 16px;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-}
-
-.title {
+.icon-container {
   display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 18px;
-  font-weight: bold;
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center;    /* Centra verticalmente */
+  height: 20vh;          /* Usa todo el alto de la pantalla para centrar */
 }
 
-.info-icon {
-  font-size: 16px;
-  color: gray;
-  cursor: pointer;
-}
-
-.security-info {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: green;
-  font-size: 14px;
-  margin-top: 8px;
-}
-
-.lock-icon {
-  font-size: 16px;
-}
-
-.total {
-  font-size: 16px;
-  margin-top: 16px;
-}
-
-.amount {
-  font-weight: bold;
-  font-size: 20px;
-}
-
-hr {
-  margin: 16px 0;
-  border: none;
-  border-top: 1px solid #eee;
-}
-
-.history-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 16px;
-}
-
-.history-table th,
-.history-table td {
-  padding: 8px;
-  text-align: left;
-  border-bottom: 1px solid #ddd;
-}
-
-.history-table th {
-  background-color: #f9f9f9;
-  font-weight: bold;
-}
-
-.empty-state {
+.icon_proveedores {
+  font-size: 200px; /* Tamaño 5 veces más grande */
+  color: #333;      /* Color del icono */
   text-align: center;
-}
-
-.empty-container {
-  text-align: center;
-  padding: 32px 0;
-  color: gray;
-}
-
-.empty-icon {
-  font-size: 48px;
-  margin-bottom: 16px;
 }
 
 
