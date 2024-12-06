@@ -18,6 +18,9 @@ import ViewCupones from '@/views/ViewCupones.vue';
 import ViewSaldoCredito from '@/views/ViewSaldoCredito.vue';
 import ViewProveedores from '@/views/ViewProveedores.vue';
 import ViewDireccion from '@/views/ViewDireccion.vue';
+import ViewHistorialNav from '@/views/ViewHistorialNav.vue';
+import ViewSeguridad from '@/views/ViewSeguridad.vue';
+import ViewNotificaciones from '@/views/ViewNotificaciones.vue';
 
 
 
@@ -42,6 +45,9 @@ const routes = [
   { path: '/Saldo_y_Crédito', component: ViewSaldoCredito },
   { path: '/Proveedores', component: ViewProveedores },
   { path: '/Direccion', component: ViewDireccion },
+  { path: '/Historial_Navegacion', component: ViewHistorialNav },
+  { path: '/Seguridad', component: ViewSeguridad },
+  { path: '/Notificaciones', component: ViewNotificaciones },
   
 ];
 

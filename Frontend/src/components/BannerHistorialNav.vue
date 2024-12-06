@@ -2,7 +2,7 @@
     <div class="orders-page">
       <nav aria-label="breadcrumb" class="breadcrumb">
         <router-link to="/">Inicio</router-link> &gt;
-          <span>Direcciones</span>
+          <span>Tu perfil</span>
       
       </nav>
       
@@ -40,31 +40,55 @@
         
         <main class="main-panel">
           <div class="user-info">
-
             
 
-          
-               
-             
+            
+  
           </div>
           
-              
-          <div class="location-container">
-                <div class="icon-location">
-                    <svg width="100" height="100" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Círculo punteado -->
-                    <circle cx="12" cy="18" r="6" stroke="#C4C4C4" stroke-width="1" stroke-dasharray="2 2" fill="none"/>
-                    <!-- Marcador -->
-                    <path d="M12 2C9.243 2 7 4.243 7 7C7 11.25 12 21 12 21C12 21 17 11.25 17 7C17 4.243 14.757 2 12 2ZM12 9C10.897 9 10 8.103 10 7C10 5.897 10.897 5 12 5C13.103 5 14 5.897 14 7C14 8.103 13.103 9 12 9Z" fill="#C4C4C4"/>
-                    </svg>
-                </div>
-                <p class="message">No tienes ninguna dirección de envío guardada</p>
-                <p class="secure-message">
-                    <span class="lock-icon">🔒</span>
-                    Todos los datos que hayas añadido estarán encriptados
-                </p>
-                <button class="add-address-btn">Agregar una nueva dirección</button>
-           </div> 
+          <div class="product-grid">
+  <!-- Producto 1 -->
+  <div class="product-card">
+    <img src="https://via.placeholder.com/200x200.png?text=Reloj+de+Cuero" alt="Reloj de Cuero" class="product-image">
+    <div class="product-info">
+      <p class="product-title">Reloj de Cuarzo Elegante para Hombre</p>
+      <p class="product-price">
+        <span class="current-price">$96.735</span>
+        <span class="original-price">$120.183</span>
+      </p>
+      <p class="product-details">🔥 4.3K+ ventas • ★★★★☆</p>
+      <button class="buy-now-btn">Agregar al carrito 🛒</button>
+    </div>
+  </div>
+
+  <!-- Producto 2 -->
+  <div class="product-card">
+    <img src="https://via.placeholder.com/200x200.png?text=Audífonos+Hyundai" alt="Audífonos Hyundai" class="product-image">
+    <div class="product-info">
+      <p class="product-title">Hyundai LP12.7 Cm-Ear Monitor</p>
+      <p class="product-price">
+        <span class="current-price">$51.406</span>
+        <span class="original-price">$249.245</span>
+      </p>
+      <p class="product-details">🔥 8K+ ventas • ★★★★☆</p>
+      <button class="buy-now-btn">Agregar al carrito 🛒</button>
+    </div>
+  </div>
+
+  <!-- Producto 3 -->
+  <div class="product-card">
+    <img src="https://via.placeholder.com/200x200.png?text=Short+Deportivo" alt="Short Deportivo" class="product-image">
+    <div class="product-info">
+      <p class="product-title">Pantalones de deporte activo para hombre</p>
+      <p class="product-price">
+        <span class="current-price">$35.721</span>
+        <span class="original-price">$113.310</span>
+      </p>
+      <p class="product-details">🔥 8.9K+ ventas • ★★★★☆</p>
+      <button class="buy-now-btn">Agregar al carrito 🛒</button>
+    </div>
+  </div>
+</div>
 
   
           <section class="help-section">
@@ -91,6 +115,16 @@
   </template>
   
   <script>
+
+const buttons = document.querySelectorAll(".buy-now-btn");
+
+buttons.forEach((button) => {
+  button.addEventListener("click", () => {
+    alert("Producto agregado al carrito.");
+  });
+});
+
+
   import Login from '@/components/Login.vue'
   
   export default {
@@ -155,20 +189,13 @@
     },
   
     methods: {
-        addNewAddress() {
-      // Aquí puedes agregar la funcionalidad que quieras
-      alert('Abriendo formulario para agregar una nueva dirección');
-    },
-
       loadSession() {
         const sessionData = localStorage.getItem('session');
         if (sessionData) {
           this.session = JSON.parse(sessionData);
         }
       },
-      formatEmail(email) {
-    return email || ''; 
-  },
+      
   
   selectSecondaryMenuItem(itemKey) {
     this.selectedSecondaryMenuItem = itemKey;
@@ -205,85 +232,87 @@
   
   <style scoped>
 
+  /* Contenedor del grid */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  background-color: #f8f8f8;
+}
 
-/* Contenedor principal */
-.location-container {
+/* Tarjeta de producto */
+.product-card {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  margin-top: 50px;
+  background: #fff;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.product-card:hover {
+  transform: scale(1.05);
+}
+
+/* Imagen del producto */
+.product-image {
+  max-width: 100%;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+/* Información del producto */
+.product-info {
   text-align: center;
-  font-family: Arial, sans-serif;
 }
 
-/* Estilo del ícono */
-.icon-location {
-  margin-bottom: 20px;
-}
-
-/* Mensaje principal */
-.message {
-  font-size: 18px;
+.product-title {
+  font-size: 16px;
   color: #333;
-  margin: 10px 0;
+  margin-bottom: 8px;
 }
 
-/* Mensaje de seguridad */
-.secure-message {
-  font-size: 14px;
-  color: #28a745; /* Verde */
-  margin: 5px 0 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.product-price {
+  font-size: 18px;
+  margin-bottom: 10px;
 }
 
-/* Icono de candado */
-.lock-icon {
-  font-size: 16px;
-  margin-right: 5px;
-}
-
-/* Botón */
-.add-address-btn {
-  background-color: #ff6a00; /* Naranja */
-  color: white;
-  font-size: 16px;
+.current-price {
+  color: #e55a00;
   font-weight: bold;
-  padding: 10px 20px;
+}
+
+.original-price {
+  text-decoration: line-through;
+  color: #999;
+  font-size: 14px;
+}
+
+/* Detalles del producto */
+.product-details {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+/* Botón de compra */
+.buy-now-btn {
+  background-color: #ff6a00;
+  color: white;
+  padding: 10px 15px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
-.add-address-btn:hover {
-  background-color: #e55a00; /* Un tono más oscuro */
+.buy-now-btn:hover {
+  background-color: #e55a00;
 }
 
-
-.add-address-btn:hover {
-  background-color: #e66a00;
-}
-
-.add-address-btn:active {
-  transform: scale(0.98);
-}
-  
-  .icon-container {
-    display: flex;
-    justify-content: center; /* Centra horizontalmente */
-    align-items: center;    /* Centra verticalmente */
-    height: 20vh;          /* Usa todo el alto de la pantalla para centrar */
-  }
-  
-  .icon_proveedores {
-    font-size: 200px; /* Tamaño 5 veces más grande */
-    color: #333;      /* Color del icono */
-    text-align: center;
-  }
-  
   
   .secondary-menu .active {
   font-weight: bold;

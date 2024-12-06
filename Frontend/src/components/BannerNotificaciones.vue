@@ -2,7 +2,7 @@
     <div class="orders-page">
       <nav aria-label="breadcrumb" class="breadcrumb">
         <router-link to="/">Inicio</router-link> &gt;
-          <span>Direcciones</span>
+          <span>Notificaciones</span>
       
       </nav>
       
@@ -40,51 +40,56 @@
         
         <main class="main-panel">
           <div class="user-info">
-
             
-
-          
-               
-             
-          </div>
-          
-              
-          <div class="location-container">
-                <div class="icon-location">
-                    <svg width="100" height="100" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Círculo punteado -->
-                    <circle cx="12" cy="18" r="6" stroke="#C4C4C4" stroke-width="1" stroke-dasharray="2 2" fill="none"/>
-                    <!-- Marcador -->
-                    <path d="M12 2C9.243 2 7 4.243 7 7C7 11.25 12 21 12 21C12 21 17 11.25 17 7C17 4.243 14.757 2 12 2ZM12 9C10.897 9 10 8.103 10 7C10 5.897 10.897 5 12 5C13.103 5 14 5.897 14 7C14 8.103 13.103 9 12 9Z" fill="#C4C4C4"/>
-                    </svg>
-                </div>
-                <p class="message">No tienes ninguna dirección de envío guardada</p>
-                <p class="secure-message">
-                    <span class="lock-icon">🔒</span>
-                    Todos los datos que hayas añadido estarán encriptados
-                </p>
-                <button class="add-address-btn">Agregar una nueva dirección</button>
-           </div> 
-
+            
+            
   
-          <section class="help-section">
-            <h2>¿No puedes encontrar tu pedido?</h2>
-            <div class="buttons">
-              <button class="login-button">
-                Inicia sesión con otra cuenta
-                <span class="icons">
-                  <span v-for="(icon, name) in socialIcons" :key="name" 
-                        class="icon" :class="name" @click.stop="goTo(icon.url)">
-                    <img :src="icon.src" :alt="name" width="16" height="16">
-                  </span>
-                </span>
-              </button>
-              <button class="help-button" @click="goToHelp">
-                Ayuda para encontrar el pedido
-                <span class="arrow">▶</span>
-              </button>
-            </div>
-          </section>
+          </div>
+
+          
+  <div class="notification-settings">
+    <div class="alert">
+      <p>
+        ✅ Ten cuidado con los mensajes acerca de los problemas de entrega que afirman ser de 4-72.
+      </p>
+    </div>
+    <div class="settings">
+      <div v-for="item in settings" :key="item.id" class="setting-item">
+        <div class="setting-info">
+          <h4>{{ item.title }}</h4>
+          <p>{{ item.description }}</p>
+          <p v-if="item.status">
+            <span v-if="item.active">Activado: {{ item.active }}</span>
+            <span v-if="item.inactive"> | Desactivado: {{ item.inactive }}</span>
+          </p>
+        </div>
+        <button @click="editSetting(item.id)" class="edit-button">Editar</button>
+      </div>
+    </div>
+    <div class="sms-notification">
+      <h3>Recibe notificaciones por SMS sobre las actualizaciones de tus pedidos</h3>
+      <p>
+        Pueden aplicarse tarifas por mensajes y datos. La frecuencia de los mensajes varía. Envía STOP para cancelar la suscripción y HELP para obtener ayuda.
+        <a href="#">Términos de uso</a> y <a href="#">Política de privacidad y cookies</a>.
+      </p>
+      <div class="sms-form">
+        <select v-model="countryCode">
+          <option value="+57">CO +57</option>
+          <option value="+1">US +1</option>
+          <option value="+44">UK +44</option>
+        </select>
+        <input v-model="phoneNumber" type="text" placeholder="Ingresa tu número de teléfono..." />
+      </div>
+      <button @click="sendSms" class="submit-button">Enviar</button>
+      <p class="info">✅ Tu información se mantendrá segura.</p>
+    </div>
+  </div>
+
+
+          
+          
+  
+          
         </main>
       </div>
     </div>
@@ -155,11 +160,6 @@
     },
   
     methods: {
-        addNewAddress() {
-      // Aquí puedes agregar la funcionalidad que quieras
-      alert('Abriendo formulario para agregar una nueva dirección');
-    },
-
       loadSession() {
         const sessionData = localStorage.getItem('session');
         if (sessionData) {
@@ -203,87 +203,120 @@
   }
   </script>
   
-  <style scoped>
+  
+<style scoped>
 
 
-/* Contenedor principal */
-.location-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-top: 50px;
-  text-align: center;
+.notification-settings {
   font-family: Arial, sans-serif;
+  margin: 20px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
 }
 
-/* Estilo del ícono */
-.icon-location {
+.alert {
+  background-color: #dff0d8;
+  color: #3c763d;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+}
+
+.settings {
   margin-bottom: 20px;
 }
 
-/* Mensaje principal */
-.message {
-  font-size: 18px;
-  color: #333;
-  margin: 10px 0;
+.setting-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
 }
 
-/* Mensaje de seguridad */
-.secure-message {
+.setting-info h4 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.setting-info p {
+  margin: 5px 0;
+  color: #555;
+}
+
+.edit-button {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.edit-button:hover {
+  background-color: #ddd;
+}
+
+.sms-notification {
+  padding: 10px;
+  background-color: #fdfdfd;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.sms-notification h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.sms-notification p {
   font-size: 14px;
-  color: #28a745; /* Verde */
-  margin: 5px 0 20px;
+  margin-bottom: 10px;
+  color: #555;
+}
+
+.sms-notification a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.sms-notification a:hover {
+  text-decoration: underline;
+}
+
+.sms-form {
   display: flex;
   align-items: center;
-  justify-content: center;
+  margin-bottom: 10px;
 }
 
-/* Icono de candado */
-.lock-icon {
-  font-size: 16px;
+.sms-form select,
+.sms-form input {
+  padding: 5px;
   margin-right: 5px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
 }
 
-/* Botón */
-.add-address-btn {
-  background-color: #ff6a00; /* Naranja */
+.submit-button {
+  background-color: #ff6a00;
   color: white;
-  font-size: 16px;
-  font-weight: bold;
-  padding: 10px 20px;
   border: none;
+  padding: 8px 15px;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
 }
 
-.add-address-btn:hover {
-  background-color: #e55a00; /* Un tono más oscuro */
+.submit-button:hover {
+  background-color: #e65c00;
+}
+
+.info {
+  color: #3c763d;
+  font-size: 12px;
 }
 
 
-.add-address-btn:hover {
-  background-color: #e66a00;
-}
-
-.add-address-btn:active {
-  transform: scale(0.98);
-}
-  
-  .icon-container {
-    display: flex;
-    justify-content: center; /* Centra horizontalmente */
-    align-items: center;    /* Centra verticalmente */
-    height: 20vh;          /* Usa todo el alto de la pantalla para centrar */
-  }
-  
-  .icon_proveedores {
-    font-size: 200px; /* Tamaño 5 veces más grande */
-    color: #333;      /* Color del icono */
-    text-align: center;
-  }
-  
   
   .secondary-menu .active {
   font-weight: bold;
